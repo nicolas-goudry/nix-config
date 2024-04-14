@@ -21,6 +21,7 @@ BOLD="\e[1m"
 DIM="\e[2m"
 YELLOW="\e[33m"
 RED="\e[31m"
+GREEN="\e[32m"
 
 # Utility function to output error message
 error() {
@@ -322,6 +323,10 @@ main() {
   prepare_disks
   install_nixos
   setup_home_manager
+
+  echo -e "${GREEN}Installation successful!${NC}"
+  echo
+  echo "After reboot, ensure to add the host PGP key to .sops.yaml."
 }
 
 # Read script flags
