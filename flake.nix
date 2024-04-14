@@ -67,7 +67,6 @@
       nixosConfigurations = {
         # Live ISO
         # nix build '.#nixosConfigurations.<hostname>.config.system.build.isoImage'
-        # TODO: nixos user in common/users/nixos/default.nix
         iso-console = libx.mkHost { hostname = "iso-console"; username = "nixos"; };
         iso-gnome = libx.mkHost { hostname = "iso-gnome"; username = "nixos"; desktop = "gnome"; };
         # Workstations

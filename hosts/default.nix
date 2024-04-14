@@ -77,7 +77,7 @@ in
     # Configure users
     ./common/users
   ]
-  # Configure desktop if workstation (TODO)
+  # Configure desktop if workstation
   ++ lib.optional isWorkstation ./common/desktop;
 
   # Virtual console keymap
