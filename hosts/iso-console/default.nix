@@ -17,8 +17,9 @@ in
   # Customize ISO file name
   isoImage.isoName = lib.mkForce "custom-nixos-${desktopString}-${config.system.nixos.label}-${platform}.iso";
 
-  # Always enable wireless on ISOs to allow install script to clone configuration
-  networking.wireless.enable = true;
+  # Always force enable wireless on ISOs to allow install script to clone configuration from git
+  # See hosts/common/users/nixos/install.sh for details
+  networking.wireless.enable = lib.mkForce true;
 
   nixpkgs.overlays = [
     (_final: _prev: {
