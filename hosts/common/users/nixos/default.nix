@@ -22,11 +22,10 @@ in
       inputs.disko.packages.${platform}.default
       alacritty-autostart
       install-system
-      pkgs.jq
-      pkgs.yq
-    ] ++ lib.optionals isWorkstationISO [
-      pkgs.gparted
-    ];
+    ] ++ (with pkgs; [
+      jq
+      yq
+    ] ++ lib.optional isWorkstationISO pkgs.gparted);
   };
 
   # Set “favorite” apps shown in dock
