@@ -1,4 +1,4 @@
-{ hostname, lib, pkgs, username, ... }:
+{ config, hostname, lib, pkgs, username, ... }:
 
 let
   # Define power-users
@@ -80,11 +80,11 @@ in
       # Add calamares installer without autostart on ISO images for graphical installation
       # https://github.com/NixOS/nixpkgs/blob/23.11/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix
       ++ lib.optionals (!isInstall) (with pkgs; [
-      libsForQt5.kpmcore
       calamares-nixos
       calamares-nixos-extensions
       glibcLocales
-    ]);
+      libsForQt5.kpmcore
+    ] ++ lib.optional config.networking.wireless.enable wpa_supplicant_gui);
 
     # Fix "Your GStreamer installation is missing a plug-in"
     # https://discourse.nixos.org/t/what-gstreamer-plugin-am-i-missing-thats-preventing-me-from-seeing-audio-video-properties/32824
