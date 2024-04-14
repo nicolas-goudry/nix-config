@@ -13,7 +13,7 @@ SOURCE_REPO="https://github.com/nicolas-goudry/nix-config.git"
 SOURCE_REPO_SSH="git@github.com:nicolas-goudry/nix-config.git"
 FLAKE_NAME="nixstrap"
 LOCAL_CLONE_DIR="${HOME}/${FLAKE_NAME}"
-FLAKE_DESTINATION="home/${TARGET_USER}/${FLAKE_NAME}"
+HOST_DEST_DIR="home/${TARGET_USER}/${FLAKE_NAME}"
 
 # Color codes
 NC="\e[0m"
@@ -297,17 +297,19 @@ install_nixos() {
   popd
 
   # Rsync nix-config to the target install and set the remote origin to SSH for later use
-  rsync -a --delete "${LOCAL_CLONE_DIR}" "/mnt/${FLAKE_DESTINATION}"
-  pushd "/mnt/${FLAKE_DESTINATION}"
+  rsync -a --delete "${LOCAL_CLONE_DIR}" "/mnt/${HOST_DEST_DIR}"
+  pushd "/mnt/${HOST_DEST_DIR}"
   git remote set-url origin "${SOURCE_REPO_SSH}"
   popd
 }
 
-# Apply home-manager configuration for target user in /mnt
+# Apply home-manager configuration for target user in /mnt if it exists
 setup_home_manager() {
-  sudo nixos-enter --root /mnt --command "chown -R ${TARGET_USER}:users /home/${TARGET_USER}"
-  sudo nixos-enter --root /mnt --command "cd /${FLAKE_DESTINATION}; env USER=${TARGET_USER} HOME=/home/${TARGET_USER} home-manager switch --flake \".#${TARGET_USER}@${TARGET_HOST}\""
-  sudo nixos-enter --root /mnt --command "chown -R ${TARGET_USER}:users /home/${TARGET_USER}"
+  if test -d "${LOCAL_CLONE_DIR}/users/${TARGET_USER}"; then
+    sudo nixos-enter --root /mnt --command "chown -R ${TARGET_USER}:users /home/${TARGET_USER}"
+    sudo nixos-enter --root /mnt --command "cd /${HOST_DEST_DIR}; env USER=${TARGET_USER} HOME=/home/${TARGET_USER} home-manager switch --flake \".#${TARGET_USER}@${TARGET_HOST}\""
+    sudo nixos-enter --root /mnt --command "chown -R ${TARGET_USER}:users /home/${TARGET_USER}"
+  fi
 }
 
 main() {
