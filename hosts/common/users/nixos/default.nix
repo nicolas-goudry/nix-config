@@ -54,10 +54,14 @@ in
     stateVersion = lib.mkIf (!isInstall) (lib.mkForce lib.trivial.release);
   };
 
-  # Initialize dummy ZSH config file to avoid config prompt
   systemd.tmpfiles = lib.mkIf isWorkstationISO {
     rules = [
+      # Initialize dummy ZSH config file to avoid config prompt
       "f /home/${username}/.zshrc 0755 ${username} users - # dummy"
+      # Initialize empty wifi secrets file to prevent wpa_supplicant to fail
+      # This is needed since on ISO images there are no valid keys to decrypt wifi secrets
+      "d /run/secrets 0755 root root"
+      "f /run/secrets/wifi 0755 root root"
     ];
   };
 }
