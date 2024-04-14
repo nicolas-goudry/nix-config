@@ -51,7 +51,8 @@ in
     # https://wiki.archlinux.org/title/plymouth
     plymouth = {
       enable = true;
-      theme = "breeze";
+      theme = "catppuccin-mocha";
+      themePackages = [ (pkgs.catppuccin-plymouth.override { variant = "mocha"; }) ];
     };
   };
 
