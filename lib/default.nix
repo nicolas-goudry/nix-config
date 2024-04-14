@@ -32,7 +32,7 @@
       modules =
         let
           # If the hostname starts with "iso-", generate an ISO image
-          isISO = if (builtins.substring 0 4 hostname == "iso-") then true else false;
+          isISO = builtins.substring 0 4 hostname == "iso-";
           cd-dvd =
             if (desktop == null) then
               "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
