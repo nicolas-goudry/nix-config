@@ -82,7 +82,7 @@
         g-aero = libx.mkHost { hostname = "g-aero"; username = "nicolas"; desktop = "gnome"; };
       };
 
-      # Standalone home-manager configuration entrypoints
+      # Standalone home-manager configuration entrypoints (TODO: configs)
       # nix run 'nixpkgs#home-manager' -- switch -b backup --flake '.#<username@hostname>'
       homeConfigurations = {
         # .iso images
@@ -90,6 +90,7 @@
         "nixos@iso-gnome" = libx.mkHome { hostname = "iso-gnome"; username = "nixos"; desktop = "gnome"; };
         # Workstations
         "nicolas@g-xps" = libx.mkHome { hostname = "g-xps"; username = "nicolas"; desktop = "gnome"; };
+        "nicolas@g-aero" = libx.mkHome { hostname = "g-aero"; username = "nicolas"; desktop = "gnome"; };
       };
     };
 }
