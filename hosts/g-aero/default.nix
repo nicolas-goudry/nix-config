@@ -2,6 +2,9 @@
 
 {
   imports = [
+    # Disko configuration
+    ./disks.nix
+
     # Configure wireless networks
     ../common/shelf/networks/casa.nix
 
