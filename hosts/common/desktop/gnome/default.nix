@@ -497,7 +497,7 @@ in
 
     gnome = {
       # Collection of services for storing addressbooks and calendars
-      evolution-data-server.enable = !isPowerUser;
+      evolution-data-server.enable = lib.mkForce (!isPowerUser);
 
       # Disable Gnome games
       games.enable = false;
