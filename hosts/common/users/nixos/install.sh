@@ -157,7 +157,7 @@ ensure_pgp_key() {
   known_keys=$(yq '.keys | [.. | arrays] | flatten | map(ascii_upcase)' "${LOCAL_CLONE_DIR}/.sops.yaml" | jq -r '.[] | @text')
 
   # Gather available keys from host
-  avail_keys=$(gpg --list-secret-keys --with-colons | awk -F: '$1 == "fpr" { print $10 }')
+  avail_keys=$(gpg --list-keys --with-colons | awk -F: '$1 == "fpr" { print $10 }')
 
   # Search for any known key is available keys
   for known_key in ${known_keys}; do
