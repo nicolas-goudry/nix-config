@@ -26,6 +26,7 @@ in
     # Those are needed for install.sh
     ++ (with pkgs; [
       jq
+      rsync
       yq
     ] ++ lib.optional isWorkstationISO pkgs.gparted);
   };
