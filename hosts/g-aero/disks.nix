@@ -14,8 +14,7 @@
             ESP = {
               type = "EF00";
               name = "esp";
-              start = "0%";
-              end = "1024MiB";
+              end = "1024M";
 
               content = {
                 type = "filesystem";
@@ -27,8 +26,7 @@
 
             root = {
               name = "root";
-              start = "1024MiB";
-              end = "100%";
+              size = "100%";
 
               content = {
                 type = "luks";
