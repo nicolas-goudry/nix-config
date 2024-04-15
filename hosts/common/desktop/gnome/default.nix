@@ -37,7 +37,7 @@ let
       amberol # Music player
       loupe # Image viewer
       vlc # Video player
-      gnomeExtensions.alt-tab-scroll-workaround # Fix bug when scrolling in an app is repeated in another when switching between them
+      gnomeExtensions.alttab-scroll-workaround # Fix bug when scrolling in an app is repeated in another when switching between them
       gnomeExtensions.appindicator # Allow apps to add themself to the icon tray
       gnomeExtensions.bluetooth-quick-connect # Add a bluetooth connection menu
       gnomeExtensions.dash-to-dock # Dash dock (like OSX)
@@ -67,9 +67,9 @@ let
     add = with pkgs; lib.optionals isInstall [
       gnome.gnome-control-center # Utility to configure Gnome
       gnome.gnome-tweaks # Gnome tweaks
-      gnomeExtensions.lipboard-indicator # Clipboard manager with history
-      gnomeExtensions.otification-timeout # Configure notifications timeout
-      gnomeExtensions.esource-monitor # Show resources usage in tray
+      gnomeExtensions.clipboard-indicator # Clipboard manager with history
+      gnomeExtensions.notification-timeout # Configure notifications timeout
+      gnomeExtensions.resource-monitor # Show resources usage in tray
     ];
   };
 in
