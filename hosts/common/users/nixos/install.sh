@@ -191,8 +191,8 @@ ensure_disks_config() {
 # If it does, prompt for it
 configure_disk_encryption() {
   if grep -q "data.passwordFile" "${LOCAL_CLONE_DIR}/hosts/$TARGET_HOST/disks.nix"; then
-    warn "disk configuration requires encryption!"
     echo
+    warn "disk configuration requires encryption!"
 
     while true; do
       read -rsp "Enter password  : " password
@@ -224,6 +224,7 @@ run_disko() {
   fi
 
   if test "${mode}" != "mount"; then
+    echo
     warn "host disks will be formatted.\n\
       This is a destructive operation!"
     echo
@@ -282,6 +283,7 @@ prepare_disks() {
 
 # Install NixOS in /mnt
 install_nixos() {
+  echo
   warn "NixOS will be installed (or re-installed).\n\
       This is a destructive operation!"
   echo
