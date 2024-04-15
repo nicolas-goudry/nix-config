@@ -343,8 +343,13 @@ in
   };
 
   sops = {
-    # Set GnuPG home for sops to load keys from
-    gnupg.home = "/home/${username}/.gnupg";
+    gnupg = {
+      # Set GnuPG home for sops to load keys from
+      home = "/home/${username}/.gnupg";
+
+      # Unset SSH key paths since GnuPG home is set
+      sshKeyPaths = [ ];
+    };
 
     # Load wifi credentials in sops secrets if wifi is enabled
     secrets = lib.mkIf config.networking.wireless.enable {
