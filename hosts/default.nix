@@ -87,11 +87,6 @@ in
   # Set CPU frequency on performance mode
   powerManagement.cpuFreqGovernor = "performance";
 
-  # Load wifi credentials in sops secrets if wifi is enabled
-  sops.secrets = lib.mkIf config.networking.wireless.enable {
-    wifi.sopsFile = ./common/shelf/networks/secrets.yaml;
-  };
-
   # Default timezone
   time.timeZone = "Europe/Paris";
 
@@ -347,6 +342,16 @@ in
       model = "tm2030USB-102";
       options = "grp:win_space_toggle";
       variant = "bepo,oss";
+    };
+  };
+
+  sops = {
+    # Set GnuPG home for sops to load keys from
+    gnupg.home = "/home/${username}/.gnupg";
+
+    # Load wifi credentials in sops secrets if wifi is enabled
+    secrets = lib.mkIf config.networking.wireless.enable {
+      wifi.sopsFile = ./common/shelf/networks/secrets.yaml;
     };
   };
 
