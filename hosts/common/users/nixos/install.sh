@@ -228,6 +228,7 @@ run_disko() {
       This is a destructive operation!"
     echo
     read -r -p "Continue? [y/N] " -n 1
+    echo
   else
     REPLY="y"
   fi
