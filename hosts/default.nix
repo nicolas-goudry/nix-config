@@ -271,11 +271,8 @@ in
     # Start OpenSSH agent on login
     ssh.startAgent = true;
 
-    # Enable GnuPG agent with OpenSSH agent support for every user session
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = !config.services.openssh.enable;
-    };
+    # Enable GnuPG agent
+    gnupg.agent.enable = true;
 
     # Enable nix-index with ZSH integration
     nix-index = {
