@@ -22,6 +22,8 @@ in
       alacritty-autostart
       install-system
       #inputs.disko.packages.${platform}.default
+      pkgs.jq
+      pkgs.yq
     ] ++ lib.optionals isWorkstationISO [
       pkgs.gparted
     ];
