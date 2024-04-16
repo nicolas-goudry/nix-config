@@ -217,7 +217,7 @@ run_disko() {
   local REPLY
 
   # Make sure config file exists
-  if test -e "${config}"; then
+  if ! test -e "${config}"; then
     return
   fi
 
