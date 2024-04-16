@@ -27,6 +27,7 @@ in
     ++ (with pkgs; [
       jq
       rsync
+      ssh-to-pgp
       yq
     ] ++ lib.optional isWorkstationISO pkgs.gparted);
   };

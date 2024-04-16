@@ -4,33 +4,32 @@ set -euo pipefail
 
 # Variables
 SCRIPT_NAME="$(basename "$0")"
-TARGET_HOST="${1:-}"
-TARGET_USER="${2:-}"
-TARGET_BRANCH="${3:-main}"
 
 # Helper constants
 SOURCE_REPO="https://github.com/nicolas-goudry/nix-config.git"
 SOURCE_REPO_SSH="git@github.com:nicolas-goudry/nix-config.git"
 FLAKE_NAME="nixstrap"
 LOCAL_CLONE_DIR="${HOME}/${FLAKE_NAME}"
-HOST_DEST_DIR="home/${TARGET_USER}/${FLAKE_NAME}"
 
 # Color codes
 NC="\e[0m"
 BOLD="\e[1m"
 DIM="\e[2m"
-YELLOW="\e[33m"
-RED="\e[31m"
-GREEN="\e[32m"
+YELLOW="\e[0;33m"
+BOLDYELLOW="\e[1;33m"
+RED="\e[0;31m"
+BOLDRED="\e[1;31m"
+GREEN="\e[0;32m"
+BOLDGREEN="\e[1;32m"
 
 # Utility function to output error message
 error() {
-  >&2 echo -e "${RED}${BOLD}ERROR:${NC}${RED} $*${NC}"
+  >&2 echo -e "${BOLDRED}ERROR:${NC} ${RED}$*${NC}"
 }
 
 # Utility function to output warning message
 warn() {
-  >&2 echo -e "${YELLOW}${BOLD}WARN:${NC}${YELLOW} $*${NC}"
+  >&2 echo -e "${BOLDYELLOW}WARN:${NC} ${YELLOW}$*${NC}"
 }
 
 # Utility function to exit script with optional error message
@@ -42,24 +41,22 @@ die() {
   exit 1
 }
 
-# Help usage (accepts an argument to prevent script exit right way)
+# Help usage (accepts an argument to prevent script to exit right way)
 usage() {
   echo
   echo "NixOS installation helper script."
   echo
   echo -e "${BOLD}Usage:${NC}"
   echo
-  echo -e "    ${DIM}\$${NC} $SCRIPT_NAME HOSTNAME USERNAME [BRANCH] [options]"
-  echo
-  echo -e "${BOLD}Arguments:${NC}"
-  echo
-  echo "    HOSTNAME    Hostname to install NixOS to"
-  echo "    USERNAME    Username to install NixOS with"
-  echo "    BRANCH      Branch to use for configurations ${DIM}(default: ${BOLD}main${NC}${DIM})${NC}"
+  echo -e "    ${DIM}\$${NC} $SCRIPT_NAME [options...]"
   echo
   echo -e "${BOLD}Options:${NC}"
   echo
-  echo "    -h, --help       Show this help message"
+  echo "    -H, --host      Host to install NixOS to"
+  echo "    -u, --user      Username to install NixOS with"
+  echo "    -b, --branch    Branch to use for configurations ${DIM}(default: main)${NC}"
+  echo "    -K, --gpg       GnuPG key to use"
+  echo "    -h, --help      Show this help message"
   echo
 
   if test -z "${1:-}"; then
@@ -78,15 +75,18 @@ ensure_nonroot() {
 ensure_repo() {
   # Clone source repository if not available
   if ! test -d "${LOCAL_CLONE_DIR}/.git"; then
-    git clone "${SOURCE_REPO}" "${LOCAL_CLONE_DIR}"
+    echo -e "${BOLD}Retrieving source repository from git...${NC}"
+    echo -e "${DIM}Source: ${SOURCE_REPO}${NC}"
+    echo -e "${DIM}Branch: ${TARGET_BRANCH}${NC}"
+    git clone --quiet "${SOURCE_REPO}" "${LOCAL_CLONE_DIR}"
   fi
 
-  # Switch to branch if requested
-  if test -n "${TARGET_BRANCH}"; then
-    pushd "${LOCAL_CLONE_DIR}"
-    git checkout "${TARGET_BRANCH}"
-    popd
-  fi
+  echo -e "${GREEN}Source repository is available on system at ${NC}${BOLDGREEN}${LOCAL_CLONE_DIR}${NC}${GREEN}.${NC}"
+
+  # Switch to branch
+  pushd "${LOCAL_CLONE_DIR}" > /dev/null
+  git checkout --quiet "${TARGET_BRANCH}"
+  popd > /dev/null
 }
 
 # Make sure host is defined and valid
@@ -98,8 +98,10 @@ ensure_host() {
   hosts=$(find "${LOCAL_CLONE_DIR}/hosts" -mindepth 2 -maxdepth 2 -type f -name 'default.nix' -exec dirname {} \; | cut -d'/' -f6 | grep -v iso)
 
   if test -z "${TARGET_HOST}"; then
-    error "${SCRIPT_NAME} requires a hostname as the first argument"
-  elif ! echo "${hosts}" | grep -w -q "${TARGET_HOST}"; then
+    echo
+    error "${SCRIPT_NAME} requires a hostname"
+  elif ! echo "${hosts}" | grep -x -q "${TARGET_HOST}"; then
+    echo
     error "invalid hostname provided: ${TARGET_HOST}"
   else
     is_error=false
@@ -107,11 +109,12 @@ ensure_host() {
 
   # In case of error, output available hosts
   if test "${is_error}" = "true"; then
+    usage noexit
+    echo "Hosts:"
     echo
-    echo "The following hosts are available:"
 
     for host in ${hosts}; do
-      echo "- ${host}"
+      echo "    ${host}"
     done
 
     die
@@ -127,59 +130,53 @@ ensure_user() {
   users=$(find "${LOCAL_CLONE_DIR}/hosts/common/users" -mindepth 2 -type f -name 'default.nix' -exec dirname {} \; | cut -d'/' -f8 | grep -vE 'nixos|root')
 
   if test -z "${TARGET_USER}"; then
-    error "${SCRIPT_NAME} requires a username as the second argument"
+    echo
+    error "${SCRIPT_NAME} requires a username"
   elif ! echo "${users}" | grep -w -q "${TARGET_USER}"; then
-    error "invalid hostname provided: ${TARGET_USER}"
+    echo
+    error "invalid username provided: ${TARGET_USER}"
   else
     is_error=false
   fi
 
   # In case of error, output available users
   if test "${is_error}" = "true"; then
+    usage noexit
+    echo "Users:"
     echo
-    echo "The following users are available:"
 
     for user in ${users}; do
-      echo "- ${user}"
+      echo "    ${user}"
     done
 
     die
   fi
 }
 
-# Make sure a valid PGP key is available to decrypt secrets
-ensure_pgp_key() {
-  local has_key=false
+# Make sure a valid gpg key was provided to decrypt secrets
+ensure_gpg_key() {
   local known_keys
-  local avail_keys
 
   if ! test -e "${HOME}/.gnupg/trustdb.gpg"; then
-    die "PGP trust database was not found\n\
+    die "gpg trust database was not found\n\
        Did you import your keypair?"
+  elif test -z "${GPG_KEY}"; then
+    echo
+    error "${SCRIPT_NAME} requires a gpg key"
+    usage
+  elif ! gpg -K "${GPG_KEY}" &> /dev/null; then
+    echo
+    die "provided gpg key was not found in keyring\n\
+       Make sure to import the secret key!"
   fi
 
   # Gather known keys from .sops.yaml file
   known_keys=$(yq '.keys | [.. | arrays] | flatten | map(ascii_upcase)' "${LOCAL_CLONE_DIR}/.sops.yaml" | jq -r '.[] | @text')
 
-  # Gather available keys from host
-  avail_keys=$(gpg --list-keys --with-colons | awk -F: '$1 == "fpr" { print $10 }')
-
-  # Search for any known key is available keys
-  for known_key in ${known_keys}; do
-    for avail_key in ${avail_keys}; do
-      if test "${known_key}" = "${avail_key}"; then
-        has_key=true
-        break
-      fi
-    done
-  done
-
-  # If no key was found, error out with hint message
-  if test "${has_key}" = false; then
-    error "no known PGP key was found"
+  # Fail if key is not known by sops
+  if ! echo "${known_keys}" | grep -x -q "${GPG_KEY}"; then
     echo
-    echo -e "Import a known key with: ${BOLD}gpg --import <path-to-key>${NC}"
-    die
+    die "provided gpg key is not a known installation key"
   fi
 }
 
@@ -308,17 +305,29 @@ install_nixos() {
   popd
 
   # Rsync nix-config to the target install and set the remote origin to SSH for later use
-  rsync -a --delete "${LOCAL_CLONE_DIR}" "/mnt/${HOST_DEST_DIR}"
-  pushd "/mnt/${HOST_DEST_DIR}"
+  rsync -a --delete "${LOCAL_CLONE_DIR}" "/mnt/home/${TARGET_USER}/"
+  pushd "/mnt/home/${TARGET_USER}/${FLAKE_NAME}"
   git remote set-url origin "${SOURCE_REPO_SSH}"
   popd
+
+  # Add host key to sops known keys and update secrets keys
+  local host_gpg_key
+  local flake_destination="/mnt/home/${TARGET_USER}/${FLAKE_NAME}"
+
+  host_gpg_key=$(ssh-to-pgp -i /mnt/etc/ssh/ssh_host_rsa_key -o /dev/null)
+
+  sed -i.backup "/&${TARGET_HOST}/d" "${flake_destination}/.sops.yaml"
+  sed -i "/*${TARGET_HOST}/d" "${flake_destination}/.sops.yaml"
+  sed -i "/  hosts:/a\ \ \ \ - &${TARGET_HOST} ${host_gpg_key}" "${flake_destination}/.sops.yaml"
+  sed -i "/pgp:/a\ \ \ \ \ \ \ \ \ \ - *${TARGET_HOST}" "${flake_destination}/.sops.yaml"
+  find "${flake_destination}" -type f -name 'secrets.y*ml' -exec sops updatekeys {} \;
 }
 
 # Apply home-manager configuration for target user in /mnt if it exists
 setup_home_manager() {
   if test -d "${LOCAL_CLONE_DIR}/users/${TARGET_USER}"; then
     sudo nixos-enter --root /mnt --command "chown -R ${TARGET_USER}:users /home/${TARGET_USER}"
-    sudo nixos-enter --root /mnt --command "cd /${HOST_DEST_DIR}; env USER=${TARGET_USER} HOME=/home/${TARGET_USER} home-manager switch --flake \".#${TARGET_USER}@${TARGET_HOST}\""
+    sudo nixos-enter --root /mnt --command "cd /home/${TARGET_USER}/${FLAKE_NAME}; env USER=${TARGET_USER} HOME=/home/${TARGET_USER} home-manager switch --flake \".#${TARGET_USER}@${TARGET_HOST}\""
     sudo nixos-enter --root /mnt --command "chown -R ${TARGET_USER}:users /home/${TARGET_USER}"
   fi
 }
@@ -328,7 +337,7 @@ main() {
   ensure_repo
   ensure_host
   ensure_user
-  ensure_pgp_key
+  ensure_gpg_key
   ensure_disks_config
   prepare_disks
   install_nixos
@@ -336,11 +345,16 @@ main() {
 
   echo -e "${GREEN}Installation successful!${NC}"
   echo
-  echo "After reboot, ensure to add the host PGP key to .sops.yaml."
+  echo "After reboot, ensure to commit and push repository changes to git."
 }
 
+TARGET_HOST=""
+TARGET_USER=""
+GPG_KEY=""
+TARGET_BRANCH="main"
+
 # Read script flags
-while getopts 'h-:' OPT; do
+while getopts 'hH:u:b:K:-:' OPT; do
   # support long options: https://stackoverflow.com/a/28466267/519360
   if test "$OPT" = "-"; then # long option: reformulate OPT and OPTARG
     OPT="${OPTARG%%=*}" # extract long option name
@@ -351,6 +365,18 @@ while getopts 'h-:' OPT; do
 
   # Handle flags
   case "$OPT" in
+    H | host )
+      TARGET_HOST="${OPTARG}"
+      ;;
+    u | user )
+      TARGET_USER="${OPTARG}"
+      ;;
+    b | branch )
+      TARGET_BRANCH="${OPTARG}"
+      ;;
+    K | gpg )
+      GPG_KEY="${OPTARG}"
+      ;;
     h | help )
       usage
       ;;
