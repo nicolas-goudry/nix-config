@@ -11,7 +11,7 @@
 # for secret in $(find . -type f -name 'secrets.y*ml'); do nix run 'nixpkgs#sops' -- updatekeys $secret; done
 keys:
   users:
-    - &nicolas 21B6A59A4E890B1B83E30CDB01C88C0354509AA9
+    - &nicolas FBD3C792CCBD599671A6975AEC6884FA72B9465A
   hosts:
     - &g-xps bf1db49023d416a996b8e227253fd37f56b98b99
 creation_rules:
