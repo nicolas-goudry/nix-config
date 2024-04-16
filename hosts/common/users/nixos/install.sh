@@ -196,7 +196,9 @@ configure_disk_encryption() {
 
     while true; do
       read -rsp "Enter password  : " password
+      echo
       read -rsp "Confirm password: " password_confirm
+      echo
 
       if test "${password}" = "${password_confirm}"; then
         break
@@ -225,7 +227,7 @@ run_disko() {
     warn "host disks will be formatted.\n\
       This is a destructive operation!"
     echo
-    read -r -p "Continue? [y/N]" -n 1
+    read -r -p "Continue? [y/N] " -n 1
   else
     REPLY="y"
   fi
