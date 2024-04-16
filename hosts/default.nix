@@ -156,7 +156,7 @@ in
       curl
       git
       neovim
-    ];
+    ] ++ lib.optional isInstall sops;
 
     # Default editor
     variables = {
