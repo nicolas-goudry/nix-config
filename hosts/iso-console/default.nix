@@ -11,6 +11,9 @@
     keyutils
   ];
 
+  # Always enable wireless on ISOs to allow install script to clone configuration
+  networking.wireless.enable = true;
+
   nixpkgs.overlays = [
     (_final: _prev: {
       # Prevent calamares installer to autostart
