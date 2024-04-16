@@ -7,7 +7,7 @@ let
   isWorkstationISO = !isInstall && isWorkstation;
 
   # Install script
-  install-system = import ./install-script.nix { inherit pkgs; };
+  install-system = pkgs.writeScriptBin "install-system" (builtins.readFile ./install.sh);
 
   # Autostart alacritty
   alacritty-autostart = pkgs.makeAutostartItem { name = "Alacritty"; package = pkgs.alacritty; };
