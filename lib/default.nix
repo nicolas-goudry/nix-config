@@ -40,7 +40,7 @@
               "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-base.nix";
         in
         # Common host configuration merged with ISO installer if needed
-        [ ../hosts ] ++ (inputs.nixpkgs.lib.optionals isISO [ cd-dvd ]);
+        [ ../hosts ] ++ (inputs.nixpkgs.lib.optional isISO cd-dvd);
     };
 
   # Supported systems
