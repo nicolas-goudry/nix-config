@@ -22,13 +22,15 @@ in
       inputs.disko.packages.${platform}.default
       alacritty-autostart
       install-system
-    ] ++ (with pkgs; [
+    ]
+    # Those are needed for install.sh
+    ++ (with pkgs; [
       jq
       yq
     ] ++ lib.optional isWorkstationISO pkgs.gparted);
   };
 
-  # Set “favorite” apps shown in dock
+  # Set “favorite” apps shown in overview dock
   programs.dconf.profiles.user.databases = [{
     settings = lib.mkIf isWorkstationISO {
       "org/gnome/shell" = {
@@ -52,7 +54,7 @@ in
     stateVersion = lib.mkIf (!isInstall) (lib.mkForce lib.trivial.release);
   };
 
-  # Initialize dummy ZSH config file to avoid no config prompt
+  # Initialize dummy ZSH config file to avoid config prompt
   systemd.tmpfiles = lib.mkIf isWorkstationISO {
     rules = [
       "f /home/${username}/.zshrc 0755 ${username} users - # dummy"
