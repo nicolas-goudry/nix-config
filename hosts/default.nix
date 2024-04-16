@@ -69,6 +69,7 @@ in
   imports = [
     # Modules
     (modulesPath + "/installer/scan/not-detected.nix")
+    inputs.disko.nixosModules.disko
     inputs.sops.nixosModules.sops
 
     # Configure host

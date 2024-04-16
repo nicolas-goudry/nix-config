@@ -1,4 +1,4 @@
-{ desktop, hostname, lib, pkgs, username, ... }:
+{ desktop, hostname, inputs, lib, pkgs, platform, username, ... }:
 
 let
   # Precompute predicates
@@ -19,9 +19,9 @@ in
   # Add ISO install packages
   environment = {
     systemPackages = lib.optionals (!isInstall) [
+      inputs.disko.packages.${platform}.default
       alacritty-autostart
       install-system
-      #inputs.disko.packages.${platform}.default
       pkgs.jq
       pkgs.yq
     ] ++ lib.optionals isWorkstationISO [
