@@ -1,5 +1,8 @@
-{ pkgs, ... }:
+{ config, desktop, lib, pkgs, platform, ... }:
 
+let
+  desktopString = if builtins.isNull desktop then "console" else desktop;
+in
 {
   # Create a bootable ISO image with bcachefs
   # - https://nixos.wiki/wiki/Bcachefs
@@ -10,6 +13,9 @@
     unstable.bcachefs-tools
     keyutils
   ];
+
+  # Customize ISO file name
+  isoImage.isoName = lib.mkForce "custom-nixos-${desktopString}-${config.system.nixos.label}-${platform}.iso";
 
   # Always enable wireless on ISOs to allow install script to clone configuration
   networking.wireless.enable = true;
