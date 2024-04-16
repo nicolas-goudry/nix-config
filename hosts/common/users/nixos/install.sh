@@ -153,6 +153,11 @@ ensure_pgp_key() {
   local known_keys
   local avail_keys
 
+  if ! test -e "${HOME}/.gnupg/trustdb.gpg"; then
+    die "PGP trust database was not found\n\
+       Did you import your keypair?"
+  fi
+
   # Gather known keys from .sops.yaml file
   known_keys=$(yq '.keys | [.. | arrays] | flatten | map(ascii_upcase)' "${LOCAL_CLONE_DIR}/.sops.yaml" | jq -r '.[] | @text')
 
