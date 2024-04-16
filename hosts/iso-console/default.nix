@@ -22,11 +22,6 @@ in
 
   nixpkgs.overlays = [
     (_final: _prev: {
-      # Prevent calamares installer to autostart
-      calamares-nixos-autostart = _prev.calamares-nixos-autostart.overrideAttrs {
-        name = "null";
-      };
-
       # Prevent mbrola-voices (~650MB) from being on the live media
       espeak = _prev.espeak.override {
         mbrolaSupport = false;
