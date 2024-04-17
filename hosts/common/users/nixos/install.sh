@@ -74,12 +74,12 @@ ensure_nonroot() {
 
 # Make sure repository is available and setup
 ensure_repo() {
-  if test "${1}" = "overwrite"; then
+  if test "${1:-}" = "overwrite"; then
     rm -rf "${LOCAL_CLONE_DIR}"
   fi
 
   # Clone source repository if not available
-  if test "${1}" = "overwrite" || ! test -d "${LOCAL_CLONE_DIR}/.git"; then
+  if test "${1:-}" = "overwrite" || ! test -d "${LOCAL_CLONE_DIR}/.git"; then
     echo -e "${BOLD}Retrieving source repository from git...${NC}"
     echo -e "${DIM}Source: ${SOURCE_REPO}${NC}"
     echo -e "${DIM}Branch: ${TARGET_BRANCH}${NC}"
