@@ -56,6 +56,7 @@ usage() {
   echo "    -u, --user      Username to install NixOS with"
   echo "    -b, --branch    Branch to use for configurations ${DIM}(default: main)${NC}"
   echo "    -K, --gpg       GnuPG key to use"
+  echo "    --fetch-only    Clone source repository and exit"
   echo "    -h, --help      Show this help message"
   echo
 
@@ -73,8 +74,12 @@ ensure_nonroot() {
 
 # Make sure repository is available and setup
 ensure_repo() {
+  if test "${1}" = "overwrite"; then
+    rm -rf "${LOCAL_CLONE_DIR}"
+  fi
+
   # Clone source repository if not available
-  if ! test -d "${LOCAL_CLONE_DIR}/.git"; then
+  if test "${1}" = "overwrite" || ! test -d "${LOCAL_CLONE_DIR}/.git"; then
     echo -e "${BOLD}Retrieving source repository from git...${NC}"
     echo -e "${DIM}Source: ${SOURCE_REPO}${NC}"
     echo -e "${DIM}Branch: ${TARGET_BRANCH}${NC}"
@@ -377,6 +382,10 @@ while getopts 'hH:u:b:K:-:' OPT; do
       ;;
     K | gpg )
       GPG_KEY="${OPTARG}"
+      ;;
+    "fetch-only" )
+      ensure_repo overwrite
+      exit 0
       ;;
     h | help )
       usage
