@@ -310,6 +310,14 @@ install_nixos() {
   sudo nixos-install --no-root-password --flake ".#${TARGET_HOST}"
   popd
 
+  # Generate host SSH RSA key
+  # Usually this is handled by services.openssh.hostKeys when services.openssh.enable is true,
+  # however the host SSH keys creation only happens before SSH daemon systemd service starts.
+  # Since we cannot start systemd services through nix-enter, we have to manually generate the
+  # host key after NixOS installation
+  # See https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/networking/ssh/sshd.nix#L555
+  sudo ssh-keygen -q -t rsa -b 4096 -C "${TARGET_HOST}" -f /mnt/etc/ssh/ssh_host_rsa_key -N ""
+
   # Rsync nix-config to the target install and set the remote origin to SSH for later use
   rsync -a --delete "${LOCAL_CLONE_DIR}" "/mnt/home/${TARGET_USER}/"
   pushd "/mnt/home/${TARGET_USER}/${FLAKE_NAME}"
