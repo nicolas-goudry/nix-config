@@ -302,8 +302,8 @@ in
     };
 
     # Enable OpenSSH server on servers
-    openssh = lib.mkIf (!isWorkstation && isInstall) {
-      enable = true;
+    openssh = {
+      enable = !isWorkstation && isInstall;
 
       # Custom host keys
       hostKeys = [
