@@ -180,6 +180,11 @@ ensure_gpg_key() {
     echo
     die "provided gpg key is not a known installation key"
   fi
+
+  # Import hosts public keys (needed for secrets re-encryption after install)
+  for pubkey in "${LOCAL_CLONE_DIR}"/.keys/*.pub; do
+    gpg --import "$pubkey";
+  done
 }
 
 # Make sure disk configuration file or disk preparation script is present

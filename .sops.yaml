@@ -1,8 +1,8 @@
-# Get a user key from PGP
-# gpg --show-keys <pgp-key> | awk '{ print $1 }' | head -n2 | tail -n1
+# Get a user key fingerprint from gpg (used for encryption/decryption)
+# gpg --show-keys <key> | awk '{ print $1 }' | head -n2 | tail -n1
 
-# Generate a host key
-# sudo nix run 'nixpkgs#ssh-to-pgp' -- -i /etc/ssh/ssh_host_rsa_key -o /dev/null
+# Generate a host public key (used for encryption)
+# sudo nix run 'nixpkgs#ssh-to-pgp' -- -i /etc/ssh/ssh_host_rsa_key -o ./keys/<host>.pub
 
 # Add secrets
 # nix run 'nixpkgs#sops' -- <path-to-secret>
