@@ -186,7 +186,7 @@ ensure_gpg_key() {
     die "provided gpg key is not a known installation key"
   fi
 
-  # Import hosts public keys (needed for secrets re-encryption after install)
+  # Import hosts public keys (needed for secrets re-encryption before install)
   for pubkey in "${LOCAL_CLONE_DIR}"/.keys/*.pub; do
     gpg --import "$pubkey";
   done
@@ -314,36 +314,45 @@ install_nixos() {
       ;;
   esac
 
-  # Install NixOS without prompting for root password
-  pushd "${LOCAL_CLONE_DIR}" > /dev/null
-  sudo nixos-install --no-root-password --flake ".#${TARGET_HOST}"
-  popd > /dev/null
-
   # Generate host SSH RSA key
   # Usually this is handled by services.openssh.hostKeys when services.openssh.enable is true,
   # however the host SSH keys creation only happens before SSH daemon systemd service starts.
   # Since we cannot start systemd services through nix-enter, we have to manually generate the
   # host key after NixOS installation
   # See https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/networking/ssh/sshd.nix#L555
-  sudo ssh-keygen -q -t rsa -b 4096 -C "${TARGET_HOST}" -f /mnt/etc/ssh/ssh_host_rsa_key -N ""
+  sudo ssh-keygen -q -t rsa -b 4096 -C "${TARGET_HOST}" -f /tmp/ssh_host_rsa_key -N ""
 
-  # Rsync nix-config to the target install and set the remote origin to SSH for later use
-  rsync -a --delete "${LOCAL_CLONE_DIR}" "/mnt/home/${TARGET_USER}/"
-  pushd "/mnt/home/${TARGET_USER}/${FLAKE_NAME}" > /dev/null
-  git remote set-url origin "${SOURCE_REPO_SSH}"
-  popd > /dev/null
-
-  # Add host key to sops known keys and update secrets keys
+  # Derive host gpg public key from generated SSH RSA key
+  # Use of "2>&1" is important since ssh-to-pgp outputs key fingerprint to stderr
   local host_gpg_key
-  local sops_config="/mnt/home/${TARGET_USER}/${FLAKE_NAME}/.sops.yaml"
 
-  host_gpg_key=$(sudo ssh-to-pgp -i /mnt/etc/ssh/ssh_host_rsa_key -o /dev/null)
+  host_gpg_key=$(sudo ssh-to-pgp -i /tmp/ssh_host_rsa_key -o "${LOCAL_CLONE_DIR}/.keys/${TARGET_HOST}.pub" 2>&1)
+
+  # Add host to sops config
+  local sops_config="${LOCAL_CLONE_DIR}/.sops.yaml"
 
   sed -i.backup "/&${TARGET_HOST}/d" "${sops_config}"
   sed -i "/*${TARGET_HOST}/d" "${sops_config}"
   sed -i "/  hosts:/a\ \ \ \ - &${TARGET_HOST} ${host_gpg_key}" "${sops_config}"
   sed -i "/pgp:/a\ \ \ \ \ \ \ \ \ \ - *${TARGET_HOST}" "${sops_config}"
+
+  # Update secrets for new host
   find "$(dirname "${sops_config}")" -type f -name 'secrets.y*ml' -exec sops --config "${sops_config}" updatekeys -y {} \;
+
+  # Install NixOS without prompting for root password (handled via configuration)
+  pushd "${LOCAL_CLONE_DIR}" > /dev/null
+  sudo nixos-install --no-root-password --flake ".#${TARGET_HOST}"
+  popd > /dev/null
+
+  # Move generated SSH RSA key to host filesystem
+  mv /tmp/ssh_host_rsa_key /mnt/etc/ssh
+
+  # Rsync nix-config to the new host and set the remote origin to SSH for later use
+  rsync -a --delete "${LOCAL_CLONE_DIR}" "/mnt/home/${TARGET_USER}/"
+  pushd "/mnt/home/${TARGET_USER}/${FLAKE_NAME}" > /dev/null
+  git remote set-url origin "${SOURCE_REPO_SSH}"
+  popd > /dev/null
+
 }
 
 # Apply home-manager configuration for target user in /mnt if it exists
