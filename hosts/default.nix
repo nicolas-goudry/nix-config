@@ -320,8 +320,8 @@ in
         }
       ];
 
-      # Basic securisation
-      settings = {
+      # Basic securisation on installs
+      settings = lib.mkIf isInstall {
         PasswordAuthentication = false;
         PermitRootLogin = "no";
       };
