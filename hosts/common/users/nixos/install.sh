@@ -327,7 +327,7 @@ install_nixos() {
   local host_gpg_key
   local flake_destination="/mnt/home/${TARGET_USER}/${FLAKE_NAME}"
 
-  host_gpg_key=$(ssh-to-pgp -i /mnt/etc/ssh/ssh_host_rsa_key -o /dev/null)
+  host_gpg_key=$(sudo ssh-to-pgp -i /mnt/etc/ssh/ssh_host_rsa_key -o /dev/null)
 
   sed -i.backup "/&${TARGET_HOST}/d" "${flake_destination}/.sops.yaml"
   sed -i "/*${TARGET_HOST}/d" "${flake_destination}/.sops.yaml"
