@@ -160,7 +160,11 @@ ensure_user() {
 
 # Make sure a valid gpg key was provided to decrypt secrets
 ensure_gpg_key() {
-  local known_keys
+  # Set gpg config directory ownership to current user
+  sudo chown -R "${USER}:$(groups | cut -d' ' -f1)" "${HOME}/.gnupg"
+
+  # Remove any existing gpg lockfile
+  find "${HOME}/.gnupg" -type f -name '*.lock' -exec rm -f {} \;
 
   if test -z "${GPG_KEY}"; then
     echo
@@ -173,6 +177,7 @@ ensure_gpg_key() {
   fi
 
   # Gather known keys from .sops.yaml file
+  local known_keys
   known_keys=$(yq '.keys.users | map(ascii_upcase)' "${LOCAL_CLONE_DIR}/.sops.yaml" | jq -r '.[] | @text')
 
   # Fail if key is not known by sops
