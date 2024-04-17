@@ -301,9 +301,9 @@ in
       openFirewall = isWorkstation;
     };
 
-    # Enable OpenSSH server on servers
+    # Enable OpenSSH server on servers and installs
     openssh = {
-      enable = !isWorkstation && isInstall;
+      enable = lib.mkForce (!isWorkstation || !isInstall);
 
       # Custom host keys
       hostKeys = [
