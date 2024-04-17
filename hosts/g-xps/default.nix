@@ -1,4 +1,9 @@
-# Dell XPS 15 7590
+# Brand: Dell
+# Model: XPS 15 7590
+# CPU  : Intel i9-9980HK (16) @ 5GHz
+# RAM  : 64GB
+# GPU  : NVIDIA GeForce GTX 1650M 4GB
+# Disk : Toshiba XG5-P KXG50PNV2T04 2TB
 
 { inputs, ... }:
 

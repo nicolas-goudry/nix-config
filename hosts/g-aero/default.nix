@@ -1,4 +1,9 @@
-# Gigabyte Aero 15
+# Brand: Gigabyte
+# Model: Aero 15
+# CPU  : i7-7700HQ (8) @ 2.8GHz
+# RAM  : 16GB
+# GPU  : NVIDIA GeForce GTX 1060 6GB
+# Disk : Crucial CT525M 525GB
 
 {
   imports = [
