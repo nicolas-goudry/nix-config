@@ -303,7 +303,7 @@ in
 
     # Enable OpenSSH server on servers and installs
     openssh = {
-      enable = lib.mkForce (!isWorkstation || !isInstall);
+      enable = lib.mkOverride 400 (!isWorkstation || !isInstall);
 
       # Custom host keys
       hostKeys = [
