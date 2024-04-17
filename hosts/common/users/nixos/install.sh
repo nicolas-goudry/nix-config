@@ -238,6 +238,7 @@ run_disko() {
     echo
     read -r -p "Continue? [y/N] " -n 1
     echo
+    echo
   else
     REPLY="y"
   fi
@@ -296,6 +297,8 @@ install_nixos() {
       This is a destructive operation!"
   echo
   read -r -p "Continue? [y/N] " -n 1
+  echo
+  echo
 
   case $REPLY in
     [yY] ) echo ;;
@@ -306,9 +309,9 @@ install_nixos() {
   esac
 
   # Install NixOS without prompting for root password
-  pushd "${LOCAL_CLONE_DIR}"
+  pushd "${LOCAL_CLONE_DIR}" > /dev/null
   sudo nixos-install --no-root-password --flake ".#${TARGET_HOST}"
-  popd
+  popd > /dev/null
 
   # Generate host SSH RSA key
   # Usually this is handled by services.openssh.hostKeys when services.openssh.enable is true,
@@ -320,9 +323,9 @@ install_nixos() {
 
   # Rsync nix-config to the target install and set the remote origin to SSH for later use
   rsync -a --delete "${LOCAL_CLONE_DIR}" "/mnt/home/${TARGET_USER}/"
-  pushd "/mnt/home/${TARGET_USER}/${FLAKE_NAME}"
+  pushd "/mnt/home/${TARGET_USER}/${FLAKE_NAME}" > /dev/null
   git remote set-url origin "${SOURCE_REPO_SSH}"
-  popd
+  popd > /dev/null
 
   # Add host key to sops known keys and update secrets keys
   local host_gpg_key
