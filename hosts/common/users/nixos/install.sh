@@ -333,7 +333,7 @@ install_nixos() {
   sed -i "/*${TARGET_HOST}/d" "${sops_config}"
   sed -i "/  hosts:/a\ \ \ \ - &${TARGET_HOST} ${host_gpg_key}" "${sops_config}"
   sed -i "/pgp:/a\ \ \ \ \ \ \ \ \ \ - *${TARGET_HOST}" "${sops_config}"
-  find "$(dirname "${sops_config}")" -type f -name 'secrets.y*ml' -exec sops updatekeys {} \;
+  find "$(dirname "${sops_config}")" -type f -name 'secrets.y*ml' -exec sops --config "${sops_config}" updatekeys -y {} \;
 }
 
 # Apply home-manager configuration for target user in /mnt if it exists
