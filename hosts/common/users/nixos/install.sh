@@ -162,11 +162,7 @@ ensure_user() {
 ensure_gpg_key() {
   local known_keys
 
-  if ! test -e "${HOME}/.gnupg/trustdb.gpg"; then
-    echo
-    die "gpg trust database was not found\n\
-       Did you import your keypair?"
-  elif test -z "${GPG_KEY}"; then
+  if test -z "${GPG_KEY}"; then
     echo
     error "${SCRIPT_NAME} requires a gpg key"
     usage
@@ -177,7 +173,7 @@ ensure_gpg_key() {
   fi
 
   # Gather known keys from .sops.yaml file
-  known_keys=$(yq '.keys | [.. | arrays] | flatten | map(ascii_upcase)' "${LOCAL_CLONE_DIR}/.sops.yaml" | jq -r '.[] | @text')
+  known_keys=$(yq '.keys.users | map(ascii_upcase)' "${LOCAL_CLONE_DIR}/.sops.yaml" | jq -r '.[] | @text')
 
   # Fail if key is not known by sops
   if ! echo "${known_keys}" | grep -x -q "${GPG_KEY}"; then
