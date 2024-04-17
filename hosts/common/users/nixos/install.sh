@@ -158,6 +158,7 @@ ensure_gpg_key() {
   local known_keys
 
   if ! test -e "${HOME}/.gnupg/trustdb.gpg"; then
+    echo
     die "gpg trust database was not found\n\
        Did you import your keypair?"
   elif test -z "${GPG_KEY}"; then
