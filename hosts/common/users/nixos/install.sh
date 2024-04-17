@@ -325,15 +325,15 @@ install_nixos() {
 
   # Add host key to sops known keys and update secrets keys
   local host_gpg_key
-  local flake_destination="/mnt/home/${TARGET_USER}/${FLAKE_NAME}"
+  local sops_config="/mnt/home/${TARGET_USER}/${FLAKE_NAME}/.sops.yaml"
 
   host_gpg_key=$(sudo ssh-to-pgp -i /mnt/etc/ssh/ssh_host_rsa_key -o /dev/null)
 
-  sed -i.backup "/&${TARGET_HOST}/d" "${flake_destination}/.sops.yaml"
-  sed -i "/*${TARGET_HOST}/d" "${flake_destination}/.sops.yaml"
-  sed -i "/  hosts:/a\ \ \ \ - &${TARGET_HOST} ${host_gpg_key}" "${flake_destination}/.sops.yaml"
-  sed -i "/pgp:/a\ \ \ \ \ \ \ \ \ \ - *${TARGET_HOST}" "${flake_destination}/.sops.yaml"
-  find "${flake_destination}" -type f -name 'secrets.y*ml' -exec sops updatekeys {} \;
+  sed -i.backup "/&${TARGET_HOST}/d" "${sops_config}"
+  sed -i "/*${TARGET_HOST}/d" "${sops_config}"
+  sed -i "/  hosts:/a\ \ \ \ - &${TARGET_HOST} ${host_gpg_key}" "${sops_config}"
+  sed -i "/pgp:/a\ \ \ \ \ \ \ \ \ \ - *${TARGET_HOST}" "${sops_config}"
+  find "$(dirname "${sops_config}")" -type f -name 'secrets.y*ml' -exec sops updatekeys {} \;
 }
 
 # Apply home-manager configuration for target user in /mnt if it exists
