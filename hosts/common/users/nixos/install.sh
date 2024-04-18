@@ -327,6 +327,7 @@ install_nixos() {
   local host_gpg_key
 
   host_gpg_key=$(sudo ssh-to-pgp -i /tmp/ssh_host_rsa_key -o "${LOCAL_CLONE_DIR}/.keys/${TARGET_HOST}.pub" 2>&1)
+  gpg --import "${LOCAL_CLONE_DIR}/.keys/${TARGET_HOST}.pub"
 
   # Add host to sops config
   local sops_config="${LOCAL_CLONE_DIR}/.sops.yaml"
