@@ -83,7 +83,7 @@
       };
 
       # Standalone home-manager configuration entrypoints (TODO: configs)
-      # nix run 'nixpkgs#home-manager' -- switch -b backup --flake '.#<username@hostname>'
+      # home-manager switch -b backup --flake '.#<username@hostname>'
       homeConfigurations = {
         # .iso images
         "nixos@iso-console" = libx.mkHome { hostname = "iso-console"; username = "nixos"; };
