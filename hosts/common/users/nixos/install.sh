@@ -346,7 +346,7 @@ install_nixos() {
   popd > /dev/null
 
   # Move generated SSH RSA key to host filesystem
-  mv /tmp/ssh_host_rsa_key /mnt/etc/ssh
+  sudo mv /tmp/ssh_host_rsa_key /mnt/etc/ssh
 
   # Rsync nix-config to the new host and set the remote origin to SSH for later use
   rsync -a --delete "${LOCAL_CLONE_DIR}" "/mnt/home/${TARGET_USER}/"
