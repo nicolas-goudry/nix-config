@@ -347,7 +347,7 @@ in
   sops = {
     # Load wifi credentials in sops secrets if wifi is enabled
     secrets = lib.mkIf config.networking.wireless.enable {
-      wifi.sopsFile = ./common/shelf/networks/secrets.yaml;
+      wifi.sopsFile = ./common/networks/secrets.yaml;
     };
   };
 

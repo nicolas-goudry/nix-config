@@ -11,10 +11,10 @@
     ./disks.nix
 
     # Configure wireless networks
-    ../common/shelf/networks/casa.nix
+    ../common/networks/casa.nix
 
     # Configure printers
-    ../common/shelf/printers/casa.nix
+    ../common/printers/casa.nix
   ];
 
   boot = {

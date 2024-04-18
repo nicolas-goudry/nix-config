@@ -14,13 +14,13 @@
     inputs.hardware.nixosModules.common-gpu-intel-disable
 
     # Configure wireless networks
-    ../common/shelf/networks/casa.nix
-    ../common/shelf/networks/gplus.nix
-    ../common/shelf/networks/numspot.nix
-    ../common/shelf/networks/wojo.nix
+    ../common/networks/casa.nix
+    ../common/networks/gplus.nix
+    ../common/networks/numspot.nix
+    ../common/networks/wojo.nix
 
     # Configure printers
-    ../common/shelf/printers/casa.nix
+    ../common/printers/casa.nix
   ];
 
   boot = {
