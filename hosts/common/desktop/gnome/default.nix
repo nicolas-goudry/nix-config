@@ -293,7 +293,7 @@ in
           };
         }
         # Only install and configure extensions on installs
-        (lib.mkIf (isInstall) {
+        (lib.mkIf isInstall {
           # Enabled extensions
           "org/gnome/shell".enabled-extensions = [
             "alt-tab-scroll-workaround@lucasresck.github.io"
