@@ -302,9 +302,10 @@ in
       openFirewall = isWorkstation;
     };
 
-    # Enable OpenSSH server on servers and installs
+    # Enable OpenSSH server
+    # This is required for sops to be able to read host SSH keys
     openssh = {
-      enable = lib.mkOverride 400 (!isWorkstation || !isInstall);
+      enable = true;
 
       # Custom host keys
       hostKeys = [
@@ -344,14 +345,6 @@ in
   };
 
   sops = {
-    gnupg = {
-      # Set GnuPG home for sops to load keys from
-      home = "/home/${username}/.gnupg";
-
-      # Unset SSH key paths since GnuPG home is set
-      sshKeyPaths = [ ];
-    };
-
     # Load wifi credentials in sops secrets if wifi is enabled
     secrets = lib.mkIf config.networking.wireless.enable {
       wifi.sopsFile = ./common/shelf/networks/secrets.yaml;
