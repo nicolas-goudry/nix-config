@@ -293,7 +293,7 @@ in
           };
         }
         # Only install and configure extensions on installs
-        (lib.mkIf (!isInstall) {
+        (lib.mkIf (isInstall) {
           # Enabled extensions
           "org/gnome/shell".enabled-extensions = [
             "alt-tab-scroll-workaround@lucasresck.github.io"
@@ -372,7 +372,7 @@ in
           };
         })
         # Only install and configure power-users extensions on installs
-        (lib.mkIf (!isInstall && isPowerUser) {
+        (lib.mkIf (isInstall && isPowerUser) {
           "org/gnome/shell/extensions/clipboard-indicator" = {
             cache-only-favorites = false;
             cache-size = "1024";
