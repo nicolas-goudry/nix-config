@@ -139,11 +139,11 @@ in
     # NVIDIA configuration if host has NVIDIA drivers
     # https://nixos.wiki/wiki/Nvidia
     nvidia = lib.mkIf (hasNvidia && isInstall) {
-      # Disable dynamic power management
-      powerManagement.finegrained = false;
-
       # Fix screen tearing with prime
       modesetting.enable = true;
+
+      # Enable nvidia-settings menu
+      nvidiaSettings = true;
 
       # Use proprietary kernel module
       open = false;
@@ -151,12 +151,17 @@ in
       # Use latest production grade drivers
       package = config.boot.kernelPackages.nvidiaPackages.production;
 
-      # Enable prime sync mode
-      prime.offload.enable = false;
-      prime.sync.enable = true;
+      # Disable dynamic power management
+      powerManagement = {
+        enable = false;
+        finegrained = false;
+      };
 
-      # Enable nvidia-settings menu
-      nvidiaSettings = true;
+      # Enable prime sync mode
+      prime = {
+        offload.enable = false;
+        sync.enable = true;
+      };
     };
 
     # Enable OpenGL with DRI support
