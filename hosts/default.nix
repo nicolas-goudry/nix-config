@@ -336,10 +336,11 @@ in
     };
 
     # Keyboard layout
+    # WARN: keep in sync with programs.dconf.profiles.user.databases.settings."org/gnome/desktop/input-sources"
     xserver.xkb = {
       layout = "fr,fr";
       model = "tm2030USB-102";
-      options = "grp:win_space_toggle";
+      options = "grp:win_space_toggle,lv3:ralt_switch,terminate:ctrl_alt_bksp";
       variant = "bepo,oss";
     };
   };

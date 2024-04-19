@@ -146,9 +146,11 @@ in
               (mkTuple [ "xkb" "fr+bepo" ])
               (mkTuple [ "xkb" "fr+oss" ])
             ];
+            # WARN: keep in sync with services.xserver.xkb.options
             xkb-options = [
-              "terminate:ctrl_alt_bksp"
+              "grp:win_space_toggle"
               "lv3:ralt_switch"
+              "terminate:ctrl_alt_bksp"
             ];
           };
 
