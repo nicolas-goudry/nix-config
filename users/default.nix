@@ -132,12 +132,14 @@ in
     alacritty = {
       enable = true;
       package = pkgs.unstable.alacritty;
-      import = [ "${pkgs.catppuccin-alacritty}/catppuccin-mocha.toml" ];
 
       # See https://alacritty.org/config-alacritty.html
       settings = {
         # Apply window.opacity to all cell backgrounds
         color.transparent_background_colors = true;
+
+        # Apply catppuccin theme
+        import = [ "${pkgs.catppuccin-alacritty}/catppuccin-mocha.toml" ];
 
         # Use same scrolling history as ZSH
         scrolling.history = config.programs.zsh.history.size;
