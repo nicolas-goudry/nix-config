@@ -144,8 +144,8 @@ in
             ];
             # WARN: keep in sync with services.xserver.xkb.options
             xkb-options = [
-              "grp:win_space_toggle"
               "lv3:ralt_switch"
+              "grp:win_space_toggle"
               "terminate:ctrl_alt_bksp"
             ];
           };
