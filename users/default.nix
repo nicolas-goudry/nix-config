@@ -1,5 +1,6 @@
 { config
 , desktop
+, hostname
 , inputs
 , lib
 , pkgs
@@ -14,6 +15,7 @@ let
   inherit (pkgs.stdenv) isDarwin;
 
   # Precompute predicates
+  isInstall = builtins.substring 0 4 hostname != "iso-";
   isWorkstation = !builtins.isNull desktop;
   p10kPath = ".config/zsh/.p10k.zsh";
 in
@@ -371,7 +373,7 @@ in
           "sudo" # Prefix command with sudo by pressing ESC twice
         ]
         # Docker aliases
-        ++ lib.optionals config.virtualisation.docker.enable [
+        ++ lib.optionals isInstall [
           "docker" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker
           "docker-compose" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker-compose
         ]
