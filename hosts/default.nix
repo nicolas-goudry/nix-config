@@ -246,8 +246,14 @@ in
   };
 
   nixpkgs = {
-    # Allow unfree packages (like vscode, terraform, …)
-    config.allowUnfree = true;
+    config = {
+      # Allow unfree packages (like vscode, terraform, …)
+      allowUnfree = true;
+
+      permittedInsecurePackages = [
+        "electron-25.9.0"
+      ];
+    };
 
     # Define nixpkgs platform
     hostPlatform = lib.mkDefault "${platform}";
