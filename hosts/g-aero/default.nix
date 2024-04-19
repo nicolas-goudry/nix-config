@@ -5,8 +5,15 @@
 # GPU  : NVIDIA GeForce GTX 1060 6GB
 # Disk : Crucial CT525M 525GB
 
+{ inputs, ... }:
+
 {
   imports = [
+    inputs.hardware.nixosModules.common-cpu-intel-kaby-lake
+    inputs.hardware.nixosModules.common-gpu-nvidia
+    inputs.hardware.nixosModules.common-pc-laptop
+    inputs.hardware.nixosModules.common-pc-laptop-ssd
+
     # Disko configuration
     ./disks.nix
 
@@ -17,7 +24,12 @@
     ../common/printers/casa.nix
   ];
 
+  # Enable wireless networks
+  networking.wireless.enable = true;
+
   boot = {
+    kernelModules = [ "kvm-intel" ];
+
     initrd = {
       availableKernelModules = [
         "xhci_pci"
@@ -27,12 +39,10 @@
         "sd_mod"
       ];
     };
-
-    kernelModules = [
-      "kvm-intel"
-    ];
   };
 
-  # Enable wireless networks
-  networking.wireless.enable = true;
+  hardware.nvidia.prime = {
+    intelBusId = "PCI:0:2:0";
+    nvidiaBusId = "PCI:1:0:0";
+  };
 }
