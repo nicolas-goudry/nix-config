@@ -48,9 +48,14 @@ in
     inherit stateVersion;
     inherit username;
 
-    homeDirectory = if isDarwin then "/Users/${username}" else "/home/${username}";
+    # Disable mismatched home-manager/nixpkgs versions warning message
+    enableNixpkgsReleaseCheck = false;
 
+    # Write files
     file.${p10kPath}.source = ./common/configs/.p10k.zsh;
+
+    # Set user home directory
+    homeDirectory = if isDarwin then "/Users/${username}" else "/home/${username}";
 
     # Modern Unix experience
     # https://github.com/ibraheemdev/modern-unix
