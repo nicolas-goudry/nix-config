@@ -172,11 +172,11 @@ in
         };
 
         keyboard.bindings = [
-          # Super+Alt+V toggles vi mode on Linux
-          # Cmd+Alt+V toggles vi mode on Mac
+          # Super+Alt toggles vi mode on Linux
+          # Cmd+Alt toggles vi mode on Mac
           {
-            key = "V";
-            mods = if isDarwin then "Command | Alt" else "Super | Alt";
+            key = "Alt";
+            mods = if isDarwin then "Command" else "Super";
             action = "ToggleViMode";
           }
         ];
