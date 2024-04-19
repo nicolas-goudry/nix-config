@@ -58,6 +58,7 @@ in
 
   # Add WPA GUI if wireless networks are enabled
   environment.systemPackages = with pkgs; [
+    alacritty
     brave
   ] ++ lib.optional config.networking.wireless.enable wpa_supplicant_gui;
 
