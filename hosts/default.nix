@@ -155,7 +155,6 @@ in
     systemPackages = with pkgs; [
       curl
       git
-      neovim
       sops
     ];
 
@@ -274,6 +273,13 @@ in
 
     # Enable GnuPG agent
     gnupg.agent.enable = true;
+
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      viAlias = true;
+      vimAlias = true;
+    };
 
     # Enable nix-index with ZSH integration
     nix-index = {
