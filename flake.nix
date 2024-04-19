@@ -17,7 +17,7 @@
     # https://nix-community.github.io/home-manager/index.xhtml
     # https://nix-community.github.io/home-manager/options.xhtml
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
