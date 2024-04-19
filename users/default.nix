@@ -290,9 +290,7 @@ in
       };
 
       extraConfig = {
-        core.pager = "delta";
         diff.colorMoved = "default";
-        interactive.diffFilter = "delta --color-only";
         log.abbrevCommit = true; # Show short commit SHA in logs
         merge.conflictstyle = "diff3";
         status.showUntrackedFiles = "all"; # Show all untracked files, even if under an untracked directory
