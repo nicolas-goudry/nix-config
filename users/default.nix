@@ -209,7 +209,7 @@ in
 
       config = {
         color = "always"; # Always show colors
-        tabs = 2; # Set tab width to 2 spaces
+        tabs = "2"; # Set tab width to 2 spaces
         theme = "catppuccin-mocha"; # Use catppuccin theme
       };
 
