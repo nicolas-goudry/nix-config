@@ -279,6 +279,7 @@ in
     # Enable GnuPG agent
     gnupg.agent.enable = true;
 
+    # Basic neovim configuration
     neovim = {
       enable = true;
       defaultEditor = true;
@@ -295,10 +296,7 @@ in
     # Basic ZSH configuration (overridden by users via home-manager)
     zsh = {
       enable = true;
-
-      autosuggestions = {
-        enable = true;
-      };
+      autosuggestions.enable = true;
     };
   };
 
