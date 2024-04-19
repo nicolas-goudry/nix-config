@@ -212,6 +212,7 @@ in
   };
 
   nix = {
+    # Always use latest nix version on installs
     package = lib.mkIf isInstall pkgs.unstable.nix;
 
     # Add each flake input as a registry
@@ -237,6 +238,10 @@ in
 
       # Enable flakes and new 'nix' command
       experimental-features = "nix-command flakes";
+
+      # Avoid unwanted garbage collection when using nix-direnv
+      keep-outputs = true;
+      keep-derivations = true;
     };
   };
 
