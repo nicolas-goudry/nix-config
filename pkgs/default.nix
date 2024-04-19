@@ -5,5 +5,7 @@
 { pkgs }:
 
 {
-  # example = pkgs.callPackage ./example { };
+  # example = pkgs.callPackage ./example.nix { };
+  catppuccin-delta = pkgs.callPackage ./catppuccin-delta.nix { };
+  catppuccin-alacritty = pkgs.callPackage ./catppuccin-alacritty.nix { };
 }
