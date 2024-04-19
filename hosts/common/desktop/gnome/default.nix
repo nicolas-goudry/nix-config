@@ -25,18 +25,14 @@ let
     ]
     # Exclude some apps from ISO images
     ++ lib.optionals (!isInstall) [
-      loupe
-      snapshot
+      loupe # Image viewer
+      snapshot # Camera app
       gnome.gnome-calculator # Calculator
       gnome.simple-scan # Scanner utility
     ];
 
-    add = with pkgs; [
-      alacritty # Terminal
-    ] ++ lib.optionals isInstall [
-      amberol # Music player
+    add = lib.optionals isInstall (with pkgs; [
       loupe # Image viewer
-      vlc # Video player
       gnomeExtensions.alttab-scroll-workaround # Fix bug when scrolling in an app is repeated in another when switching between them
       gnomeExtensions.appindicator # Allow apps to add themself to the icon tray
       gnomeExtensions.bluetooth-quick-connect # Add a bluetooth connection menu
@@ -44,7 +40,7 @@ let
       gnomeExtensions.emoji-copy # Emoji picker
       gnomeExtensions.grand-theft-focus # Remove 'Window is ready' notification
       gnomeExtensions.gsconnect # Connect to and control Android phones
-    ];
+    ]);
   };
 
   # Power-users packages configuration
