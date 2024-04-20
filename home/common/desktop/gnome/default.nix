@@ -5,9 +5,9 @@
   gtk = {
     enable = true;
 
-    # Add catppuccin cursor theme
+    # Enable catppuccin cursor theme (https://github.com/catppuccin/cursors)
     cursorTheme = {
-      name = "catppuccin-mocha-red";
+      name = "Catppuccin-Mocha-Red-Cursors";
       package = pkgs.catppuccin-cursors.mochaRed;
       size = 32;
     };
@@ -41,9 +41,15 @@
       gtk-decoration-layout = "appmenu:minimize,maximize,close";
     };
 
+    # Enable catppuccin icon theme (https://github.com/catppuccin/cursors)
+    iconTheme = {
+      name = "Catppucin-Mocha-Red-Cursors";
+      package = pkgs.catppuccin-cursors.mochaRed;
+    };
+
     # Add catppuccin theme (https://github.com/catppuccin/gtk)
     theme = {
-      name = "catppuccin-mocha-red-compact-rimless";
+      name = "Catppuccin-Mocha-Compact-Red-Dark";
 
       package = pkgs.catppuccin-gtk.override {
         accents = [ "red" ];
@@ -54,8 +60,9 @@
     };
   };
 
+  # Enable catppuccin cursor theme (https://github.com/catppuccin/cursors)
   home.pointerCursor = {
-    name = "catppuccin-mocha-red";
+    name = "Catppuccin-Mocha-Red-Cursors";
     package = pkgs.catppuccin-cursors.mochaRed;
     size = 32;
     gtk.enable = true;
