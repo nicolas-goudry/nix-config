@@ -305,6 +305,13 @@ in
       package = pkgs.unstable.jq; # Always use latest jq
     };
 
+    # Configure nix-index (https://github.com/nix-community/nix-index)
+    nix-index = {
+      enable = true;
+      enableZshIntegration = true;
+      package = pkgs.unstable.nix-index; # Always use latest nix-index
+    };
+
     # Configure ZSH (https://www.zsh.org/)
     zsh = {
       enable = true;
