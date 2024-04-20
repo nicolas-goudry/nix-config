@@ -1,5 +1,8 @@
 { desktop, lib, pkgs, ... }:
 
+let
+  isGnome = desktop == "gnome";
+in
 {
   imports = [
     (pkgs.fetchFromGitHub {
@@ -10,7 +13,7 @@
     })
   ];
 
-  dconf.settings = lib.mkIf desktop == "gnome" {
+  dconf.settings = lib.mkIf isGnome {
     "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [
       "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
       "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
@@ -40,7 +43,7 @@
     };
   };
 
-  services.earthView = lib.mkIf desktop == "gnome" {
+  services.earthView = lib.mkIf isGnome {
     enable = true;
     interval = "4h";
   };
