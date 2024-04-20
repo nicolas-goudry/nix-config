@@ -370,6 +370,8 @@ If a new host were to be added without the `install-system` script, the followin
 
 ## 📝 TODO
 
+* Avoid having to build nix-index on host or home
+* Work configuration
 * Hosts
   * [ ] Fix ISO image `.gnupg` directory of `nixos` user owned by `root` (see [Discourse post](https://discourse.nixos.org/t/gnupg-user-directory-owned-by-root/43561/1))
   * [ ] Fix issue with bépo layout on Gnome login screen which fails to input `_` character
@@ -402,7 +404,7 @@ If a new host were to be added without the `install-system` script, the followin
     * [ ] [thefuck](https://github.com/nvbn/thefuck) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.thefuck.enable)</sup></sub>
     * [ ] ❓ thunderbird <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.thunderbird.enable)</sup></sub>
     * [ ] [tmux](https://github.com/tmux/tmux) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.tmux.enable)</sup></sub> / [zellij](https://github.com/zellij-org/zellij) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zellij.enable)</sup></sub>
-    * [ ] [vscode](https://github.com/microsoft/vscode) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.vscode.enable)</sup></sub>
+    * [ ] ❓ [vscode](https://github.com/microsoft/vscode) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.vscode.enable)</sup></sub>
     * [ ] ❓ [yt-dlp](https://github.com/yt-dlp/yt-dlp) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.yt-dlp.enable)</sup></sub>
     * [ ] [zoxide](https://github.com/ajeetdsouza/zoxide) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zoxide.enable)</sup></sub>
     * [ ] zsh <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable)</sup></sub>
