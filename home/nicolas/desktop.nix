@@ -5,11 +5,9 @@ let
 in
 {
   imports = [
-    (pkgs.fetchFromGitHub {
-      owner = "nicolas-goudry";
-      repo = "earth-view";
-      rev = "v0.0.1";
-      hash = "sha256:1xs8hmr8g4fqblih0pk1sqccp1nfcwmmbbqy4a0vvjwkvl8rmczr";
+    (builtins.fetchTarball {
+      url = "https://github.com/nicolas-goudry/earth-view/archive/v0.0.1.tar.gz";
+      sha256 = "sha256:1xs8hmr8g4fqblih0pk1sqccp1nfcwmmbbqy4a0vvjwkvl8rmczr";
     })
   ];
 
