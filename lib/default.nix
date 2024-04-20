@@ -15,7 +15,7 @@
       };
 
       # Common home-manager configuration
-      modules = [ ../users ];
+      modules = [ ../home ];
     };
 
   # Helper function for generating host configs
