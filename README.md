@@ -15,11 +15,11 @@ Not _forked_ but shamelessly and heavily borrowed from [Wimpy’s NixOS & Home M
 ```plain
 .
 ├── .keys       👈 hosts public GPG keys
+├── home        👈 home-manager configurations
 ├── hosts       👈 NixOS configurations
-├── lib         👈 helpers to make hosts and users
+├── lib         👈 helpers to make hosts and users home
 ├── overlays    👈 nixpkgs overlays
-├── pkgs        👈 custom packages
-└── users       👈 home-manager configurations
+└── pkgs        👈 custom packages
 ```
 
 ### 🔑 `.keys`
@@ -27,6 +27,17 @@ Not _forked_ but shamelessly and heavily borrowed from [Wimpy’s NixOS & Home M
 This directory contains all configured hosts public GPG keys which are derived from their SSH RSA key. It is required for new installations since all secrets are re-encrypted with the new host public GPG key, therefore all other hosts public keys are needed as well.
 
 For further details, read the [secrets handling](#️-secrets-handling) section.
+
+### 🧑‍🤝‍🧑 `home`
+
+This directory contains the home-manager configurations of users.
+
+> [!NOTE]
+> There is a weak dependency between hosts users and home-manager users configuration, since home-manager does not create users. Therefore, users should first be created in `hosts/common/users` and then configured here.
+
+<!-- keep mdlint happy -->
+
+> **TODO**: fill when home-manager configurations are up.
 
 ### 🏘️ `hosts`
 
@@ -145,17 +156,6 @@ A good use case example of an overlay is to update a package if its latest versi
 This directory contains custom packages which are not yet in [nixpkgs](https://github.com/nixos/nixpkgs).
 
 A good use case example of a custom package is to work on packaging an application before contributing it back to [nixpkgs](https://github.com/nixos/nixpkgs).
-
-### 🧑‍🤝‍🧑 `users`
-
-This directory (not to be confused with `hosts/common/users`) contains the home-manager configurations of users.
-
-> [!NOTE]
-> There is a weak dependency between hosts users and home-manager users configuration, since home-manager does not create users. Therefore, users should first be created in `hosts/common/users` and then configured here.
-
-<!-- keep mdlint happy -->
-
-> **TODO**: fill when home-manager configurations are up.
 
 ## 🚀 Provisioning
 
