@@ -11,6 +11,8 @@ in
     })
   ];
 
+  home.packages = lib.optional isGnome pkgs.gnome.pomodoro;
+
   dconf.settings = lib.mkIf isGnome {
     "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [
       "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
