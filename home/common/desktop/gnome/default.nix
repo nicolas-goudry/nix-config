@@ -43,7 +43,7 @@
 
     # Enable catppuccin icon theme (https://github.com/catppuccin/cursors)
     iconTheme = {
-      name = "Catppucin-Mocha-Red-Cursors";
+      name = "Catppuccin-Mocha-Red-Cursors";
       package = pkgs.catppuccin-cursors.mochaRed;
     };
 
