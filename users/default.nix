@@ -207,13 +207,13 @@ in
       config = {
         color = "always"; # Always show colors
         tabs = "2"; # Set tab width to 2 spaces
-        theme = "catppuccin-mocha"; # Use catppuccin theme
+        theme = "Catppuccin Mocha"; # Use catppuccin theme
       };
 
       # Define custom themes
       themes = {
         # https://github.com/catppuccin/bat
-        catppuccin-mocha = {
+        "Catppuccin Mocha" = {
           file = "themes/Catppuccin Mocha.tmTheme";
 
           src = pkgs.fetchFromGitHub {
