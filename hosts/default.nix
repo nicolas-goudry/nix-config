@@ -279,9 +279,6 @@ in
     # Disable nano
     nano.enable = false;
 
-    # Start OpenSSH agent on login
-    ssh.startAgent = true;
-
     # Enable GnuPG agent
     gnupg.agent.enable = true;
 
@@ -299,6 +296,18 @@ in
       enable = true;
       enableZshIntegration = true;
       package = pkgs.unstable.nix-index; # Always use latest nix-index
+    };
+
+    # Basic ssh configuration
+    ssh = {
+      # Quickly timeout on SSH connections
+      extraConfig = ''
+        Host *
+          ConnectTimeout 10
+      '';
+
+      # Start OpenSSH agent on login
+      startAgent = true;
     };
 
     # Basic ZSH configuration (overridden by users via home-manager)
