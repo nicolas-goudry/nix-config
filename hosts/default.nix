@@ -352,6 +352,7 @@ in
 
     # Keyboard layout
     # WARN: keep in sync with programs.dconf.profiles.user.databases.settings."org/gnome/desktop/input-sources"
+    # TODO: test with only grp:win_space_toggle here
     xserver.xkb = {
       layout = "fr,fr";
       model = "tm2030USB-102";

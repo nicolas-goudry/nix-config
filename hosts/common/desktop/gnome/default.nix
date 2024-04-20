@@ -20,8 +20,8 @@ let
       orca # Screen reader
       gnome.gnome-characters # Utility to find unusual characters
       gnome.gnome-logs # Systemd journal log viewer
-      gnome.gnome-music # Replaced by Amberol
-      gnome.totem # Replaced by VLC
+      gnome.gnome-music # Music player
+      gnome.totem # Video player
     ]
     # Exclude some apps from ISO images
     ++ lib.optionals (!isInstall) [
