@@ -21,7 +21,7 @@ in
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
       binding = "<Control><Alt>t";
-      command = "${pkgs.alacritty}/bin/alacritty";
+      command = "alacritty";
       name = "Terminal";
     };
 
