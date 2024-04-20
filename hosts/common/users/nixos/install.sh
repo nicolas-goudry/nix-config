@@ -356,13 +356,11 @@ install_nixos() {
 
 }
 
-# Apply home-manager configuration for target user in /mnt if it exists
-setup_home_manager() {
-  if test -d "${LOCAL_CLONE_DIR}/users/${TARGET_USER}"; then
-    sudo nixos-enter --root /mnt --command "chown -R ${TARGET_USER}:users /home/${TARGET_USER}"
-    sudo nixos-enter --root /mnt --command "cd /home/${TARGET_USER}/${FLAKE_NAME}; env USER=${TARGET_USER} HOME=/home/${TARGET_USER} home-manager switch --flake \".#${TARGET_USER}@${TARGET_HOST}\""
-    sudo nixos-enter --root /mnt --command "chown -R ${TARGET_USER}:users /home/${TARGET_USER}"
-  fi
+# Apply home-manager configuration
+setup_home() {
+  sudo nixos-enter --root /mnt --command "chown -R ${TARGET_USER}:users /home/${TARGET_USER}"
+  sudo nixos-enter --root /mnt --command "cd /home/${TARGET_USER}/${FLAKE_NAME}; env USER=${TARGET_USER} HOME=/home/${TARGET_USER} home-manager switch --flake \".#${TARGET_USER}@${TARGET_HOST}\""
+  sudo nixos-enter --root /mnt --command "chown -R ${TARGET_USER}:users /home/${TARGET_USER}"
 }
 
 main() {
@@ -374,7 +372,7 @@ main() {
   ensure_disks_config
   prepare_disks
   install_nixos
-  setup_home_manager
+  setup_home
 
   echo -e "${GREEN}Installation successful!${NC}"
   echo
