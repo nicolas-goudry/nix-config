@@ -314,7 +314,6 @@ in
     zsh = {
       enable = true;
       autosuggestions.enable = true;
-      package = pkgs.unstable.zsh; # Always use latest zsh
     };
   };
 
