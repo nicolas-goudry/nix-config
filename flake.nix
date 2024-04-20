@@ -7,13 +7,16 @@
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Common hardware profiles
     hardware.url = "github:nixos/nixos-hardware";
 
+    # Disk formatting and partitioning tool
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Users home directory management
     # https://nix-community.github.io/home-manager/index.xhtml
     # https://nix-community.github.io/home-manager/options.xhtml
     home-manager = {
@@ -21,11 +24,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Weekly updated nix-index database
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Secrets OPerationS for Nix
     sops = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Nix formatting pack
     # https://gerschtli.github.io/nix-formatter-pack/nix-formatter-pack-options.html
     nix-formatter-pack = {
       url = "github:Gerschtli/nix-formatter-pack";

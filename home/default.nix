@@ -22,6 +22,7 @@ in
 {
   imports = [
     # Modules
+    inputs.nix-index-database.hmModules.nix-index
     inputs.sops.homeManagerModules.sops
   ]
   # Load custom user definition if it exists

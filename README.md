@@ -370,7 +370,6 @@ If a new host were to be added without the `install-system` script, the followin
 
 ## 📝 TODO
 
-* Avoid having to build nix-index on host or home
 * Work configuration
 * Hosts
   * [ ] Fix ISO image `.gnupg` directory of `nixos` user owned by `root` (see [Discourse post](https://discourse.nixos.org/t/gnupg-user-directory-owned-by-root/43561/1))
