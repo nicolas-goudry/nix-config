@@ -289,6 +289,7 @@ in
     neovim = {
       enable = true;
       defaultEditor = true;
+      package = pkgs.unstable.neovim-unwrapped; # Always use latest neovim
       viAlias = true;
       vimAlias = true;
     };
@@ -297,12 +298,14 @@ in
     nix-index = {
       enable = true;
       enableZshIntegration = true;
+      package = pkgs.unstable.nix-index; # Always use latest nix-index
     };
 
     # Basic ZSH configuration (overridden by users via home-manager)
     zsh = {
       enable = true;
       autosuggestions.enable = true;
+      package = pkgs.unstable.zsh; # Always use latest zsh
     };
   };
 
