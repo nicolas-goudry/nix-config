@@ -372,41 +372,40 @@ If a new host were to be added without the `install-system` script, the followin
 
 * Work configuration
 * Hosts
-  * [ ] Fix ISO image `.gnupg` directory of `nixos` user owned by `root` (see [Discourse post](https://discourse.nixos.org/t/gnupg-user-directory-owned-by-root/43561/1))
-  * [ ] Fix issue with bépo layout on Gnome login screen which fails to input `_` character
-  * [ ] Fix NVIDIA GPU not used (see [Discourse post](https://discourse.nixos.org/t/force-using-nvidia-gpu/41729/5))
-  * [ ] Write a `disks.sh` script to format g-xps disk while keeping Windows dual boot
+  * Fix ISO image `.gnupg` directory of `nixos` user owned by `root` (see [Discourse post](https://discourse.nixos.org/t/gnupg-user-directory-owned-by-root/43561/1))
+  * Fix issue with bépo layout on Gnome login screen which fails to input `_` character
+  * Fix NVIDIA GPU not used (see [Discourse post](https://discourse.nixos.org/t/force-using-nvidia-gpu/41729/5))
+  * Write a `disks.sh` script to format g-xps disk while keeping Windows dual boot
 * Home
-  * [ ] Finish adding and configuring programs
-    * [ ] ❓ [aria2](https://github.com/aria2/aria2) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.aria2.enable)</sup></sub>
-    * [ ] ❓ [atuin](https://github.com/atuinsh/atuin) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.atuin.enable)</sup></sub>
-    * [ ] [awscli](https://github.com/aws/aws-cli) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.awscli.enable)</sup></sub>
-    * [ ] [borgmatic](https://torsion.org/borgmatic/) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.borgmatic.enable)</sup></sub>
-    * [ ] [bottom](https://github.com/ClementTsang/bottom) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bottom.enable)</sup></sub> / [btop](https://github.com/aristocratos/btop) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.btop.enable)</sup></sub>
-    * [ ] [broot](https://github.com/Canop/broot) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.broot.enable)</sup></sub> / [fd](https://github.com/sharkdp/fd) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.fd.enable)</sup></sub> / [fzf](https://github.com/junegunn/fzf) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.fzf.enable)</sup></sub> / [yazi](https://github.com/sxyazi/yazi) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.yazi.enable)</sup></sub>
-    * [ ] chromium <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.chromium.enable)</sup></sub>
-    * [ ] git <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.git.enable)</sup></sub>
-      * [ ] work-specific configuration
-      * [ ] auto-providing of SSH key pairs
-    * [ ] ❓ gpg <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gpg.enable)</sup></sub>
-    * [ ] [k9s](https://github.com/derailed/k9s) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.k9s.enable)</sup></sub>
-    * [ ] [lazygit](https://github.com/jesseduffield/lazygit) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lazygit.enable)</sup></sub>
-    * [ ] [mpv](https://github.com/mpv-player/mpv) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.mpv.enable)</sup></sub>
-    * [ ] [mr](https://myrepos.branchable.com/) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.mr.enable)</sup></sub>
-    * [ ] ❓ [ncspot](https://github.com/hrkfdn/ncspot) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ncspot.enable)</sup></sub>
-    * [ ] [neovim](https://github.com/neovim/neovim) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.neovim.enable)</sup></sub>
-    * [ ] [nix-index](https://github.com/nix-community/nix-index) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.nix-index.enable)</sup></sub>
-    * [ ] [rbw](https://github.com/doy/rbw) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.rbw.enable)</sup></sub>
-    * [ ] [ripgrep](https://github.com/BurntSushi/ripgrep) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ripgrep.enable)</sup></sub>
-    * [ ] ❓ ssh <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ssh.enable)</sup></sub>
-    * [ ] [tealdeer](https://github.com/dbrgn/tealdeer) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.tealdeer.enable)</sup></sub> - <sub><sup>replaces tldr</sup></sub>
-    * [ ] [thefuck](https://github.com/nvbn/thefuck) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.thefuck.enable)</sup></sub>
-    * [ ] ❓ thunderbird <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.thunderbird.enable)</sup></sub>
-    * [ ] [tmux](https://github.com/tmux/tmux) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.tmux.enable)</sup></sub> / [zellij](https://github.com/zellij-org/zellij) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zellij.enable)</sup></sub>
-    * [ ] ❓ [vscode](https://github.com/microsoft/vscode) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.vscode.enable)</sup></sub>
-    * [ ] ❓ [yt-dlp](https://github.com/yt-dlp/yt-dlp) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.yt-dlp.enable)</sup></sub>
-    * [ ] [zoxide](https://github.com/ajeetdsouza/zoxide) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zoxide.enable)</sup></sub>
-    * [ ] zsh <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable)</sup></sub>
-      * [ ] user `dirHashes`
-  * [ ] Fix `catppuccin-gtk` theme not applied to Gnome quick switches
-  * [ ] Fix `nixpkgs.permittedInsecurePackages` for `electron-25.9.0`
+  * Finish adding and configuring programs
+    * ❓ [aria2](https://github.com/aria2/aria2) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.aria2.enable)</sup></sub>
+    * ❓ [atuin](https://github.com/atuinsh/atuin) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.atuin.enable)</sup></sub>
+    * [awscli](https://github.com/aws/aws-cli) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.awscli.enable)</sup></sub>
+    * [borgmatic](https://torsion.org/borgmatic/) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.borgmatic.enable)</sup></sub>
+    * [bottom](https://github.com/ClementTsang/bottom) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bottom.enable)</sup></sub> / [btop](https://github.com/aristocratos/btop) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.btop.enable)</sup></sub>
+    * [broot](https://github.com/Canop/broot) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.broot.enable)</sup></sub> / [fd](https://github.com/sharkdp/fd) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.fd.enable)</sup></sub> / [fzf](https://github.com/junegunn/fzf) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.fzf.enable)</sup></sub> / [yazi](https://github.com/sxyazi/yazi) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.yazi.enable)</sup></sub>
+    * chromium <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.chromium.enable)</sup></sub>
+    * git <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.git.enable)</sup></sub>
+      * work-specific configuration
+      * auto-providing of SSH key pairs
+    * ❓ gpg <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gpg.enable)</sup></sub>
+    * [k9s](https://github.com/derailed/k9s) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.k9s.enable)</sup></sub>
+    * [lazygit](https://github.com/jesseduffield/lazygit) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lazygit.enable)</sup></sub>
+    * [mpv](https://github.com/mpv-player/mpv) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.mpv.enable)</sup></sub>
+    * [mr](https://myrepos.branchable.com/) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.mr.enable)</sup></sub>
+    * ❓ [ncspot](https://github.com/hrkfdn/ncspot) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ncspot.enable)</sup></sub>
+    * [neovim](https://github.com/neovim/neovim) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.neovim.enable)</sup></sub>
+    * [nix-index](https://github.com/nix-community/nix-index) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.nix-index.enable)</sup></sub>
+    * [rbw](https://github.com/doy/rbw) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.rbw.enable)</sup></sub>
+    * [ripgrep](https://github.com/BurntSushi/ripgrep) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ripgrep.enable)</sup></sub>
+    * ❓ ssh <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ssh.enable)</sup></sub>
+    * [tealdeer](https://github.com/dbrgn/tealdeer) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.tealdeer.enable)</sup></sub> - <sub><sup>replaces tldr</sup></sub>
+    * [thefuck](https://github.com/nvbn/thefuck) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.thefuck.enable)</sup></sub>
+    * ❓ thunderbird <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.thunderbird.enable)</sup></sub>
+    * [tmux](https://github.com/tmux/tmux) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.tmux.enable)</sup></sub> / [zellij](https://github.com/zellij-org/zellij) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zellij.enable)</sup></sub>
+    * ❓ [vscode](https://github.com/microsoft/vscode) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.vscode.enable)</sup></sub>
+    * ❓ [yt-dlp](https://github.com/yt-dlp/yt-dlp) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.yt-dlp.enable)</sup></sub>
+    * [zoxide](https://github.com/ajeetdsouza/zoxide) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zoxide.enable)</sup></sub>
+    * zsh <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable)</sup></sub>
+      * user `dirHashes`
+  * Fix `catppuccin-gtk` theme not applied to Gnome quick switches
