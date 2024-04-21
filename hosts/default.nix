@@ -251,6 +251,7 @@ in
       # Allow unfree packages (like vscode, terraform, …)
       allowUnfree = true;
 
+      # Allow insecure electron
       permittedInsecurePackages = [
         "electron-25.9.0"
       ];

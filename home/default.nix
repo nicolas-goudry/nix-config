@@ -123,6 +123,11 @@ in
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       # TODO: check if really needed
       allowUnfreePredicate = _: true;
+
+      # Allow insecure electron
+      permittedInsecurePackages = [
+        "electron-25.9.0"
+      ];
     };
 
     overlays = [
