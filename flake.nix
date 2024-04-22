@@ -102,6 +102,7 @@
         # Workstations
         "nicolas@g-xps" = libx.mkHome { hostname = "g-xps"; username = "nicolas"; desktop = "gnome"; };
         "nicolas@g-aero" = libx.mkHome { hostname = "g-aero"; username = "nicolas"; desktop = "gnome"; };
+        "nicolas@g-ns" = libx.mkHome { hostname = "g-ns"; username = "nicolas"; desktop = "gnome"; };
       };
     };
 }
