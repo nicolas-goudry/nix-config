@@ -49,6 +49,9 @@ in
     };
   };
 
+  # Allow font discovery
+  fonts.fontconfig.enable = true;
+
   home = {
     inherit stateVersion;
     inherit username;
