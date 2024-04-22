@@ -31,6 +31,10 @@ in
       name = "Seahorse";
     };
 
+    "org/gnome/shell".enabled-extensions = [
+      "pomodoro@arun.codito.in"
+    ];
+
     "org/gnome/pomodoro/preferences" = {
       enabled-plugins = [ "dark-theme" ];
       hide-system-notifications = false;
