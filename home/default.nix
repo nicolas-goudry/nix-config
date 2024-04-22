@@ -205,7 +205,7 @@ in
       };
     };
 
-    # Configure bat (https://github.com/sharkdp/bat)
+    # Configure bat (https://github.com/sharkdp/bat), a modern cat replacement
     # Override package to use unstable once https://github.com/nix-community/home-manager/pull/5301 is merged
     bat = {
       enable = true;
@@ -232,6 +232,130 @@ in
       };
     };
 
+    # Configure bottom (https://github.com/ClementTsang/bottom), a modern top replacement
+    bottom = {
+      enable = true;
+      package = pkgs.unstable.bottom; # Always use latest bottom
+
+      settings = {
+        flags = {
+          battery = true; # Show battery widget
+          enable_gpu = true; # Show GPU memory
+          expanded = true; # Expand default widget on start
+          group = true; # Group processes with same name together
+          hide_table_gap = true; # Remove space in tables
+          mem_as_value = true; # Show processes memory as value
+          left_legend = true; # Show CPU legend on left side
+          show_table_scroll_position = true; # Track scroll list position
+        };
+
+        # Catppuccin Mocha colors
+        colors = {
+          avg_cpu_color = "#f38ba8";
+          arc_color = "#94e2d5";
+          border_color = "#9399b2";
+          graph_color = "#cdd6f4";
+          highlighted_border_color = "#89b4fa";
+          ram_color = "#f5c2e7";
+          rx_color = "#89dceb";
+          selected_bg_color = "#cdd6f4";
+          selected_text_color = "#1e1e2e";
+          swap_color = "#f9e2af";
+          table_header_color = "#94e2d5";
+          text_color = "#cdd6f4";
+          tx_color = "#a6e3a1";
+          widget_title_color = "#cdd6f4";
+
+          # Battery widget colors
+          high_battery_color = "#a6e3a1";
+          medium_battery_color = "#f9e2af";
+          low_battery_color = "#f38ba8";
+
+          # Graph colors
+          cpu_core_colors = [
+            "#f5e0dc"
+            "#f5c2e7"
+            "#cba6f7"
+            "#f38ba8"
+            "#fab387"
+            "#f9e2af"
+            "#a6e3a1"
+            "#89dceb"
+            "#89b4fa"
+            "#b4befe"
+          ];
+          gpu_core_colors = [
+            "#cba6f7"
+            "#f38ba8"
+            "#fab387"
+            "#f9e2af"
+            "#a6e3a1"
+            "#74c7ec"
+            "#b4befe"
+          ];
+        };
+
+        # Custom layout:
+        # - two equal width columns
+        # - all text widgets on left column
+        # - all graph widgets on right column
+        # - first column:
+        #   - processus
+        #   - disks
+        #   - battery
+        #   - temperatures
+        # - second column:
+        #   - cpu
+        #   - memory
+        #   - network
+        row = [
+          {
+            ratio = 40;
+
+            child = [
+              {
+                type = "proc";
+                default = true;
+              }
+              {
+                type = "cpu";
+              }
+            ];
+          }
+          {
+            ratio = 30;
+
+            child = [
+              {
+                child = [
+                  {
+                    type = "disk";
+                  } {
+                    type = "batt";
+                  }
+                ];
+              }
+              {
+                type = "mem";
+              }
+            ];
+          }
+          {
+            ratio = 30;
+
+            child = [
+              {
+                type = "temp";
+              }
+              {
+                type = "net";
+              }
+            ];
+          }
+        ];
+      };
+    };
+
     # Configure direnv (https://github.com/direnv/direnv)
     direnv = {
       enable = true;
@@ -245,7 +369,7 @@ in
       };
     };
 
-    # Configure eza (https://github.com/eza-community/eza)
+    # Configure eza (https://github.com/eza-community/eza), a modern ls replacement
     eza = {
       enable = true;
       enableZshIntegration = true;
@@ -274,7 +398,7 @@ in
         info = "!${pkgs.onefetch}/bin/onefetch";
       };
 
-      # Configure delta (https://github.com/dandavison/delta)
+      # Configure delta (https://github.com/dandavison/delta), a modern diff replacement
       delta = {
         enable = true;
         package = pkgs.unstable.delta; # Always use latest delta
@@ -400,6 +524,7 @@ in
         diff = "${pkgs.unstable.delta}/bin/delta";
         ls = "${pkgs.unstable.eza}/bin/eza";
         uncolor = "sed 's,\x1B\[[0-9;]*[a-zA-Z],,g'";
+        top = "${pkgs.unstable.bottom}/bin/bottom --basic";
       };
     };
   };
