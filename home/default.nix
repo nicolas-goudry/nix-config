@@ -523,7 +523,7 @@ in
         diff = "${pkgs.unstable.delta}/bin/delta";
         ls = "${pkgs.unstable.eza}/bin/eza";
         uncolor = "sed 's,\x1B\[[0-9;]*[a-zA-Z],,g'";
-        top = "${pkgs.unstable.bottom}/bin/bottom --basic";
+        top = "${pkgs.unstable.bottom}/bin/btm --basic";
       };
     };
   };
