@@ -63,7 +63,6 @@ in
     # Modern Unix experience
     # https://github.com/ibraheemdev/modern-unix
     packages = with pkgs; [
-      bottom # top replacement
       catppuccin-alacritty # catppuccin theme for alacritty
       catppuccin-delta # catppuccin theme for delta
       fastfetch # system info
