@@ -213,9 +213,9 @@ in
     };
 
     # Configure bat (https://github.com/sharkdp/bat), a modern cat replacement
-    # Override package to use unstable once https://github.com/nix-community/home-manager/pull/5301 is merged
     bat = {
       enable = true;
+      package = pkgs.unstable.bat; # Always use latest bat
 
       config = {
         color = "always"; # Always show colors
@@ -526,8 +526,7 @@ in
       };
 
       shellAliases = {
-        # Use pkgs.unstable once https://github.com/nix-community/home-manager/pull/5301 is merged
-        cat = "${pkgs.bat}/bin/bat";
+        cat = "${pkgs.unstable.bat}/bin/bat";
         diff = "${pkgs.unstable.delta}/bin/delta";
         ls = "${pkgs.unstable.eza}/bin/eza";
         uncolor = "sed 's,\x1B\[[0-9;]*[a-zA-Z],,g'";
