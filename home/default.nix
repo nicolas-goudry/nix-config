@@ -145,6 +145,9 @@ in
   };
 
   programs = {
+    # Let Home Manager install and manage itself
+    home-manager.enable = true;
+
     # Configure Alacritty (https://github.com/alacritty/alacritty)
     alacritty = {
       enable = true;
