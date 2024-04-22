@@ -26,9 +26,9 @@ in
     inputs.sops.homeManagerModules.sops
   ]
   # Load custom user definition if it exists
-  ++ lib.optional (builtins.pathExists (./. + "users/${username}")) ./users/${username}
+  ++ lib.optional (builtins.pathExists (./. + "/users/${username}")) ./users/${username}
   # Load custom host definition if it exists
-  ++ lib.optional (builtins.pathExists (./. + "hosts/${username}")) ./hosts/${username}
+  ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}")) ./hosts/${hostname}
   # Configure desktop if workstation
   ++ lib.optional isWorkstation ./common/desktop;
 
