@@ -184,6 +184,17 @@ in
           };
         };
 
+        font = {
+          normal = {
+            family = "MesloLGS NF";
+            style = "Regular";
+          };
+
+          bold.style = "Bold";
+          italic.style = "Regular Italic";
+          bold_italic.style = "Bold Italic";
+        };
+
         keyboard.bindings = [
           # Super+Alt toggles vi mode on Linux
           # Cmd+Alt toggles vi mode on Mac
