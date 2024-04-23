@@ -8,11 +8,12 @@
     kubectl
     kubernetes-helm
     k9s
-  ] ++ lib.optionals (hostname == "g-aero") [
+  ] ++ lib.optionals (hostname == "g-xps") [
     dbeaver
-    discord
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     obsidian
+  ] ++ lib.optionals (lib.elem hostname [ "g-aero" "g-xps" ]) [
+    discord
     pika-backup
     qbittorrent
     slack
