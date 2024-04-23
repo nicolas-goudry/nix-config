@@ -24,15 +24,16 @@ in
     # Modules
     inputs.nix-index-database.hmModules.nix-index
     inputs.sops.homeManagerModules.sops
+
+    # Common utilities custom binaries
+    ./common/utils
   ]
   # Load custom user definition if it exists
   ++ lib.optional (builtins.pathExists (./. + "/users/${username}")) ./users/${username}
   # Load custom host definition if it exists
   ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}")) ./hosts/${hostname}
   # Configure desktop if workstation
-  ++ lib.optional isWorkstation ./common/desktop
-  # Common utilities custom binaries
-  ++ ./common/utils;
+  ++ lib.optional isWorkstation ./common/desktop;
 
   # Configure editorconfig (https://editorconfig.org/)
   editorconfig = {
