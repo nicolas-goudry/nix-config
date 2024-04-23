@@ -25,11 +25,12 @@ let
     set -euo pipefail
 
     pushd "''${HOME}/nixstrap" || { echo "nixstrap directory is missing"; exit 1; }
-    home-manager switch .#${username}@${hostname} \
+    home-manager switch \
       --extra-experimental-features flakes \
       --extra-experimental-features nix-command \
+      --cores $(($(nproc) * 75 / 100)) \
+      --flake .#${username}@${hostname} \
       -b backup \
-      --cores $((nproc * 75 / 100)) \
       "$@"
     popd || exit 1
   '';
