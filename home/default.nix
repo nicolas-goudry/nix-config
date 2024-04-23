@@ -30,7 +30,9 @@ in
   # Load custom host definition if it exists
   ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}")) ./hosts/${hostname}
   # Configure desktop if workstation
-  ++ lib.optional isWorkstation ./common/desktop;
+  ++ lib.optional isWorkstation ./common/desktop
+  # Common utilities custom binaries
+  ++ ./common/utils;
 
   # Configure editorconfig (https://editorconfig.org/)
   editorconfig = {
