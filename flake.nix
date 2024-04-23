@@ -30,6 +30,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Wrapper for OpenGL applications
+    nixgl = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Secrets OPerationS for Nix
     sops = {
       url = "github:Mic92/sops-nix";
@@ -60,6 +66,8 @@
       libx = import ./lib { inherit inputs outputs stateVersion; };
     in
     {
+      inherit libx;
+
       # nix fmt
       formatter = libx.forAllSystems (system:
         nix-formatter-pack.lib.mkFormatter {
