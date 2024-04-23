@@ -245,17 +245,6 @@ in
       package = pkgs.unstable.bottom; # Always use latest bottom
 
       settings = {
-        flags = {
-          battery = true; # Show battery widget
-          enable_gpu = true; # Show GPU memory
-          expanded = true; # Expand default widget on start
-          group = true; # Group processes with same name together
-          hide_table_gap = true; # Remove space in tables
-          mem_as_value = true; # Show processes memory as value
-          left_legend = true; # Show CPU legend on left side
-          show_table_scroll_position = true; # Track scroll list position
-        };
-
         # Catppuccin Mocha colors
         colors = {
           avg_cpu_color = "#f38ba8";
@@ -300,6 +289,18 @@ in
             "#74c7ec"
             "#b4befe"
           ];
+        };
+
+        flags = {
+          battery = true; # Show battery widget
+          disable_click = true; # Disable mouse
+          enable_gpu = true; # Show GPU memory
+          expanded = true; # Expand default widget on start
+          group = true; # Group processes with same name together
+          hide_table_gap = true; # Remove space in tables
+          left_legend = true; # Show CPU legend on left side
+          mem_as_value = true; # Show processes memory as value
+          show_table_scroll_position = true; # Track scroll list position
         };
 
         # Custom layout:
