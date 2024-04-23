@@ -417,7 +417,7 @@ in
       # Custom aliases
       aliases = {
         # Run onefetch (git project info) with "git info"
-        info = "!${pkgs.onefetch}/bin/onefetch";
+        info = "!${pkgs.onefetch}/bin/onefetch --no-title";
       };
 
       # Configure delta (https://github.com/dandavison/delta), a modern diff replacement
