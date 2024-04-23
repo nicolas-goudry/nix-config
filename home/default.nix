@@ -338,7 +338,8 @@ in
                 child = [
                   {
                     type = "disk";
-                  } {
+                  }
+                  {
                     type = "batt";
                   }
                 ];
