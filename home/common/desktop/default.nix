@@ -8,7 +8,7 @@ in
     # Desktop specific configuration for all users
     lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop}
     # User specific desktop configuration
-    ++ lib.optional (builtins.pathExists (./. + "/../../${username}/desktop.nix")) ../../${username}/desktop.nix;
+    ++ lib.optional (builtins.pathExists (./. + "/../../users/${username}/desktop.nix")) ../../users/${username}/desktop.nix;
 
   home.packages = with pkgs; [
     mpv-unwrapped # Video player
