@@ -1,5 +1,16 @@
 { config, lib, pkgs, ... }:
 
+let
+  gnomeThemePkg = pkgs.catppuccin-gtk.override {
+    accents = [ "red" ];
+    size = "compact";
+    tweaks = [ "rimless" ];
+    variant = "mocha";
+  };
+  gnomeThemeName = "Catppuccin-Mocha-Compact-Red-Dark";
+  cursorsThemePkg = pkgs.catppuccin-cursors.mochaRed;
+  cursorsThemeName = "Catppuccin-Mocha-Red-Cursors";
+in
 {
   # Default gnome configuration via dconf
   dconf.settings = with lib.gvariant; (lib.mkMerge [
@@ -14,6 +25,7 @@
       "org/gnome/settings-daemon/plugins/sharing/gnome-user-share-webdav".enabled-connections = mkEmptyArray type.string;
       "org/gnome/settings-daemon/plugins/sharing/rygel".enabled-connections = mkEmptyArray type.string;
       "org/gnome/shell/app-switcher".current-workspace-only = false;
+      "org/gnome/shell/extensions/user-theme".name = gnomeThemeName;
       "org/gnome/system/location".enabled = true;
 
       "org/gnome/desktop/input-sources" = {
@@ -197,6 +209,7 @@
         "drive-menu@gnome-shell-extensions.gcampax.github.com"
         "emoji-copy@felipeftn"
         "grand-theft-focus@zalckos.github.com"
+        "user-theme@gnome-shell-extensions.gcampax.github.com"
       ];
 
       # Extensions configuration
@@ -274,8 +287,8 @@
 
     # Enable catppuccin cursor theme (https://github.com/catppuccin/cursors)
     cursorTheme = {
-      name = "Catppuccin-Mocha-Red-Cursors";
-      package = pkgs.catppuccin-cursors.mochaRed;
+      name = cursorsThemeName;
+      package = cursorsThemePkg;
       size = 32;
     };
 
@@ -310,20 +323,14 @@
 
     # Enable catppuccin icon theme (https://github.com/catppuccin/cursors)
     iconTheme = {
-      name = "Catppuccin-Mocha-Red-Cursors";
-      package = pkgs.catppuccin-cursors.mochaRed;
+      name = cursorsThemeName;
+      package = cursorsThemePkg;
     };
 
     # Add catppuccin theme (https://github.com/catppuccin/gtk)
     theme = {
-      name = "Catppuccin-Mocha-Compact-Red-Dark";
-
-      package = pkgs.catppuccin-gtk.override {
-        accents = [ "red" ];
-        size = "compact";
-        tweaks = [ "rimless" ];
-        variant = "mocha";
-      };
+      name = gnomeThemeName;
+      package = gnomeThemePkg;
     };
   };
 
@@ -340,8 +347,8 @@
 
     # Enable catppuccin cursor theme (https://github.com/catppuccin/cursors)
     pointerCursor = {
-      name = "Catppuccin-Mocha-Red-Cursors";
-      package = pkgs.catppuccin-cursors.mochaRed;
+      name = cursorsThemeName;
+      package = cursorsThemePkg;
       size = 32;
       gtk.enable = true;
       x11.enable = true;

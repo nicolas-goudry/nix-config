@@ -407,4 +407,3 @@ If a new host were to be added without the `install-system` script, the followin
     * [zoxide](https://github.com/ajeetdsouza/zoxide) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zoxide.enable)</sup></sub>
     * zsh <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable)</sup></sub>
       * user `dirHashes`
-  * Fix `catppuccin-gtk` theme not applied to Gnome quick switches
