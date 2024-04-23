@@ -1,6 +1,7 @@
 { hostname, pkgs, ... }:
 
 {
+  # Install user packages depending on host
   home.packages = with pkgs; [
     bruno
     gitkraken
@@ -19,6 +20,7 @@
     uget
   ];
 
+  # User-specific git configuration
   programs.git = {
     userName = "Nicolas Goudry";
     userEmail = "goudry.nicolas@gmail.com";

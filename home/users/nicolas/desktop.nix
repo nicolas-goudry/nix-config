@@ -4,6 +4,8 @@ let
   isGnome = desktop == "gnome";
 in
 {
+  # Custom module to periodically change Gnome background to an Earth view image
+  # TODO: rewrite module as flake
   imports = [
     (builtins.fetchTarball {
       url = "https://github.com/nicolas-goudry/earth-view/archive/v0.0.1.tar.gz";
