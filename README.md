@@ -260,6 +260,8 @@ Failing to provide a valid `username` or `desktop` will not prevent the installa
 
 > **TODO**: fill when home-manager configurations are up.
 
+## 👨‍💻 Usage
+
 ### 📥 Install NixOS
 
 There are two installation method provided on the desktop ISO:
@@ -289,8 +291,6 @@ In a nutshell, the script will:
 > ```
 >
 > See the [secrets handling](#️-secrets-handling) section to learn more about why.
-
-## 👨‍💻 Usage
 
 ### ✨ Applying Changes
 
