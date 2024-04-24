@@ -371,6 +371,7 @@ If a new host were to be added without the `install-system` script, the followin
 ## 📝 TODO
 
 * Work configuration
+* Add [impermanence](https://github.com/nix-community/impermanence)
 * Hosts
   * Fix ISO image `.gnupg` directory of `nixos` user owned by `root` (see [Discourse post](https://discourse.nixos.org/t/gnupg-user-directory-owned-by-root/43561/1))
   * Fix issue with bépo layout on Gnome login screen which fails to input `_` character
