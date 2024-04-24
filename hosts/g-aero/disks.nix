@@ -19,7 +19,8 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "defaults" ];
+                # Set permission mask (rwx to owner only)
+                mountOptions = [ "defaults" "umask=0077" ];
               };
             };
 
