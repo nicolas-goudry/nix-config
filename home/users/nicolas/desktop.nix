@@ -23,13 +23,26 @@ in
 
   dconf.settings = lib.mkIf isGnome {
     # Enabled extensions
-    "org/gnome/shell".enabled-extensions = [
-      "clipboard-indicator@tudmotu.com"
-      "gsconnect@andyholmes.github.io"
-      "notification-timeout@chlumskyvaclav.gmail.com"
-      "pomodoro@arun.codito.in"
-      "Resource_Monitor@Ory0n"
-    ];
+    "org/gnome/shell" = {
+      enabled-extensions = [
+        "clipboard-indicator@tudmotu.com"
+        "gsconnect@andyholmes.github.io"
+        "notification-timeout@chlumskyvaclav.gmail.com"
+        "pomodoro@arun.codito.in"
+        "Resource_Monitor@Ory0n"
+      ];
+
+      favorite-apps = [
+        "org.gnome.Nautilus.desktop"
+        "google-chrome.desktop"
+        "terminator.desktop"
+        "code.desktop"
+        "GitKraken.desktop"
+        "dbeaver.desktop"
+        "obsidian.desktop"
+        "spotify.desktop"
+      ];
+    };
 
     # Extensions configuration
     "org/gnome/shell/extensions/clipboard-indicator" = {
