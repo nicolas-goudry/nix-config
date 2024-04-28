@@ -36,11 +36,6 @@ in
           (mkTuple [ "xkb" "fr+bepo" ])
           (mkTuple [ "xkb" "fr+oss" ])
         ];
-        xkb-options = [
-          "lv3:ralt_switch"
-          "grp:win_space_toggle"
-          "terminate:ctrl_alt_bksp"
-        ];
       };
 
       "org/gnome/desktop/interface" = {

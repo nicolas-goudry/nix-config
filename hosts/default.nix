@@ -369,7 +369,6 @@ in
     xserver.xkb = {
       layout = "fr,fr";
       model = "tm2030USB-102";
-      options = "lv3:ralt_switch,grp:win_space_toggle,terminate:ctrl_alt_bksp";
       variant = "bepo,oss";
     };
   };
