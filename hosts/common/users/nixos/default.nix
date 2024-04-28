@@ -7,7 +7,10 @@ let
   isWorkstationISO = !isInstall && isWorkstation;
 
   # Install script
-  install-system = pkgs.writeScriptBin "install-system" (builtins.readFile ./install.sh);
+  install-system = pkgs.writeScriptBin "install-system" (import ./install.nix {
+    inherit pkgs;
+    inherit (inputs.disko.packages.${platform}) disko;
+  });
 
   # Autostart alacritty
   alacritty-autostart = pkgs.makeAutostartItem { name = "Alacritty"; package = pkgs.alacritty; };
@@ -19,17 +22,9 @@ in
   # Add ISO install packages
   environment = {
     systemPackages = lib.optionals (!isInstall) [
-      inputs.disko.packages.${platform}.default
       alacritty-autostart
       install-system
-    ]
-    # Those are needed for install.sh
-    ++ (with pkgs; [
-      jq
-      rsync
-      ssh-to-pgp
-      yq
-    ] ++ lib.optional isWorkstationISO pkgs.gparted);
+    ] ++ lib.optional isWorkstationISO pkgs.gparted;
   };
 
   # Set “favorite” apps shown in overview dock
