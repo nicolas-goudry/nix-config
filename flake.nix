@@ -92,7 +92,8 @@
         let
           disko = inputs.disko.packages.${system};
           pkgs = nixpkgs.legacyPackages.${system};
-        in import ./pkgs {
+        in
+        import ./pkgs {
           inherit pkgs;
 
           # Needed by install-system script
