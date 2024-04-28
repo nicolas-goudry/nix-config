@@ -361,6 +361,7 @@
 
   # Apply home-manager configuration
   setup_home() {
+    sudo nixos-enter --root /mnt --command "mkdir -p /home/$TARGET_USER/.local/state/nix/profiles"
     sudo nixos-enter --root /mnt --command "chown -R root:root /home/$TARGET_USER; cd /home/$TARGET_USER/$FLAKE_NAME; env USER=$TARGET_USER HOME=/home/$TARGET_USER nix run --impure nixpkgs#home-manager -- switch --flake '.#$TARGET_USER@$TARGET_HOST' || true;"
     sudo nixos-enter --root /mnt --command "chown -R $TARGET_USER:users /home/$TARGET_USER"
   }
