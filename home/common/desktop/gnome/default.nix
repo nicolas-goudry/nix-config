@@ -105,11 +105,13 @@ in
       };
 
       "org/gnome/desktop/wm/keybindings" = {
+        show-desktop = [ "<Super>d" ];
         switch-applications = mkEmptyArray type.string;
         switch-applications-backward = mkEmptyArray type.string;
+        switch-input-source = [ "<Super>space" ];
+        switch-input-source-backward = [ "<Shift><Super>space" ];
         switch-windows = [ "<Alt>Tab" ];
         switch-windows-backward = [ "<Shift><Alt>Tab" ];
-        show-desktop = [ "<Super>d" ];
       };
 
       "org/gnome/desktop/wm/preferences" = {
