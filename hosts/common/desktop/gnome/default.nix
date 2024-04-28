@@ -109,6 +109,19 @@ in
 
     # Password/key manager
     seahorse.enable = isInstall;
+
+    # Ensure ISO images do not go to sleep
+    dconf.profiles.user.databases = lib.mkIf (!isInstall) [{
+      settings = with lib.gvariant; {
+        "org/gnome/desktop/session".idle-delay = mkUint32 0;
+
+        "org/gnome/settings-daemon/plugins/power" = {
+          idle-dim = false;
+          sleep-inactive-ac-type = "nothing";
+          sleep-inactive-battery-timeout = "1800";
+        };
+      };
+    }];
   };
 
   qt = {
