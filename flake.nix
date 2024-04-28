@@ -48,6 +48,12 @@
       url = "github:Gerschtli/nix-formatter-pack";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Beautiful wallpapers from Google Earth View
+    earth-view = {
+      url = "github:nicolas-goudry/earth-view";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
