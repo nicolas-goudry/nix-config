@@ -364,9 +364,8 @@ in
     };
 
     # Keyboard layout
-    # WARN: keep in sync with programs.dconf.profiles.user.databases.settings."org/gnome/desktop/input-sources"
-    # TODO: test with only grp:win_space_toggle here
     xserver.xkb = {
+      # Available layouts, models and variants: https://man.archlinux.org/man/xkeyboard-config.7
       layout = "fr,fr";
       model = "tm2030USB-102";
       variant = "bepo,oss";
