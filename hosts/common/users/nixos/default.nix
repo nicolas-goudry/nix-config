@@ -1,16 +1,10 @@
-{ desktop, hostname, inputs, lib, pkgs, platform, username, ... }:
+{ desktop, hostname, lib, pkgs, username, ... }:
 
 let
   # Precompute predicates
   isInstall = builtins.substring 0 4 hostname != "iso-";
   isWorkstation = if (desktop != null) then true else false;
   isWorkstationISO = !isInstall && isWorkstation;
-
-  # Install script
-  install-system = pkgs.writeScriptBin "install-system" (import ./install.nix {
-    inherit pkgs;
-    inherit (inputs.disko.packages.${platform}) disko;
-  });
 
   # Autostart alacritty
   alacritty-autostart = pkgs.makeAutostartItem { name = "Alacritty"; package = pkgs.alacritty; };
@@ -23,7 +17,7 @@ in
   environment = {
     systemPackages = lib.optionals (!isInstall) [
       alacritty-autostart
-      install-system
+      pkgs.install-system
     ] ++ lib.optional isWorkstationISO pkgs.gparted;
   };
 

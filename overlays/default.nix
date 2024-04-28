@@ -2,7 +2,15 @@
 
 {
   # Custom packages from the 'pkgs' directory
-  additions = final: _prev: import ../pkgs { pkgs = final; };
+  additions = final: _prev: let
+    disko = inputs.disko.packages.${_prev.system};
+  in
+  import ../pkgs {
+    # Needed by install-system script
+    inherit (disko) disko;
+
+    pkgs = final;
+  };
 
   # Change versions, add patches, set compilation flags, etc...
   # https://nixos.wiki/wiki/Overlays

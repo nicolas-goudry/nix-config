@@ -83,8 +83,15 @@
       # Custom packages and overlays
       overlays = import ./overlays { inherit inputs; };
       packages = libx.forAllSystems (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in import ./pkgs { inherit pkgs; }
+        let
+          disko = inputs.disko.packages.${system};
+          pkgs = nixpkgs.legacyPackages.${system};
+        in import ./pkgs {
+          inherit pkgs;
+
+          # Needed by install-system script
+          inherit (disko) disko;
+        }
       );
 
       # NixOS configuration entrypoints
