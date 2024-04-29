@@ -38,6 +38,7 @@ let
   isInstall = (builtins.substring 0 4 hostname) != "iso-";
   isWorkstation = !builtins.isNull desktop;
   hasNvidia = builtins.elem "nvidia" config.services.xserver.videoDrivers;
+  isImpermanent = lib.hasAttr "persistence" config.environment;
 
   # Conditional DNS settings
   # default: OpenDNS
@@ -342,12 +343,12 @@ in
           type = "rsa";
           bits = 4096;
           comment = hostname;
-          path = "/etc/ssh/ssh_host_rsa_key";
+          path = "${if isImpermanent then "/persist" else ""}/etc/ssh/ssh_host_rsa_key";
         }
         {
           type = "ed25519";
           comment = hostname;
-          path = "/etc/ssh/ssh_host_ed25519_key";
+          path = "${if isImpermanent then "/persist" else ""}/etc/ssh/ssh_host_ed25519_key";
         }
       ];
 
