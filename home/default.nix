@@ -520,12 +520,14 @@ in
       oh-my-zsh = {
         enable = true;
         package = pkgs.unstable.oh-my-zsh; # Always use latest OMZ
+        custom = pkgs.omz-custom-plugins; # Custom plugins and overrides
 
         # Enable OMZ plugins
         # https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
         plugins = [
           "aliases" # Aliases cheatsheet https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/aliases
-          "common-aliases" # Common aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/common-aliases
+          # Common aliases (OVERRIDEN!!!)
+          "common-aliases"
           "direnv" # Create direnv hook
           "git" # Git aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
           "sudo" # Prefix command with sudo by pressing ESC twice
