@@ -104,6 +104,10 @@
         }
       );
 
+      # Custom modules
+      nixosModules = import ./modules/nixos;
+      homeManagerModules = import ./modules/home-manager;
+
       # NixOS configuration entrypoints
       nixosConfigurations = {
         # Live ISO
