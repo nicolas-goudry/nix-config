@@ -374,7 +374,6 @@ If a new host were to be added without the `install-system` script, the followin
 * Add [impermanence](https://github.com/nix-community/impermanence)
 * Hosts
   * Fix ISO image `.gnupg` directory of `nixos` user owned by `root` (see [Discourse post](https://discourse.nixos.org/t/gnupg-user-directory-owned-by-root/43561/1))
-  * Fix issue with bépo layout on Gnome login screen which fails to input `_` character
   * Fix NVIDIA GPU not used (see [Discourse post](https://discourse.nixos.org/t/force-using-nvidia-gpu/41729/5))
   * Write a `disks.sh` script to format g-xps disk while keeping Windows dual boot
 * Home
