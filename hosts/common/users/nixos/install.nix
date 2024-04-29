@@ -60,7 +60,6 @@
     ${pkgs.coreutils}/bin/echo "    -b, --branch    Branch to use for configurations $DIM(default: main)$NC"
     ${pkgs.coreutils}/bin/echo "    -K, --gpg       GnuPG key to use"
     ${pkgs.coreutils}/bin/echo "    --fetch-only    Clone source repository and exit"
-    ${pkgs.coreutils}/bin/echo "    --setup-home    Apply Home Manager config only to system in /mnt"
     ${pkgs.coreutils}/bin/echo "    -h, --help      Show this help message"
     ${pkgs.coreutils}/bin/echo
 
@@ -359,13 +358,6 @@
     popd > /dev/null
   }
 
-  # Apply home-manager configuration
-  setup_home() {
-    sudo nixos-enter --root /mnt --command "mkdir -p /home/$TARGET_USER/.local/state/nix/profiles"
-    sudo nixos-enter --root /mnt --command "chown -R root:root /home/$TARGET_USER; cd /home/$TARGET_USER/$FLAKE_NAME; env USER=$TARGET_USER HOME=/home/$TARGET_USER nix run --impure nixpkgs#home-manager -- switch --flake '.#$TARGET_USER@$TARGET_HOST' || true;"
-    sudo nixos-enter --root /mnt --command "chown -R $TARGET_USER:users /home/$TARGET_USER"
-  }
-
   main() {
     ensure_nonroot
     ensure_repo
@@ -375,7 +367,6 @@
     ensure_disks_config
     prepare_disks
     install_nixos
-    setup_home
 
     ${pkgs.coreutils}/bin/echo -e "''${GREEN}Installation successful!$NC"
     ${pkgs.coreutils}/bin/echo
@@ -415,9 +406,6 @@
         ensure_repo overwrite
         exit 0
         ;;
-      "setup-home" )
-        ONLY_HM=true
-        ;;
       h | help )
         usage
         ;;
@@ -432,18 +420,6 @@
         ;;
     esac
   done
-
-  if test -n "''${ONLY_HM:-}"; then
-    ensure_nonroot
-    ensure_repo
-    ensure_host
-    ensure_user
-    ensure_gpg_key
-    ensure_disks_config
-    run_disko "$LOCAL_CLONE_DIR/hosts/$TARGET_HOST/disks.nix" "mount"
-    setup_home
-    exit 0
-  fi
 
   main
 ''
