@@ -520,7 +520,7 @@ in
       oh-my-zsh = {
         enable = true;
         package = pkgs.unstable.oh-my-zsh; # Always use latest OMZ
-        custom = pkgs.omz-custom-plugins; # Custom plugins and overrides
+        custom = "${pkgs.omz-custom-plugins}"; # Custom plugins and overrides
 
         # Enable OMZ plugins
         # https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
