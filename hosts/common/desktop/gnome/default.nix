@@ -161,8 +161,8 @@ in
       sushi.enable = true;
 
       # Files indexation and search tool
-      tracker.enable = !isInstall;
-      tracker-miners.enable = !isInstall;
+      tracker.enable = isInstall;
+      tracker-miners.enable = isInstall;
     };
 
     xserver = {
