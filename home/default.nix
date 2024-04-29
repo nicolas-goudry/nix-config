@@ -174,6 +174,9 @@ in
           color = "#f38ba8"; # Catppuccin mocha red
         };
 
+        # Use real black background
+        colors.primary.background = "#000000";
+
         # Different cursor styles in vi and normal mode
         cursor = {
           style = {
