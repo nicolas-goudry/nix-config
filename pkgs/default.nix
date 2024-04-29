@@ -8,4 +8,5 @@
   catppuccin-delta = pkgs.callPackage ./catppuccin-delta.nix { };
   catppuccin-alacritty = pkgs.callPackage ./catppuccin-alacritty.nix { };
   install-system = pkgs.writeScriptBin "install-system" (import ../hosts/common/users/nixos/install.nix { inherit disko pkgs; });
+  omz-custom-plugins = pkgs.callPackage ./omz-custom-plugins { };
 }
