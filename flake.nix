@@ -10,6 +10,9 @@
     # Common hardware profiles
     hardware.url = "github:nixos/nixos-hardware";
 
+    # Persist important state
+    impermanence.url = "github:nix-community/impermanence";
+
     # Disk formatting and partitioning tool
     disko = {
       url = "github:nix-community/disko";
