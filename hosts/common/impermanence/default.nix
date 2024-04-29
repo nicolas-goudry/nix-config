@@ -1,11 +1,7 @@
 # https://grahamc.com/blog/erase-your-darlings/
-{ inputs, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
-  imports = [
-    inputs.impermanence.nixosModules.impermanence
-  ];
-
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     # Mount existing filesystem in temporary directory
     ${pkgs.coreutils}/bin/mkdir /btrfs_tmp

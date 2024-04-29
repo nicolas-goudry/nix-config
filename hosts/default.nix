@@ -70,6 +70,7 @@ in
     # Modules
     (modulesPath + "/installer/scan/not-detected.nix")
     inputs.disko.nixosModules.disko
+    inputs.impermanence.nixosModules.impermanence
     inputs.nix-index-database.nixosModules.nix-index
     inputs.sops.nixosModules.sops
 
