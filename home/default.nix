@@ -398,7 +398,7 @@ in
     # Configure eza (https://github.com/eza-community/eza), a modern ls replacement
     eza = {
       enable = true;
-      enableZshIntegration = true;
+      enableZshIntegration = false;
       git = true; # Show git status
       icons = true; # Show icons
       package = pkgs.unstable.eza; # Always use latest eza
