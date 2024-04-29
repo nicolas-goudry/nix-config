@@ -371,7 +371,6 @@ If a new host were to be added without the `install-system` script, the followin
 ## 📝 TODO
 
 * Work configuration
-* Add [impermanence](https://github.com/nix-community/impermanence)
 * Hosts
   * Fix ISO image `.gnupg` directory of `nixos` user owned by `root` (see [Discourse post](https://discourse.nixos.org/t/gnupg-user-directory-owned-by-root/43561/1))
   * Fix NVIDIA GPU not used (see [Discourse post](https://discourse.nixos.org/t/force-using-nvidia-gpu/41729/5))
@@ -386,7 +385,6 @@ If a new host were to be added without the `install-system` script, the followin
     * chromium <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.chromium.enable)</sup></sub>
     * git <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.git.enable)</sup></sub>
       * work-specific configuration
-      * auto-providing of SSH key pairs
     * ❓ gpg <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gpg.enable)</sup></sub>
     * [k9s](https://github.com/derailed/k9s) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.k9s.enable)</sup></sub>
     * [lazygit](https://github.com/jesseduffield/lazygit) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lazygit.enable)</sup></sub>
