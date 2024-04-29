@@ -17,6 +17,9 @@
     # Disko configuration
     ./disks.nix
 
+    # Erase your darlings
+    ../common/impermanence
+
     # Configure wireless networks
     ../common/networks/casa.nix
 
