@@ -53,7 +53,7 @@
     #   - user: user owning the directory (only effective on directory creation)
     #   - group: group owning the directory (only effective on directory creation)
     #   - mode: directory permissions (only effective on directory creation)
-    directories = [];
+    directories = [ ];
 
     # Files to persist
     # Can be:

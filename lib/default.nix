@@ -84,7 +84,7 @@
           );
         };
       })
-  );
+    );
 
   # Helper to wrap package with NixGL (https://github.com/nix-community/nixGL)
   # Source: https://github.com/Smona/nixpkgs/blob/f3d21833495edd036c245a0c4899e28e94c08362/applications/nixGL.nix#L4
