@@ -28,11 +28,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1714334647,
-        "narHash": "sha256-drcVNDy2cGd3WlKMI85lP8M1co+R1Y++KAUt4pnbPaM=",
+        "lastModified": 1714341527,
+        "narHash": "sha256-J1eLRmiVFBusuuIrVbDpqIZYQQVZSRc8K2lH9ma4SN4=",
         "owner": "nicolas-goudry",
         "repo": "earth-view",
-        "rev": "6add7c6afec69ddb097dd83e30e7995e9112e6bc",
+        "rev": "7aaae1af1d65b86290b0740f4285b880f0e7f762",
         "type": "github"
       },
       "original": {
