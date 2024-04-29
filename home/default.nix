@@ -455,6 +455,34 @@ in
       }];
     };
 
+    # Configure GPG
+    gpg = {
+      enable = true;
+      package = pkgs.gnupg;
+
+      # Allow users to manage keyring and trust using gpg command
+      mutableKeys = true;
+      mutableTrust = true;
+
+      # Load all hosts public keys in keyring
+      publicKeys =
+        # Only keep attribute set's attributes values
+        lib.attrValues (
+          # Returns something like '{ "g-xps.pub" = { text = "-----BEGIN PGP PUBLIC KEY BLOCK-----\n..."; }; }'
+          lib.mapAttrs
+            # For each public key, create an attribute set with a 'text' attribute of the file content
+            (file: _type: { text = builtins.readFile ../.keys/${file}; })
+            # Build attribute set of all public keys in .keys directory
+            (lib.filterAttrs
+              # Only keep top-level regular files ending in '.pub'
+              (file: type: type == "regular" && lib.hasSuffix ".pub" file)
+              # Read .keys directory
+              # Returns something like '{ "g-xps.pub" = "regular"; }'
+              (builtins.readDir ../.keys)
+            )
+        );
+    };
+
     # Configure jq (https://jqlang.github.io/jq/)
     jq = {
       enable = true;
