@@ -1,10 +1,18 @@
-{ config, ... }:
+{ config, outputs, username, ... }:
 
 {
   # Define sops source for user password
-  sops.secrets.nicolas-password = {
+  sops.secrets = outputs.libx.mkUserSecrets {
+    inherit username;
+
     sopsFile = ./secrets.yaml;
-    neededForUsers = true;
+    secrets = [
+      { name = "nicolas-password"; neededForUsers = true; }
+      { name = "ssh-keys_aur"; dir = ".ssh"; file = "aur"; }
+      { name = "ssh-keys_aur.pub"; dir = ".ssh"; file = "aur.pub"; }
+      { name = "ssh-keys_id_rsa_goudry.nicolas@gmail.com"; dir = ".ssh"; file = "id_rsa_goudry.nicolas@gmail.com"; }
+      { name = "ssh-keys_id_rsa_goudry.nicolas@gmail.com.pub"; dir = ".ssh"; file = "id_rsa_goudry.nicolas@gmail.com.pub"; }
+    ];
   };
 
   # TODO: move to home-manager
