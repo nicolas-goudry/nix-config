@@ -72,7 +72,7 @@
       stateVersion = "23.11";
 
       # Custom helpers library
-      libx = import ./lib { inherit inputs outputs stateVersion; };
+      libx = import ./lib { inherit inputs outputs stateVersion; inherit (nixpkgs) lib; };
     in
     {
       inherit libx;

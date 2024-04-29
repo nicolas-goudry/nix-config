@@ -1,4 +1,4 @@
-{ inputs, outputs, stateVersion, ... }:
+{ inputs, lib, outputs, stateVersion, ... }:
 
 {
   # Supported systems
@@ -51,6 +51,40 @@
         # Common host configuration merged with ISO installer if needed
         [ ../hosts ] ++ (inputs.nixpkgs.lib.optional isISO cd-dvd);
     };
+
+  # Helper function to generate user secrets for a user
+  # Example:
+  # mkUserSecrets {
+  #   sopsFile = ./secrets.yaml;
+  #   username = "foo";
+  #   secrets = [
+  #     name = "mysecret"; # file name
+  #     file = "mysecretnewname"; # forced file name
+  #     dir = ".secret"; # parent directory, relative to user home
+  #     path = "/home/root"; # forced full path to file
+  #     mode = "0400"; # permissions in octal mode
+  #     neededForUsers = false; # is secret needed for users (on boot)
+  #   ];
+  # }
+  mkUserSecrets =
+    { secrets
+    , sopsFile
+    , username
+    }: lib.attrsets.mergeAttrsList (
+      lib.forEach secrets (secret: {
+        ${secret.name} = {
+          inherit sopsFile;
+
+          neededForUsers = if secret ? "neededForUsers" then secret.neededForUsers else false;
+          owner = lib.mkIf (!secret ? "neededForUsers") username;
+          group = lib.mkIf (!secret ? "neededForUsers") "users";
+          mode = if secret ? "mode" then secret.mode else "0400";
+          path = lib.mkIf (secret ? "path" || secret ? "dir") (
+            if secret ? "path" then secret.path else "/home/${username}/${secret.dir}/${if secret ? "file" then secret.file else secret.name}"
+          );
+        };
+      })
+  );
 
   # Helper to wrap package with NixGL (https://github.com/nix-community/nixGL)
   # Source: https://github.com/Smona/nixpkgs/blob/f3d21833495edd036c245a0c4899e28e94c08362/applications/nixGL.nix#L4
