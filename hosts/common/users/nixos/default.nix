@@ -21,15 +21,6 @@ in
     ] ++ lib.optional isWorkstationISO pkgs.gparted;
   };
 
-  # Set “favorite” apps shown in overview dock
-  programs.dconf.profiles.user.databases = [{
-    settings = lib.mkIf isWorkstationISO {
-      "org/gnome/shell" = {
-        favorite-apps = [ "io.calamares.calamares.desktop" "gparted.desktop" "Alacritty.desktop" "nixos-manual.desktop" ];
-      };
-    };
-  }];
-
   # Enable autologin
   services.xserver.displayManager.autoLogin = lib.mkIf isWorkstationISO {
     enable = lib.mkForce true;
