@@ -549,7 +549,8 @@ in
       shellAliases = {
         cat = "${pkgs.unstable.bat}/bin/bat";
         diff = "${pkgs.unstable.delta}/bin/delta";
-        ls = "${pkgs.unstable.eza}/bin/eza";
+        # Not using package since eza.extraOptions creates an eza alias
+        ls = "eza";
         uncolor = "${pkgs.gnused}/bin/sed 's,\x1B\[[0-9;]*[a-zA-Z],,g'";
         top = "${pkgs.unstable.bottom}/bin/btm --basic";
       };
