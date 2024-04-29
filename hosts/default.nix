@@ -155,6 +155,9 @@ in
       strace
     ];
 
+    # Generate predictable machine ID from hostname and system MD5 hash
+    etc.machine-id.text = builtins.hashString "md5" "${hostname}@${platform}";
+
     systemPackages = with pkgs; [
       curl
       git
