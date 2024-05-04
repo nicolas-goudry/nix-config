@@ -115,13 +115,14 @@ let
           autoUpdateSubmodules = libx.fromProfileOrDefault profile [ "git" "autoUpdateSubmodules" ];
           diffTool = libx.fromProfileOrDefault profile [ "tools" "diff" ];
           externalEditor = libx.fromProfileOrDefault profile [ "tools" "editor" ];
-          git.selectedPath = "${cfg.git.package}/bin/git";
           init.defaultBranch = libx.fromProfileOrDefault profile [ "git" "defaultBranch" ];
           mergeTool = libx.fromProfileOrDefault profile [ "tools" "merge" ];
           profileIcon = profile.icon;
           useCustomTerminalCmd = hasCustomTerminal;
           userEmail = libx.fromProfileOrDefault profile [ "user" "email" ];
           userName = libx.fromProfileOrDefault profile [ "user" "name" ];
+
+          git.selectedGitPath = if cfg.git.useBundledGit then "$packaged" else "${cfg.git.package}/bin/git";
 
           cli = {
             cursorStyle = libx.fromProfileOrDefault profile [ "ui" "cli" "cursor" ];
