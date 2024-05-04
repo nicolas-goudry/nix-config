@@ -47,19 +47,6 @@ types.submodule {
       };
     }
     (if mode == "app" then {
-      package = mkOption {
-        type = types.package;
-        default = pkgs.git;
-        example = literalExpression "pkgs.gitAndTools.gitFull";
-        description = ''
-          Git package to install and use for Git actions. This option
-          cannot be set if `git.enableBundledGit` is `true`. Note that
-          not all Git actions are implemented through Git executable,
-          so the bundled NodeGit will still be used for some actions,
-          even if disabled.
-        '';
-      };
-
       syncConfig = mkOption {
         type = types.bool;
         default = false;
@@ -74,10 +61,11 @@ types.submodule {
         default = false;
         description = ''
           Use bundled NodeGit for Git actions. When this option is set
-          to `false`, the `git.package` option must be set. Note that
-          not all Git actions are implemented through Git executable,
-          so the bundled NodeGit will still be used for some actions,
-          even if disabled.
+          to `false`, the Git package must be installed. The module will
+          try its best to set the right path to the Git binary. Note
+          that not all Git actions are implemented through Git
+          executable, so the bundled NodeGit will still be used for
+          some actions, even if disabled.
         '';
       };
     } else { })

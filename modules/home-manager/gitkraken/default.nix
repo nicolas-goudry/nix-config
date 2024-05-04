@@ -115,14 +115,13 @@ let
           autoUpdateSubmodules = libx.fromProfileOrDefault profile [ "git" "autoUpdateSubmodules" ];
           diffTool = libx.fromProfileOrDefault profile [ "tools" "diff" ];
           externalEditor = libx.fromProfileOrDefault profile [ "tools" "editor" ];
+          git.selectedGitPath = "$packaged";
           init.defaultBranch = libx.fromProfileOrDefault profile [ "git" "defaultBranch" ];
           mergeTool = libx.fromProfileOrDefault profile [ "tools" "merge" ];
           profileIcon = profile.icon;
           useCustomTerminalCmd = hasCustomTerminal;
           userEmail = libx.fromProfileOrDefault profile [ "user" "email" ];
           userName = libx.fromProfileOrDefault profile [ "user" "name" ];
-
-          git.selectedGitPath = if cfg.git.useBundledGit then "$packaged" else "${cfg.git.package}/bin/git";
 
           cli = {
             cursorStyle = libx.fromProfileOrDefault profile [ "ui" "cli" "cursor" ];
@@ -280,6 +279,18 @@ in
         ''
           config_dir=$HOME/.gitkraken
 
+          detect_git() {
+            if test -e ${config.home.profileDirectory}/bin/git; then
+              echo ${config.home.profileDirectory}/bin/git
+            elif test -e /run/current-system/sw/bin/git; then
+              echo /run/current-system/sw/bin/git
+            elif which git; then
+              echo $(which git)
+            else
+              echo '$packaged'
+            fi
+          }
+
           create_or_merge_json() {
             if test -w $1; then
               file_content=$(${pkgs.coreutils}/bin/cat $1)
@@ -301,6 +312,10 @@ in
             profile_dir=$config_dir/profiles/${id}
             ${pkgs.coreutils}/bin/mkdir -p $profile_dir
             create_or_merge_json $profile_dir/profile ${strings.escapeNixString (builtins.toJSON profile)}
+
+            if test "${boolToString appConfig.gitBinaryEnabled}" == "true"; then
+              create_or_merge_json $profile_dir/profile "{\"git\":{\"selectedGitPath\":\"$(detect_git)\"}}"
+            fi
           ''
         )
         profiles
