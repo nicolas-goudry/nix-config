@@ -155,17 +155,18 @@ types.submodule {
       };
 
       theme = mkOption {
-        type = types.enum [
+        type = types.nullOr (types.either types.str (types.enum [
           "light"
           "light-high-contrast"
           "dark"
           "dark-high-contrast"
           "system"
-        ];
-        default = "system";
+        ]));
+        default = if mode == "app" then "system" else null;
         example = "dark";
         description = ''
-          UI theme.
+          UI theme. Extra themes are referenced by their file name,
+          ie. `catppuccin-mocha.jsonc`.
         '';
       };
     }
@@ -175,6 +176,15 @@ types.submodule {
         default = true;
         description = ''
           Show toolbar icon labels.
+        '';
+      };
+
+      extraThemes = mkOption {
+        type = types.listOf types.path;
+        default = [ ];
+        example = literalExpression "[ \"\${pkgs.catppuccin-gitkraken}/catppuccin-mocha.jsonc\" ]";
+        description = ''
+          Paths to extra themes to install.
         '';
       };
 
