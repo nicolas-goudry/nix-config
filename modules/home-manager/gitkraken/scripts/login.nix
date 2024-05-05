@@ -1,6 +1,7 @@
 { pkgs }:
 
 let
+  decrypt = import ./decrypt.nix { inherit pkgs; };
   encrypt = import ./encrypt.nix { inherit pkgs; };
 in
 pkgs.writeScriptBin "gk-login" ''
@@ -14,7 +15,7 @@ pkgs.writeScriptBin "gk-login" ''
   # Helper constants
   GK_CONFIG_DIR=$HOME/.gitkraken
   BASE_URL="https://api.gitkraken.com/oauth"
-  LOGIN_PATH="login?action=authorize&in_app=true"
+  LOGIN_PATH="login?action=login&in_app=true"
 
   # Color codes
   NC="\e[0m"
@@ -139,21 +140,56 @@ pkgs.writeScriptBin "gk-login" ''
       die "failed to expand access token"
     fi
 
-    PROVIDER_TOKEN=$(${pkgs.jq}/bin/jq -r '.access_token' <(echo "$expandedToken"))
+    API_TOKEN=$(${pkgs.jq}/bin/jq -r '.accessToken' <(echo "$expandedToken"))
+    PROVIDER_TOKEN=$(${pkgs.jq}/bin/jq -r '.providerToken.access_token' <(echo "$expandedToken"))
+
+    if test -z "$API_TOKEN"; then
+      die "failed to retrieve provider token"
+    fi
 
     if test -z "$PROVIDER_TOKEN"; then
       die "failed to retrieve provider token"
     fi
   }
 
-  encrypt_token() {
+  merge_json() {
+    current=''${1:-}
+    update=''${2:-}
+
+    if test -z "$current"; then
+      current="{}"
+    fi
+
+    if test -z "$update"; then
+      update="{}"
+    fi
+
+    ${pkgs.jq}/bin/jq -s '.[0] * .[1]' <(${pkgs.coreutils}/bin/echo $current) <(${pkgs.coreutils}/bin/echo $update)
+  }
+
+  encrypt_api_token() {
+    secret_file="$GK_CONFIG_DIR/secFile"
+    secret_content=""
+    update="{\"GitKraken\":{\"api-accessToken\":\"$API_TOKEN\"}}"
+
+    if test -f "$secret_file"; then
+      secret_content=$(${decrypt}/bin/gk-decrypt "$secret_file")
+    fi
+
+    updated_secret=$(merge_json "$secret_content" "$update")
+
+    ${encrypt}/bin/gk-encrypt "$updated_secret" "$secret_file"
+  }
+
+  encrypt_provider_token() {
     ${encrypt}/bin/gk-encrypt "{ \"GitKraken\": { \"accessToken\": \"$PROVIDER_TOKEN\" } }" "$PROFILE_DIR/secFile"
   }
 
   update_config() {
+    current=$(${pkgs.coreutils}/bin/cat "$GK_CONFIG_DIR/config")
     update="{\"registration\":{\"EULA\":{\"status\":\"agree_verified\"},\"status\":\"activated\",\"loginType\":\"$PROVIDER\",\"date\":\"$(${pkgs.coreutils}/bin/date -u +%Y-%m-%dT%H:%M:%S).$(${pkgs.coreutils}/bin/date -u +%N | ${pkgs.coreutils}/bin/head -c3)Z\"},\"userMilestones\":{\"firstLoginRegister\":true}}"
-    current_content=$(${pkgs.coreutils}/bin/cat "$GK_CONFIG_DIR/config")
-    ${pkgs.jq}/bin/jq -s '.[0] * .[1]' <(${pkgs.coreutils}/bin/echo ''${current_content:-{}) <(${pkgs.coreutils}/bin/echo $update) > "$GK_CONFIG_DIR/config"
+
+    merge_json "$current" "$update" > "$GK_CONFIG_DIR/config"
   }
 
   main() {
@@ -163,7 +199,8 @@ pkgs.writeScriptBin "gk-login" ''
     open_browser
     set_token
     extract_token
-    encrypt_token
+    encrypt_api_token
+    encrypt_provider_token
     update_config
 
     ${pkgs.coreutils}/bin/echo -e "''${BOLDGREEN}GitKraken authentication successful!$NC"
@@ -175,6 +212,7 @@ pkgs.writeScriptBin "gk-login" ''
   PROFILE_DIR=""
   PROVIDER=""
   OAUTH_TOKEN=""
+  API_TOKEN=""
   PROVIDER_TOKEN=""
 
   # Read script flags
