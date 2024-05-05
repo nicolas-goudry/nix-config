@@ -10,6 +10,7 @@ let
 
   libx = import ./lib.nix { inherit config lib; };
   optionsDefinition = import ./root.nix { inherit lib pkgs; };
+  scripts = import ./scripts { inherit pkgs; };
 
   appConfig =
     let
@@ -273,6 +274,9 @@ in
 
       home.packages = [
         cfg.package
+        scripts.decrypt
+        scripts.encrypt
+        scripts.login
       ];
 
       home.activation.gitkraken = lib.hm.dag.entryAfter [ "writeBoundary" ] (concatStringsSep "\n" ([
