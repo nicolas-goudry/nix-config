@@ -321,6 +321,7 @@ in
         profiles
       ++ (if (length cfg.ui.extraThemes > 0) then [
         ''
+          mkdir -p $config_dir/themes
           for theme in ${concatStringsSep " " cfg.ui.extraThemes}; do
             ${pkgs.coreutils}/bin/ln -sf $theme $config_dir/themes/$(basename $theme)
           done
