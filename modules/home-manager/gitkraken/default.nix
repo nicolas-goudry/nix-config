@@ -283,6 +283,16 @@ in
         ''
           config_dir=$HOME/.gitkraken
 
+          gen_appid() {
+            ${pkgs.iproute2}/bin/ip -o link show up | \
+            ${pkgs.gnugrep}/bin/grep -v "00:00:00:00:00:00" | \
+            ${pkgs.gnugrep}/bin/grep "state UP" | \
+            ${pkgs.gawk}/bin/awk '{print $17}' | \
+            ${pkgs.coreutils}/bin/tr -d '\n' | \
+            ${pkgs.openssl}/bin/openssl sha1 | \
+            ${pkgs.coreutils}/bin/cut -d' ' -f2
+          }
+
           detect_git() {
             if test -e ${config.home.profileDirectory}/bin/git; then
               echo ${config.home.profileDirectory}/bin/git
@@ -309,6 +319,7 @@ in
 
           ${pkgs.coreutils}/bin/mkdir -p $config_dir
           create_or_merge_json $config_dir/config ${strings.escapeNixString (builtins.toJSON appConfig)}
+          create_or_merge_json $config_dir/config "{\"appId\":\"$(gen_appid)\"}"
         ''
       ] ++ mapAttrsToList
         (
