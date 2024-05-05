@@ -150,6 +150,12 @@ pkgs.writeScriptBin "gk-login" ''
     ${encrypt}/bin/gk-encrypt "{ \"GitKraken\": { \"accessToken\": \"$PROVIDER_TOKEN\" } }" "$PROFILE_DIR/secFile"
   }
 
+  update_config() {
+    update="{\"registration\":{\"EULA\":{\"status\":\"agree_verified\"},\"status\":\"activated\",\"loginType\":\"$PROVIDER\",\"date\":\"$(${pkgs.coreutils}/bin/date -u +%Y-%m-%dT%H:%M:%S).$(${pkgs.coreutils}/bin/date -u +%N | ${pkgs.coreutils}/bin/head -c3)Z\"},\"userMilestones\":{\"firstLoginRegister\":true}}"
+    current_content=$(${pkgs.coreutils}/bin/cat "$GK_CONFIG_DIR/config")
+    ${pkgs.jq}/bin/jq -s '.[0] * .[1]' <(${pkgs.coreutils}/bin/echo ''${current_content:-{}) <(${pkgs.coreutils}/bin/echo $update) > "$GK_CONFIG_DIR/config"
+  }
+
   main() {
     ensure_provider
     ensure_profile
@@ -158,6 +164,7 @@ pkgs.writeScriptBin "gk-login" ''
     set_token
     extract_token
     encrypt_token
+    update_config
 
     ${pkgs.coreutils}/bin/echo -e "''${BOLDGREEN}GitKraken authentication successful!$NC"
     ${pkgs.coreutils}/bin/echo
