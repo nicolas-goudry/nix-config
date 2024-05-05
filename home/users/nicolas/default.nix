@@ -67,8 +67,9 @@
 
       ui = {
         cli.autocomplete.tabBehavior = "navigation";
+        extraThemes = [ "${pkgs.catppuccin-gitkraken}/catppuccin-mocha.jsonc" ];
         hideWorkspaceTab = true;
-        theme = "dark";
+        theme = "catppuccin-mocha.jsonc";
 
         editor = {
           tabSize = 2;
