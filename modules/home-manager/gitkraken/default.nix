@@ -326,7 +326,7 @@ in
             create_or_merge_json $config_dir/config ${strings.escapeNixString (builtins.toJSON appConfig)}
           fi
 
-          if test "$(${pkgs.jq}/bin/jq -r '.appId' $config_dir/config)" == "null"; then
+          if test -e $config_dir/config && test "$(${pkgs.jq}/bin/jq -r '.appId' $config_dir/config)" == "null"; then
             log "Generate new app id"
 
             appid="$(gen_appid)"
@@ -336,11 +336,12 @@ in
             else
               create_or_merge_json $config_dir/config "{\"appId\":\"$appid\"}"
             fi
-          else
+          # config file does not exist only on first install in dry-run, do not log anything in this case
+          elif test -e $config_dir/config; then
             log "Keep current app id"
           fi
 
-          if test "$(${pkgs.jq}/bin/jq -r '.registration.EULA.status' $config_dir/config)" == "null" && "${boolToString cfg.acceptEULA}" == "true"; then
+          if test -e $config_dir/config && test "$(${pkgs.jq}/bin/jq -r '.registration.EULA.status' $config_dir/config)" == "null" && "${boolToString cfg.acceptEULA}" == "true"; then
             if test -n "''${DRY_RUN:-}"; then
               log "dry-run: set EULA as accepted with version ${eulaVersion}"
             else
