@@ -356,7 +356,7 @@ in
           id: profile: ''
             profile_dir="$config_dir/profiles/${id}"
 
-            log "write profile configuration file for profile ${if profile ? profileName then profile.profileName else "default"} (${id})"
+            log "write profile configuration file for profile ${profile.profileName or "default"} (${id})"
 
             if test -n "''${DRY_RUN:-}"; then
               log "create profile directory at $profile_dir"
