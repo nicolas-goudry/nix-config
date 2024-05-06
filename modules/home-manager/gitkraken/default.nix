@@ -319,7 +319,10 @@ in
 
           ${pkgs.coreutils}/bin/mkdir -p $config_dir
           create_or_merge_json $config_dir/config ${strings.escapeNixString (builtins.toJSON appConfig)}
-          create_or_merge_json $config_dir/config "{\"appId\":\"$(gen_appid)\"}"
+
+          if test "$(${pkgs.jq}/bin/jq -r '.appId' $config_dir/config)" == "null"; then
+            create_or_merge_json $config_dir/config "{\"appId\":\"$(gen_appid)\"}"
+          fi
         ''
       ] ++ mapAttrsToList
         (
