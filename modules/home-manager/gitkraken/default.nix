@@ -273,8 +273,10 @@ in
       home.activation.gitkraken = lib.hm.dag.entryAfter [ "writeBoundary" ] (concatStringsSep "\n" ([
         ''
           log() {
-            if test -n "''${VERBOSE:-}" || test -n "''${DRY_RUN:-}"; then
+            if test -n "''${VERBOSE:-}"; then
               ${pkgs.coreutils}/bin/echo "''${1:-}"
+            elif test -n "''${DRY_RUN:-}"; then
+              ${pkgs.coreutils}/bin/echo "dry-run: ''${1:-}"
             fi
           }
 
@@ -314,12 +316,12 @@ in
 
           config_dir="$HOME/.gitkraken"
 
-          log "Config directory: '$config_dir'"
-          log "Write app configuration file"
+          log "use config directory at $config_dir"
+          log "write app configuration file"
 
           if test -n "''${DRY_RUN:-}"; then
-            log "dry-run: create configuration directory at $config_dir"
-            log "dry-run: patch or create configuration file at $config_dir/config with following data:"
+            log "create configuration directory at $config_dir"
+            log "patch or create configuration file at $config_dir/config with following data:"
             log "$(${pkgs.jq}/bin/jq '.' <(${pkgs.coreutils}/bin/echo ${strings.escapeNixString (builtins.toJSON appConfig)}))"
           else
             ${pkgs.coreutils}/bin/mkdir -p $config_dir
@@ -327,23 +329,23 @@ in
           fi
 
           if test -e $config_dir/config && test "$(${pkgs.jq}/bin/jq -r '.appId' $config_dir/config)" == "null"; then
-            log "Generate new app id"
+            log "generate new app id"
 
             appid="$(gen_appid)"
 
             if test -n "''${DRY_RUN:-}"; then
-              log "dry-run: save generated appid ('$appid') to configuration file at $config_dir/config"
+              log "save generated appid ('$appid') to configuration file at $config_dir/config"
             else
               create_or_merge_json $config_dir/config "{\"appId\":\"$appid\"}"
             fi
           # config file does not exist only on first install in dry-run, do not log anything in this case
           elif test -e $config_dir/config; then
-            log "Keep current app id"
+            log "keep current app id"
           fi
 
           if test -e $config_dir/config && test "$(${pkgs.jq}/bin/jq -r '.registration.EULA.status' $config_dir/config)" == "null" && "${boolToString cfg.acceptEULA}" == "true"; then
             if test -n "''${DRY_RUN:-}"; then
-              log "dry-run: set EULA as accepted with version ${eulaVersion}"
+              log "set EULA as accepted with version ${eulaVersion}"
             else
               create_or_merge_json $config_dir/config "{\"registration\":{\"EULA\":{\"status\":\"agree_unverified\",\"version\":\"${eulaVersion}\"}}}"
             fi
@@ -354,11 +356,11 @@ in
           id: profile: ''
             profile_dir="$config_dir/profiles/${id}"
 
-            log "Write profile configuration file for profile ${if profile ? profileName then profile.profileName else "default"} (${id})"
+            log "write profile configuration file for profile ${if profile ? profileName then profile.profileName else "default"} (${id})"
 
             if test -n "''${DRY_RUN:-}"; then
-              log "dry-run: create profile directory at $profile_dir"
-              log "dry-run: path or create profile configuration file at $profile_dir/profile with following data:"
+              log "create profile directory at $profile_dir"
+              log "path or create profile configuration file at $profile_dir/profile with following data:"
               log "$(${pkgs.jq}/bin/jq '.' <(${pkgs.coreutils}/bin/echo ${strings.escapeNixString (builtins.toJSON profile)}))"
             else
               ${pkgs.coreutils}/bin/mkdir -p $profile_dir
@@ -366,18 +368,18 @@ in
             fi
 
             if test "${boolToString appConfig.gitBinaryEnabled}" == "true"; then
-              log "Git binary is enabled, try to detect git path"
+              log "git binary is enabled, try to detect git path"
 
               detected_git="$(detect_git)"
 
               if test "$detected_git" == '$packaged'; then
-                log "Failed to detect git package, falling back to bundled git"
+                log "failed to detect git package, falling back to bundled git"
               fi
 
-              log "Update profile configuration with detected git path"
+              log "update profile configuration with detected git path"
 
               if test -n "''${DRY_RUN:-}"; then
-                log "dry-run: save detected git path ('$detected_git') to profile configuration file at $profile_dir/profile"
+                log "save detected git path ('$detected_git') to profile configuration file at $profile_dir/profile"
               else
                 create_or_merge_json $profile_dir/profile "{\"git\":{\"selectedGitPath\":\"$detected_git\"}}"
               fi
@@ -389,10 +391,10 @@ in
         ''
           themes_dir="$config_dir/themes"
 
-          log "Install extra themes"
+          log "install extra themes"
 
           if test -n "''${DRY_RUN:-}"; then
-            log "dry-run: create themes directory at $themes_dir"
+            log "create themes directory at $themes_dir"
           else
             mkdir -p $themes_dir
           fi
@@ -401,7 +403,7 @@ in
             destination="$themes_dir/$(basename $theme)"
 
             if test -n "''${DRY_RUN:-}"; then
-              log "dry-run: install theme '$theme' at $destination"
+              log "install theme '$theme' at $destination"
             else
               ${pkgs.coreutils}/bin/ln -sf $theme $destination
             fi
