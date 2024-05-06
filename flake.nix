@@ -19,11 +19,24 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Beautiful wallpapers from Google Earth View
+    earth-view = {
+      url = "github:nicolas-goudry/earth-view";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Users home directory management
     # https://nix-community.github.io/home-manager/index.xhtml
     # https://nix-community.github.io/home-manager/options.xhtml
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Nix formatting pack
+    # https://gerschtli.github.io/nix-formatter-pack/nix-formatter-pack-options.html
+    nix-formatter-pack = {
+      url = "github:Gerschtli/nix-formatter-pack";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -39,22 +52,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Neovim the Nix way
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Secrets OPerationS for Nix
     sops = {
       url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # Nix formatting pack
-    # https://gerschtli.github.io/nix-formatter-pack/nix-formatter-pack-options.html
-    nix-formatter-pack = {
-      url = "github:Gerschtli/nix-formatter-pack";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # Beautiful wallpapers from Google Earth View
-    earth-view = {
-      url = "github:nicolas-goudry/earth-view";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
