@@ -65,7 +65,7 @@ pkgs.writeScriptBin "gk-encrypt" ''
   }
 
   encrypt_secret() {
-    ${pkgs.jq}/bin/jq -jr '.' <(echo "$DATA") | ${pkgs.openssl}/bin/openssl enc -aes-256-cbc -md md5 -e -k "$(${pkgs.jq}/bin/jq -r '.appId' $GK_CONFIG)" -nosalt -out "$DESTINATION"
+    ${pkgs.jq}/bin/jq -jr '.' <(echo "$DATA") | ${pkgs.openssl}/bin/openssl enc -aes-256-cbc -md md5 -e -k "$(${pkgs.jq}/bin/jq -r '.appId' $GK_CONFIG)" -nosalt -out "$DESTINATION" 2>/dev/null
   }
 
   main() {

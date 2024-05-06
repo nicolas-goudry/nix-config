@@ -58,7 +58,7 @@ pkgs.writeScriptBin "gk-decrypt" ''
   }
 
   decrypt_secret() {
-    ${pkgs.openssl}/bin/openssl enc -aes-256-cbc -md md5 -d -k "$(${pkgs.jq}/bin/jq -r '.appId' $GK_CONFIG)')" -nosalt -in "$SECRET_FILE"
+    ${pkgs.openssl}/bin/openssl enc -aes-256-cbc -md md5 -d -k "$(${pkgs.jq}/bin/jq -r '.appId' $GK_CONFIG)')" -nosalt -in "$SECRET_FILE" 2>/dev/null
   }
 
   main() {
