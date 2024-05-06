@@ -160,7 +160,6 @@ in
 
     systemPackages = with pkgs; [
       curl
-      git
       sops
     ];
 
@@ -288,6 +287,12 @@ in
 
     # Enable GnuPG agent
     gnupg.agent.enable = true;
+
+    # Enable unstable git
+    git = {
+      enable = true;
+      package = pkgs.unstable.git;
+    };
 
     # Basic neovim configuration
     neovim = {
