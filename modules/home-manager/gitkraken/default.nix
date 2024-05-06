@@ -7,6 +7,7 @@ let
 
   # Don't ask
   defaultProfileId = "d6e5a8ca26e14325a4275fc33b17e16f";
+  eulaVersion = "8.3.1";
 
   libx = import ./lib.nix { inherit config lib; };
   optionsDefinition = import ./root.nix { inherit lib pkgs; };
@@ -14,8 +15,6 @@ let
 
   appConfig =
     let
-      eulaVersion = "8.3.1";
-
       logLevels = {
         standard = 1;
         extended = 2;
@@ -62,14 +61,6 @@ let
           toastPosition = cfg.notifications.position;
         };
       };
-
-      registration =
-        if cfg.acceptEULA then {
-          EULA = {
-            status = "agree_unverified";
-            version = eulaVersion;
-          };
-        } else { };
 
       ui = {
         showToolbarLabels = cfg.ui.enableToolbarLabels;
@@ -347,6 +338,14 @@ in
             fi
           else
             log "Keep current app id"
+          fi
+
+          if test "$(${pkgs.jq}/bin/jq -r '.registration.EULA.status' $config_dir/config)" == "null" && "${boolToString cfg.acceptEULA}" == "true"; then
+            if test -n "''${DRY_RUN:-}"; then
+              log "dry-run: set EULA as accepted with version ${eulaVersion}"
+            else
+              create_or_merge_json $config_dir/config "{\"registration\":{\"EULA\":{\"status\":\"agree_unverified\",\"version\":\"${eulaVersion}\"}}}"
+            fi
           fi
         ''
       ] ++ mapAttrsToList
