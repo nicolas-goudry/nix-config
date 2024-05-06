@@ -65,15 +65,7 @@ pkgs.writeScriptBin "gk-encrypt" ''
   }
 
   encrypt_secret() {
-    ${pkgs.nodejs_20}/bin/node --no-warnings -e "const crypto = require('crypto');
-      const fs = require('fs')
-      const cipher = crypto.createCipher('aes-256-cbc', '$(${pkgs.jq}/bin/jq -r '.appId' $GK_CONFIG)');
-      const data = $DATA;
-      const buffer = Buffer.concat([
-        new Buffer(cipher.update(JSON.stringify(data, null, 2), 'utf8')),
-        new Buffer(cipher.final()),
-      ]);
-      fs.writeFileSync('$DESTINATION', buffer);"
+    ${pkgs.jq}/bin/jq -jr '.' <(echo "$DATA") | ${pkgs.openssl}/bin/openssl enc -aes-256-cbc -md md5 -e -k "$(${pkgs.jq}/bin/jq -r '.appId' $GK_CONFIG)" -nosalt -out "$DESTINATION"
   }
 
   main() {

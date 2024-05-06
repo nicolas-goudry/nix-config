@@ -58,16 +58,7 @@ pkgs.writeScriptBin "gk-decrypt" ''
   }
 
   decrypt_secret() {
-    ${pkgs.nodejs_20}/bin/node --no-warnings -e "const crypto = require('crypto');
-      const fs = require('fs')
-      const cipher = crypto.createDecipher('aes-256-cbc', '$(${pkgs.jq}/bin/jq -r '.appId' $GK_CONFIG)');
-      const data = fs.readFileSync('$SECRET_FILE', 'binary');
-      const buffer = Buffer.concat([
-        new Buffer(cipher.update(data, 'binary')),
-        new Buffer(cipher.final()),
-    ]);
-
-      console.log(buffer.toString('utf8'));"
+    ${pkgs.openssl}/bin/openssl enc -aes-256-cbc -md md5 -d -k "$(${pkgs.jq}/bin/jq -r '.appId' $GK_CONFIG)')" -nosalt -in "$SECRET_FILE"
   }
 
   main() {
