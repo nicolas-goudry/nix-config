@@ -341,6 +341,11 @@ in
             ${pkgs.coreutils}/bin/ln -sf $theme $config_dir/themes/$(basename $theme)
           done
         ''
-      ] else [ ])));
+      ] else [ ])
+      ++ [
+        ''
+          ${pkgs.coreutils}/bin/echo "To login to your GitKraken account, run 'gk-login'."
+        ''
+      ]));
     };
 }
