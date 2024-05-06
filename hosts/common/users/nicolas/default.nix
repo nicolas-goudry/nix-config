@@ -8,6 +8,7 @@
     sopsFile = ./secrets.yaml;
     secrets = [
       { name = "nicolas-password"; neededForUsers = true; }
+      { name = "nix-access-tokens"; }
       { name = "ssh-keys_aur"; dir = ".ssh"; file = "aur"; }
       { name = "ssh-keys_aur.pub"; dir = ".ssh"; file = "aur.pub"; }
       { name = "ssh-keys_id_rsa_goudry.nicolas@gmail.com"; dir = ".ssh"; file = "id_rsa_goudry.nicolas@gmail.com"; }
@@ -26,6 +27,10 @@
   #  opera
   #  vivaldi
   #]);
+
+  nix.extraOptions = ''
+    !include ${config.sops.secrets.nix-access-tokens.path}
+  '';
 
   # Define user (note: use mkpasswd to create password hash)
   users.users.nicolas = {
