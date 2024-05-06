@@ -35,52 +35,5 @@
         signByDefault = true;
       };
     };
-
-    gitkraken = {
-      enable = true;
-      package = pkgs.unstable.gitkraken;
-      acceptEULA = true;
-      collapsePermanentTabs = true;
-      enableCloudPatch = true;
-      logLevel = "extended";
-      skipTour = true;
-
-      commitGraph = {
-        showAuthor = true;
-      };
-
-      gpg = {
-        signingKey = config.programs.git.signing.key;
-        signCommits = config.programs.git.signing.signByDefault;
-        signTags = config.programs.git.signing.signByDefault;
-      };
-
-      notifications = {
-        enable = true;
-        marketing = false;
-      };
-
-      tools.terminal = {
-        default = "custom";
-        package = pkgs.unstable.alacritty;
-      };
-
-      ui = {
-        cli.autocomplete.tabBehavior = "navigation";
-        extraThemes = [ "${pkgs.catppuccin-gitkraken}/catppuccin-mocha.jsonc" ];
-        hideWorkspaceTab = true;
-        theme = "catppuccin-mocha.jsonc";
-
-        editor = {
-          tabSize = 2;
-          wrap = true;
-        };
-      };
-
-      user = {
-        email = config.programs.git.userEmail;
-        name = config.programs.git.userName;
-      };
-    };
   };
 }

@@ -398,6 +398,7 @@ in
     # Configure eza (https://github.com/eza-community/eza), a modern ls replacement
     eza = {
       enable = true;
+      # Disable ZSH integration since a custom OMZ common-aliases plugin which defines eza aliases exists
       enableZshIntegration = false;
       git = true; # Show git status
       icons = true; # Show icons
