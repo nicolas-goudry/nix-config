@@ -1,4 +1,4 @@
-{ config, hostname, lib, outputs, pkgs, ... }:
+{ outputs, pkgs, ... }:
 
 {
   imports = [
@@ -7,33 +7,19 @@
 
   # Install user packages depending on host
   home.packages = with pkgs; [
-    bruno
     kubectl
     kubernetes-helm
     k9s
-  ] ++ lib.optionals (hostname == "g-xps") [
-    dbeaver
-    (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
-    obsidian
-  ] ++ lib.optionals (lib.elem hostname [ "g-aero" "g-xps" ]) [
-    discord
-    pika-backup
-    qbittorrent
-    slack
-    spotify
-    uget
   ];
 
   # User-specific git configuration
-  programs = {
-    git = {
-      userName = "Nicolas Goudry";
-      userEmail = "goudry.nicolas@gmail.com";
+  programs.git = {
+    userName = "Nicolas Goudry";
+    userEmail = "goudry.nicolas@gmail.com";
 
-      signing = {
-        key = "EC6884FA72B9465A";
-        signByDefault = true;
-      };
+    signing = {
+      key = "EC6884FA72B9465A";
+      signByDefault = true;
     };
   };
 }
