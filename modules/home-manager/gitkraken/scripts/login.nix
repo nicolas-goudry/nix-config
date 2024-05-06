@@ -46,6 +46,12 @@ pkgs.writeScriptBin "gk-login" ''
     exit 1
   }
 
+  debug() {
+    if test -n "$DEBUG"; then
+      >&2 ${pkgs.coreutils}/bin/echo -e "''${DIM}debug: ''${1:-}$NC"
+    fi
+  }
+
   # Help usage (accepts an argument to prevent script to exit right way)
   usage() {
     ${pkgs.coreutils}/bin/echo
@@ -59,6 +65,7 @@ pkgs.writeScriptBin "gk-login" ''
     ${pkgs.coreutils}/bin/echo
     ${pkgs.coreutils}/bin/echo "    -P, --profile     Profile ID to use (defaults to default profile)"
     ${pkgs.coreutils}/bin/echo "    -p, --provider    Provider to login with"
+    ${pkgs.coreutils}/bin/echo "    --debug           Debug output"
     ${pkgs.coreutils}/bin/echo "    -h, --help        Show this help message"
     ${pkgs.coreutils}/bin/echo
     ${pkgs.coreutils}/bin/echo -e "''$BOLD}Available providers:$NC"
@@ -75,6 +82,8 @@ pkgs.writeScriptBin "gk-login" ''
   }
 
   ensure_provider() {
+    debug "Check provider: '$PROVIDER'"
+
     if test -z "$PROVIDER"; then
       error "$SCRIPT_NAME requires a provider"
       usage
@@ -87,19 +96,29 @@ pkgs.writeScriptBin "gk-login" ''
   }
 
   ensure_profile() {
+    debug "Check profile: '$PROFILE'"
+
     if test -z "$PROFILE"; then
       warn "no profile ID set, using default profile ID"
       PROFILE="d6e5a8ca26e14325a4275fc33b17e16f"
     fi
+
+    debug "Use profile: '$PROFILE'"
   }
 
   ensure_config() {
+    debug "Check config file"
+
     if ! test -r "$GK_CONFIG_DIR/config"; then
       die "config file not found. Is GitKraken installed?"
     fi
 
+    debug "Config file found"
+
     PROFILE_DIR="$GK_CONFIG_DIR/profiles/$PROFILE/$PROVIDER"
     ${pkgs.coreutils}/bin/mkdir -p "$PROFILE_DIR"
+
+    debug "Created profile directory: $PROFILE_DIR"
   }
 
   open_browser() {
@@ -122,6 +141,7 @@ pkgs.writeScriptBin "gk-login" ''
       elif ! ${pkgs.coreutils}/bin/base64 -d <(echo "$token") >/dev/null; then
         error "invalid access token provided, expected a base64 encoded string"
       else
+        debug "Access token set: '$token'"
         break
       fi
     done
@@ -130,16 +150,20 @@ pkgs.writeScriptBin "gk-login" ''
   }
 
   extract_token() {
+    debug "Extract tokens from access token"
+
     if test -z "$OAUTH_TOKEN"; then
       die "missing access token"
     fi
 
+    debug "Expand zlib compressed access token"
     expandedToken=$(${pkgs.coreutils}/bin/base64 -d <(echo "$OAUTH_TOKEN") | ${pkgs.pigz}/bin/pigz -d)
 
     if test -z "$expandedToken"; then
       die "failed to expand access token"
     fi
 
+    debug "Retrieve API and provider tokens"
     API_TOKEN=$(${pkgs.jq}/bin/jq -r '.accessToken' <(echo "$expandedToken"))
     PROVIDER_TOKEN=$(${pkgs.jq}/bin/jq -r '.providerToken.access_token' <(echo "$expandedToken"))
 
@@ -172,20 +196,32 @@ pkgs.writeScriptBin "gk-login" ''
     secret_content=""
     update="{\"GitKraken\":{\"api-accessToken\":\"$API_TOKEN\"}}"
 
+    debug "Encrypt API token to $secret_file"
+
     if test -f "$secret_file"; then
+      debug "Decrypt existing secret since it already holds data"
+
       secret_content=$(${decrypt}/bin/gk-decrypt "$secret_file")
     fi
 
+    debug "Merge existing data with API token"
+
     updated_secret=$(merge_json "$secret_content" "$update")
+
+    debug "Save encrypted file in place"
 
     ${encrypt}/bin/gk-encrypt "$updated_secret" "$secret_file"
   }
 
   encrypt_provider_token() {
+    debug "Create encrypted provider token to $PROFILE_DIR/secFile"
+
     ${encrypt}/bin/gk-encrypt "{ \"GitKraken\": { \"accessToken\": \"$PROVIDER_TOKEN\" } }" "$PROFILE_DIR/secFile"
   }
 
   update_config() {
+    debug "Update config file with registration data"
+
     current=$(${pkgs.coreutils}/bin/cat "$GK_CONFIG_DIR/config")
     update="{\"registration\":{\"EULA\":{\"status\":\"agree_verified\"},\"status\":\"activated\",\"loginType\":\"$PROVIDER\",\"date\":\"$(${pkgs.coreutils}/bin/date -u +%Y-%m-%dT%H:%M:%S).$(${pkgs.coreutils}/bin/date -u +%N | ${pkgs.coreutils}/bin/head -c3)Z\"},\"userMilestones\":{\"firstLoginRegister\":true}}"
 
@@ -214,6 +250,9 @@ pkgs.writeScriptBin "gk-login" ''
   OAUTH_TOKEN=""
   API_TOKEN=""
   PROVIDER_TOKEN=""
+  DEBUG=""
+
+  debug "Handle flags"
 
   # Read script flags
   while getopts 'hP:p:-:' OPT; do
@@ -228,10 +267,18 @@ pkgs.writeScriptBin "gk-login" ''
     # Handle flags
     case "$OPT" in
       p | provider )
+        debug "Set provider to content of $OPT flag"
+
         PROVIDER="$OPTARG"
         ;;
       P | profile )
+        debug "Set profile to content of $OPT flag"
+
         PROFILE="$OPTARG"
+        ;;
+      debug )
+        DEBUG="true"
+
         ;;
       h | help )
         usage
@@ -247,6 +294,9 @@ pkgs.writeScriptBin "gk-login" ''
         ;;
     esac
   done
+
+  debug "Start script"
+  debug "Use $GK_CONFIG_DIR as root"
 
   main
 ''
