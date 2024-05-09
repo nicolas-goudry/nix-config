@@ -371,6 +371,8 @@ If a new host were to be added without the `install-system` script, the followin
 ## 📝 TODO
 
 * Work configuration
+* ❓ Impermanence on `/home`
+* Configure nixvim ➡️ [typecraft course](https://www.youtube.com/playlist?list=PLsz00TDipIffreIaUNk64KxTIkQaGguqn) | [understanding neovim](https://www.youtube.com/playlist?list=PLx2ksyallYzW4WNYHD9xOFrPRYGlntAft)
 * Hosts
   * Fix ISO image `.gnupg` directory of `nixos` user owned by `root` (see [Discourse post](https://discourse.nixos.org/t/gnupg-user-directory-owned-by-root/43561/1))
   * Fix NVIDIA GPU not used (see [Discourse post](https://discourse.nixos.org/t/force-using-nvidia-gpu/41729/5))
@@ -391,7 +393,6 @@ If a new host were to be added without the `install-system` script, the followin
     * [mpv](https://github.com/mpv-player/mpv) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.mpv.enable)</sup></sub>
     * [mr](https://myrepos.branchable.com/) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.mr.enable)</sup></sub>
     * ❓ [ncspot](https://github.com/hrkfdn/ncspot) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ncspot.enable)</sup></sub>
-    * [neovim](https://github.com/neovim/neovim) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.neovim.enable)</sup></sub>
     * [nix-index](https://github.com/nix-community/nix-index) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.nix-index.enable)</sup></sub>
     * [rbw](https://github.com/doy/rbw) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.rbw.enable)</sup></sub>
     * [ripgrep](https://github.com/BurntSushi/ripgrep) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ripgrep.enable)</sup></sub>
