@@ -55,7 +55,7 @@
     # Neovim the Nix way
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     # Secrets OPerationS for Nix
@@ -100,10 +100,12 @@
       packages = libx.forAllSystems (system:
         let
           disko = inputs.disko.packages.${system};
+          nixvim = inputs.nixvim.legacyPackages.${system};
           pkgs = nixpkgs.legacyPackages.${system};
+          unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
         in
         import ./pkgs {
-          inherit pkgs;
+          inherit nixvim pkgs unstable;
 
           # Needed by install-system script
           inherit (disko) disko;

@@ -10,7 +10,9 @@
       # Needed by install-system script
       inherit (disko) disko;
 
+      nixvim = inputs.nixvim.legacyPackages.${_prev.system};
       pkgs = final;
+      inherit (final) unstable;
     };
 
   # Change versions, add patches, set compilation flags, etc...
