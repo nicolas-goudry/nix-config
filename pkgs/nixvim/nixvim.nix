@@ -1,4 +1,4 @@
-_:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -6,6 +6,9 @@ _:
   ];
 
   config = {
+    # Needed for telescope live grep
+    extraPackages = [ pkgs.ripgrep ];
+
     # Use <Space> as leader key
     globals.mapleader = " ";
 
