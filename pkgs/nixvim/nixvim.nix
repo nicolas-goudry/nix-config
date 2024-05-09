@@ -13,6 +13,15 @@ _:
     viAlias = true;
     vimAlias = true;
 
+    # Setup clipboard support
+    clipboard = {
+      # Use xsel as clipboard provider
+      providers.xsel.enable = true;
+
+      # Sync system clipboard
+      register = "unnamedplus";
+    };
+
     # Neovim options
     # Use :options to get the list of all options
     # Use :h <option> to load help for given <option>
