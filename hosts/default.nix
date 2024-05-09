@@ -145,6 +145,9 @@ in
   };
 
   environment = {
+    # Generate predictable machine ID from hostname and system MD5 hash
+    etc.machine-id.text = builtins.hashString "md5" "${hostname}@${platform}";
+
     # Enable ZSH completion for system packages
     pathsToLink = [ "/share/zsh" ];
 
@@ -155,19 +158,17 @@ in
       strace
     ];
 
-    # Generate predictable machine ID from hostname and system MD5 hash
-    etc.machine-id.text = builtins.hashString "md5" "${hostname}@${platform}";
-
     systemPackages = with pkgs; [
       curl
+      nixvim
       sops
     ];
 
     # Default editor
     variables = {
-      EDITOR = "nvim";
-      SYSTEMD_EDITOR = "nvim";
-      VISUAL = "nvim";
+      EDITOR = pkgs.nixvim;
+      SYSTEMD_EDITOR = pkgs.nixvim;
+      VISUAL = pkgs.nixvim;
     };
   };
 
@@ -292,15 +293,6 @@ in
     git = {
       enable = true;
       package = pkgs.unstable.git;
-    };
-
-    # Basic neovim configuration
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      package = pkgs.unstable.neovim-unwrapped; # Always use latest neovim
-      viAlias = true;
-      vimAlias = true;
     };
 
     # Enable nix-index with ZSH integration
