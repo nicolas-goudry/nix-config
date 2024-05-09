@@ -22,6 +22,18 @@ _:
       register = "unnamedplus";
     };
 
+    # Use catppuccin mocha variant
+    colorschemes.catppuccin = {
+      enable = true;
+
+      settings = {
+        flavour = "mocha";
+
+        # Needed to keep terminal transparency, if any
+        transparent_background = true;
+      };
+    };
+
     # Neovim options
     # Use :options to get the list of all options
     # Use :h <option> to load help for given <option>
