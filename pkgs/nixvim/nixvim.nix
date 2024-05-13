@@ -58,7 +58,7 @@
 
       # Minimal number of lines to keep around the cursor
       # This has the effect to move the view along with current line
-      scrolloff = 999;
+      #scrolloff = 999;
 
       # Number of spaces to use for indentation
       shiftwidth = 2;
