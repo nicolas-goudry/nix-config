@@ -50,6 +50,16 @@
       # Show substitution preview in split window
       inccommand = "split";
 
+      # Enable list mode
+      list = true;
+
+      # Set custom strings for list mode
+      # - tabulations are shown as ‒▶
+      # - trailing spaces are shown as ·
+      # - multiple non-leading consecutive spaces are shown as bullets (·)
+      # - non-breakable spaces are shown as ⎕
+      listchars = "tab:‒▶,trail:·,multispace:·,lead: ,nbsp:⎕";
+
       # Show line numbers
       number = true;
 
