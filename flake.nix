@@ -100,7 +100,8 @@
       packages = libx.forAllSystems (system:
         import ./pkgs {
           # Needed by install-system script
-          disko = inputs.disko.packages.${system}.disko;
+          inherit (inputs.disko.packages.${system}) disko;
+
           pkgs = nixpkgs.legacyPackages.${system};
           unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
 

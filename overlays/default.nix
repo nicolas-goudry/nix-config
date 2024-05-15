@@ -4,10 +4,10 @@
   # Custom packages from the 'pkgs' directory
   additions = final: _prev:
     import ../pkgs {
+      # Needed by install-system script
+      inherit (inputs.disko.packages.${_prev.system}) disko;
       inherit (final) unstable;
 
-      # Needed by install-system script
-      disko = inputs.disko.packages.${_prev.system}.disko;
       pkgs = final;
 
       nixvim = {

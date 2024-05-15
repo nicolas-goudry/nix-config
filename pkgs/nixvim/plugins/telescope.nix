@@ -39,84 +39,87 @@
     '';
 
     # Use root keymaps to allow usage of custom TelescopeWithTheme function
-    keymaps = let
-      mkTelescopeKeymap = { key
-      , mode ? "n"
-      , fn
-      , args ? { __empty = true; }
-      , desc ? ""
-      }: {
-        inherit key mode;
+    keymaps =
+      let
+        mkTelescopeKeymap =
+          { key
+          , mode ? "n"
+          , fn
+          , args ? { __empty = true; }
+          , desc ? ""
+          }: {
+            inherit key mode;
 
-        action = "function() TelescopeWithTheme('${fn}', ${libn.helpers.toLuaObject args}) end";
-        lua = true;
-        options = { inherit desc; };
-      };
-    in map mkTelescopeKeymap [
-      {
-        desc = "Resume previous search";
-        key = "<leader><cr>";
-        fn = "resume";
-      }
-      {
-        desc = "Find words in current buffer";
-        key = "<leader>f/";
-        fn = "current_buffer_fuzzy_find";
-      }
-      {
-        desc = "Find buffers";
-        key = "<leader>fb";
-        fn = "buffers";
-      }
-      {
-        desc = "Find files";
-        key = "<leader>ff";
-        fn = "find_files";
-      }
-      {
-        desc = "Find all files";
-        key = "<leader>fF";
-        fn = "find_files";
-        args = {
-          hidden = true;
-          no_ignore = true;
-        };
-      }
-      {
-        desc = "Find words";
-        key = "<leader>fg";
-        fn = "live_grep";
-      }
-      {
-        desc = "Find help tags";
-        key = "<leader>fh";
-        fn = "help_tags";
-      }
-      {
-        desc = "Find keymaps";
-        key = "<leader>fk";
-        fn = "keymaps";
-      }
-      {
-        desc = "Find history";
-        key = "<leader>fo";
-        fn = "oldfiles";
-      }
-      {
-        desc = "Find registers";
-        key = "<leader>fr";
-        fn = "registers";
-      }
-      {
-        desc = "Find word under cursor";
-        key = "<leader>fw";
-        fn = "grep_string";
-      }
-      {
-        desc = "Search references";
-        key = "gr";
-        fn = "lsp_references";
-      }
-    ];
+            action = "function() TelescopeWithTheme('${fn}', ${libn.helpers.toLuaObject args}) end";
+            lua = true;
+            options = { inherit desc; };
+          };
+      in
+      map mkTelescopeKeymap [
+        {
+          desc = "Resume previous search";
+          key = "<leader><cr>";
+          fn = "resume";
+        }
+        {
+          desc = "Find words in current buffer";
+          key = "<leader>f/";
+          fn = "current_buffer_fuzzy_find";
+        }
+        {
+          desc = "Find buffers";
+          key = "<leader>fb";
+          fn = "buffers";
+        }
+        {
+          desc = "Find files";
+          key = "<leader>ff";
+          fn = "find_files";
+        }
+        {
+          desc = "Find all files";
+          key = "<leader>fF";
+          fn = "find_files";
+          args = {
+            hidden = true;
+            no_ignore = true;
+          };
+        }
+        {
+          desc = "Find words";
+          key = "<leader>fg";
+          fn = "live_grep";
+        }
+        {
+          desc = "Find help tags";
+          key = "<leader>fh";
+          fn = "help_tags";
+        }
+        {
+          desc = "Find keymaps";
+          key = "<leader>fk";
+          fn = "keymaps";
+        }
+        {
+          desc = "Find history";
+          key = "<leader>fo";
+          fn = "oldfiles";
+        }
+        {
+          desc = "Find registers";
+          key = "<leader>fr";
+          fn = "registers";
+        }
+        {
+          desc = "Find word under cursor";
+          key = "<leader>fw";
+          fn = "grep_string";
+        }
+        {
+          desc = "Search references";
+          key = "gr";
+          fn = "lsp_references";
+        }
+      ];
   };
 }
