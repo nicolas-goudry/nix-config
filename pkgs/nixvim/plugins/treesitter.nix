@@ -24,9 +24,23 @@ _:
     # Prevent folding on file open
     opts.foldenable = false;
 
-    # Workaround for setting descriptions to treesitter incremental selection keymaps
-    # See https://github.com/nix-community/nixvim/issues/1506
     keymaps = [
+      {
+        mode = [ "n" "x" "o" ];
+        key = ";";
+        action = "function() require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move() end";
+        lua = true;
+        options.desc = "Repeat last move";
+      }
+      {
+        mode = [ "n" "x" "o" ];
+        key = ",";
+        action = "function() require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_opposite() end";
+        lua = true;
+        options.desc = "Repeat last move in the opposite direction";
+      }
+      # Workaround for setting descriptions to treesitter incremental selection keymaps
+      # See https://github.com/nix-community/nixvim/issues/1506
       {
         mode = "n";
         key = "<leader>ss";
@@ -61,7 +75,37 @@ _:
     plugins.treesitter-textobjects = {
       enable = true;
 
-      # Text objects selection
+      # Jump across text objects
+      move = {
+        enable = true;
+        setJumps = true;
+
+        gotoNextStart = {
+          "]k" = { query = "@block.outer"; desc = "Next block start"; };
+          "]f" = { query = "@function.outer"; desc = "Next function start"; };
+          "]a" = { query = "@parameter.inner"; desc = "Next argument start"; };
+        };
+
+        gotoNextEnd = {
+          "]K" = { query = "@block.outer"; desc = "Next block end"; };
+          "]F" = { query = "@function.outer"; desc = "Next function end"; };
+          "]A" = { query = "@parameter.inner"; desc = "Next argument end"; };
+        };
+
+        gotoPreviousStart = {
+          "[k" = { query = "@block.outer"; desc = "Previous block start"; };
+          "[f" = { query = "@function.outer"; desc = "Previous function start"; };
+          "[a" = { query = "@parameter.inner"; desc = "Previous argument start"; };
+        };
+
+        gotoPreviousEnd = {
+          "[K" = { query = "@block.outer"; desc = "Previous block end"; };
+          "[F" = { query = "@function.outer"; desc = "Previous function end"; };
+          "[A" = { query = "@parameter.inner"; desc = "Previous argument end"; };
+        };
+      };
+
+      # Select text objects
       select = {
         enable = true;
 
@@ -72,40 +116,35 @@ _:
         lookahead = true;
 
         keymaps = {
-          oc = {
-            query = "@class.outer";
-            desc = "Select outer class";
-          };
+          ak = { query = "@block.outer"; desc = "around block"; };
+          ik = { query = "@block.inner"; desc = "inside block"; };
+          ac = { query = "@class.outer"; desc = "around class"; };
+          ic = { query = "@class.inner"; desc = "inside class"; };
+          "a?" = { query = "@conditional.outer"; desc = "around conditional"; };
+          "i?" = { query = "@conditional.inner"; desc = "inside conditional"; };
+          af = { query = "@function.outer"; desc = "around function"; };
+          "if" = { query = "@function.inner"; desc = "inside function"; };
+          ao = { query = "@loop.outer"; desc = "around loop"; };
+          io = { query = "@loop.inner"; desc = "inside loop"; };
+          aa = { query = "@parameter.outer"; desc = "around argument"; };
+          ia = { query = "@parameter.inner"; desc = "inside argument"; };
+        };
+      };
 
-          "if" = {
-            query = "@function.inner";
-            desc = "Select inner function";
-          };
+      # Swap nodes with next/previous one
+      swap = {
+        enable = true;
 
-          of = {
-            query = "@function.outer";
-            desc = "Select outer function";
-          };
+        swapNext = {
+          ">K" = { query = "@block.outer"; desc = "Swap next block"; };
+          ">F" = { query = "@function.outer"; desc = "Swap next function"; };
+          ">A" = { query = "@parameter.inner"; desc = "Swap next argument"; };
+        };
 
-          ip = {
-            query = "@parameter.inner";
-            desc = "Select inner parameter";
-          };
-
-          op = {
-            query = "@parameter.outer";
-            desc = "Select outer parameter";
-          };
-
-          ii = {
-            query = "@conditional.inner";
-            desc = "Select inner if condition";
-          };
-
-          oi = {
-            query = "@conditional.outer";
-            desc = "Select outer if condition";
-          };
+        swapPrevious = {
+          "<K" = { query = "@block.outer"; desc = "Swap previous block"; };
+          "<F" = { query = "@function.outer"; desc = "Swap previous function"; };
+          "<A" = { query = "@parameter.inner"; desc = "Swap previous argument"; };
         };
       };
     };
