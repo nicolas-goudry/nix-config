@@ -1,8 +1,5 @@
-_:
+{ libn, ... }:
 
-let
-  mode = [ "n" "v" ];
-in
 {
   opts = {
     enable = true;
@@ -30,59 +27,95 @@ in
     # │    └────────────────────────────────────────┘    │
     # └──────────────────────────────────────────────────┘
     extraConfigLuaPre = ''
-      local TelescopeWithTheme = function(tfn)
-        local theme = require("telescope.themes").get_dropdown({
-          layout_config = {
-            anchor = "N",
-            mirror = true,
-            width = 0.8,
-          }
-        })
-        require("telescope.builtin")[tfn](theme)
+      local TelescopeWithTheme = function(fn, args)
+        args.layout_config = {
+          anchor = "N",
+          mirror = true,
+          width = 0.8,
+        }
+
+        require("telescope.builtin")[fn](require("telescope.themes").get_dropdown(args))
       end
     '';
 
     # Use root keymaps to allow usage of custom TelescopeWithTheme function
-    keymaps = [
-      # List files in current working directory
-      {
-        inherit mode;
-        key = "<leader>ff";
-        action = "function() TelescopeWithTheme('find_files') end";
+    keymaps = let
+      mkTelescopeKeymap = { key
+      , mode ? "n"
+      , fn
+      , args ? { __empty = true; }
+      , desc ? ""
+      }: {
+        inherit key mode;
+
+        action = "function() TelescopeWithTheme('${fn}', ${libn.helpers.toLuaObject args}) end";
         lua = true;
-        options.desc = "Find files";
-      }
-      # List open buffers in current instance
+        options = { inherit desc; };
+      };
+    in map mkTelescopeKeymap [
       {
-        inherit mode;
+        desc = "Resume previous search";
+        key = "<leader><cr>";
+        fn = "resume";
+      }
+      {
+        desc = "Find words in current buffer";
+        key = "<leader>f/";
+        fn = "current_buffer_fuzzy_find";
+      }
+      {
+        desc = "Find buffers";
         key = "<leader>fb";
-        action = "function() TelescopeWithTheme('buffers') end";
-        lua = true;
-        options.desc = "Find buffers";
+        fn = "buffers";
       }
-      # Search in current working directory
       {
-        inherit mode;
+        desc = "Find files";
+        key = "<leader>ff";
+        fn = "find_files";
+      }
+      {
+        desc = "Find all files";
+        key = "<leader>fF";
+        fn = "find_files";
+        args = {
+          hidden = true;
+          no_ignore = true;
+        };
+      }
+      {
+        desc = "Find words";
         key = "<leader>fg";
-        action = "function() TelescopeWithTheme('live_grep') end";
-        lua = true;
-        options.desc = "Grep files";
+        fn = "live_grep";
       }
-      # Search for current string/selection in current working directory
       {
-        inherit mode;
-        key = "<leader>fs";
-        action = "function() TelescopeWithTheme('grep_string') end";
-        lua = true;
-        options.desc = "Find word under cursor";
+        desc = "Find help tags";
+        key = "<leader>fh";
+        fn = "help_tags";
       }
-      # List LSP references for word under cursor
       {
-        key = "gD";
-        action = "function() TelescopeWithTheme('lsp_references') end";
-        lua = true;
-        mode = "n";
-        options.desc = "Find references of word under cursor";
+        desc = "Find keymaps";
+        key = "<leader>fk";
+        fn = "keymaps";
+      }
+      {
+        desc = "Find history";
+        key = "<leader>fo";
+        fn = "oldfiles";
+      }
+      {
+        desc = "Find registers";
+        key = "<leader>fr";
+        fn = "registers";
+      }
+      {
+        desc = "Find word under cursor";
+        key = "<leader>fw";
+        fn = "grep_string";
+      }
+      {
+        desc = "Search references";
+        key = "gr";
+        fn = "lsp_references";
       }
     ];
   };
