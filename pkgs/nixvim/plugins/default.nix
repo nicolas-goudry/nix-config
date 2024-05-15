@@ -21,7 +21,7 @@
 # example, this allows to set keymaps for plugins that do not have an internal
 # option to set keymaps.
 
-{ lib, pkgs, ... }:
+{ lib, pkgs, ... }@args:
 
 let
   definitions = lib.attrNames (
@@ -33,7 +33,7 @@ in lib.mkMerge (
   map (file:
     let
       pluginName = lib.elemAt (lib.splitString "." file) 0;
-      plugin = import ./${file} { inherit lib pkgs; };
+      plugin = import ./${file} args;
     in lib.mkMerge [
       (if plugin ? opts then {
         plugins.${pluginName} = plugin.opts;

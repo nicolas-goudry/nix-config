@@ -98,17 +98,16 @@
       # Custom packages and overlays
       overlays = import ./overlays { inherit inputs; };
       packages = libx.forAllSystems (system:
-        let
-          disko = inputs.disko.packages.${system};
-          nixvim = inputs.nixvim.legacyPackages.${system};
+        import ./pkgs {
+          # Needed by install-system script
+          disko = inputs.disko.packages.${system}.disko;
           pkgs = nixpkgs.legacyPackages.${system};
           unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
-        in
-        import ./pkgs {
-          inherit nixvim pkgs unstable;
 
-          # Needed by install-system script
-          inherit (disko) disko;
+          nixvim = {
+            lib = inputs.nixvim.lib.${system};
+            nixvim = inputs.nixvim.legacyPackages.${system};
+          };
         }
       );
 
