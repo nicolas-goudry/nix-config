@@ -1,3 +1,6 @@
+# homepage: https://github.com/nvim-telescope/telescope.nvim
+# nixvim doc: https://nix-community.github.io/nixvim/plugins/telescope/index.html
+# defaults options: https://github.com/nvim-telescope/telescope.nvim/blob/master/lua/telescope/config.lua
 { libn, ... }:
 
 {
