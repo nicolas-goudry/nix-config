@@ -100,12 +100,12 @@ in
     # To make nix3 commands consistent with your flake
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
 
-    # Automatically run nix store garbage collector
-    gc = {
-      automatic = true;
-      frequency = "weekly";
-      options = "--delete-older-than 7d";
-    };
+    # Automatically run nix store garbage collector (TODO: enable once 24.05 is out)
+    #gc = {
+    #  automatic = true;
+    #  frequency = "weekly";
+    #  options = "--delete-older-than 7d";
+    #};
 
     settings = {
       # Deduplicate and optimise nix store
@@ -232,7 +232,7 @@ in
     # Configure bat (https://github.com/sharkdp/bat), a modern cat replacement
     bat = {
       enable = true;
-      package = pkgs.unstable.bat; # Always use latest bat
+      #package = pkgs.unstable.bat; # Always use latest bat (TODO: enable once 24.05 is out)
 
       config = {
         color = "always"; # Always show colors
@@ -398,8 +398,8 @@ in
     # Configure eza (https://github.com/eza-community/eza), a modern ls replacement
     eza = {
       enable = true;
-      # Disable ZSH integration since a custom OMZ common-aliases plugin which defines eza aliases exists
-      enableZshIntegration = false;
+      # Disable shell aliases since they are defined by custom OMZ common-aliases plugin
+      enableAliases = false;
       git = true; # Show git status
       icons = true; # Show icons
       package = pkgs.unstable.eza; # Always use latest eza
@@ -501,8 +501,8 @@ in
     zsh = {
       enable = true;
       enableCompletion = true;
+      enableAutosuggestions = true; # Suggest matching command from history while typing
       autocd = true; # Change to directory by its name only
-      autosuggestion.enable = true; # Suggest matching command from history while typing
       dotDir = ".config/zsh";
       package = pkgs.unstable.zsh; # Always use latest zsh
 
@@ -555,7 +555,7 @@ in
         # https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
         plugins = [
           "aliases" # Aliases cheatsheet https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/aliases
-          # Common aliases (OVERRIDEN!!!)
+          # Common aliases (OVERRIDDEN!!!)
           "common-aliases"
           "direnv" # Create direnv hook
           "git" # Git aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
