@@ -585,4 +585,7 @@ in
       };
     };
   };
+
+  # Nicely reload system units when activating config
+  systemd.user.startServices = "sd-switch";
 }
