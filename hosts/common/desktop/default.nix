@@ -181,6 +181,7 @@ in
 
     earth-view = {
       enable = true;
+      autoStart = true;
       interval = "4h";
     };
 
