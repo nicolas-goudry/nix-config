@@ -29,14 +29,14 @@ _:
     keymaps = [
       {
         mode = [ "n" "x" "o" ];
-        key = ";";
+        key = ",";
         action = "function() require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move() end";
         lua = true;
         options.desc = "Repeat last move";
       }
       {
         mode = [ "n" "x" "o" ];
-        key = ",";
+        key = ";";
         action = "function() require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_opposite() end";
         lua = true;
         options.desc = "Repeat last move in the opposite direction";
