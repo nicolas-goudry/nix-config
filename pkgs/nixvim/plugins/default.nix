@@ -38,13 +38,13 @@ lib.mkMerge (
       plugin = import ./${file} args;
     in
     lib.mkMerge [
-      (if plugin ? opts then {
+      (lib.optionalAttrs (plugin ? opts) {
         plugins.${pluginName} = plugin.opts;
-      } else { })
-      (if plugin ? extra then {
+      })
+      (lib.optionalAttrs (plugin ? extra) {
+        extraConfigLua = plugin.extra.config or "";
         extraPlugins = plugin.extra.packages;
-        extraConfigLua = plugin.extra.config;
-      } else { })
+      })
       (plugin.rootOpts or { })
     ]
     )
