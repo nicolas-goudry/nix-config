@@ -199,4 +199,10 @@ in
       excludePackages = [ pkgs.xterm ];
     };
   };
+
+  system.userActivationScripts.fullBrightness.text = ''
+    #!${pkgs.bash}/bin/bash
+
+    ${pkgs.brightnessctl}/bin/brightnessctl s +100%
+  '';
 }
