@@ -39,6 +39,8 @@
           width = 0.8,
         }
 
+        if fn == "keymaps" or fn == "registers" then args.layout_config.height = function(_, _, max_lines) return max_lines end end
+
         require("telescope.builtin")[fn](require("telescope.themes").get_dropdown(args))
       end
     '';
