@@ -96,6 +96,9 @@
       # Enables 24-bit RGB color
       termguicolors = true;
 
+      # Shorter timeout duration
+      timeoutlen = 500;
+
       # Enable virtual edit in visual block mode
       # This has the effect of selecting empty cells beyond lines boundaries
       virtualedit = "block";
