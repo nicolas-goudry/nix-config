@@ -119,6 +119,7 @@ _:
   };
 
   rootOpts = {
+    colorschemes.catppuccin.settings.integrations.neotree = true;
     autoGroups.neotree = { };
 
     # Custom autocommands (taken from AstroNvim)

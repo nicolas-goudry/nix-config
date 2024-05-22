@@ -8,4 +8,6 @@ _:
     enable = true;
     window.border = "single";
   };
+
+  rootOpts.colorschemes.catppuccin.settings.integrations.which_key = true;
 }

@@ -9,6 +9,8 @@
   };
 
   rootOpts = {
+    colorschemes.catppuccin.settings.integrations.telescope.enabled = true;
+
     # Set custom behavior for dropdown theme:
     # - use 80% of window width
     # - use all window height
