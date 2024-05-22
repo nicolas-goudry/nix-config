@@ -37,6 +37,14 @@
       };
     };
 
+    keymaps = [
+      {
+        key = "<leader>n";
+        action = "<cmd>enew<cr>";
+        options.desc = "New file";
+      }
+    ];
+
     # Neovim options
     # Use :options to get the list of all options
     # Use :h <option> to load help for given <option>
