@@ -37,11 +37,19 @@ _:
           end
         '';
 
-        find_in_dir.__raw = ''
+        find_file_in_dir.__raw = ''
           function(state)
             local node = state.tree:get_node()
             local path = node.type == "file" and node:get_parent_id() or node:get_id()
             TelescopeWithTheme('find_files', { cwd = path })
+          end
+        '';
+
+        grep_in_dir.__raw = ''
+          function(state)
+            local node = state.tree:get_node()
+            local path = node.type == "file" and node:get_parent_id() or node:get_id()
+            TelescopeWithTheme('live_grep', { cwd = path })
           end
         '';
 
@@ -76,7 +84,8 @@ _:
           # See extraOptions.commands for details on following keymaps
           h = "parent_or_close";
           l = "child_or_open";
-          F = "find_in_dir";
+          F = "find_file_in_dir";
+          W = "grep_in_dir";
         };
       };
     };
