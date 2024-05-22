@@ -119,7 +119,7 @@ _:
   };
 
   rootOpts = {
-    autoGroups.neotree = {};
+    autoGroups.neotree = { };
 
     # Custom autocommands (taken from AstroNvim)
     autoCmd = [
