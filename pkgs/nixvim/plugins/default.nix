@@ -42,7 +42,7 @@ lib.mkMerge (
         plugins.${pluginName} = plugin.opts;
       } else { })
       (if plugin ? extra then {
-        extraPlugins = [ plugin.extra.package ];
+        extraPlugins = plugin.extra.packages;
         extraConfigLua = plugin.extra.config;
       } else { })
       (plugin.rootOpts or { })
