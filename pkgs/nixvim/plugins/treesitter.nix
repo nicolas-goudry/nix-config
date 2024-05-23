@@ -23,9 +23,6 @@ _:
   rootOpts = {
     colorschemes.catppuccin.settings.integrations.treesitter = true;
 
-    # Prevent folding on file open
-    opts.foldenable = false;
-
     keymaps = [
       {
         mode = [ "n" "x" "o" ];
