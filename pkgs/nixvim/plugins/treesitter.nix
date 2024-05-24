@@ -5,13 +5,6 @@ _:
     # Enable treesitter syntax highlighting
     enable = true;
 
-    # Enable treesitter based folding
-    # By default, folds are closed, set foldenable to false to prevent this
-    # zc: close fold
-    # zo: open fold
-    # zi: toggle all untouched folds
-    folding = true;
-
     # Enable treesitter based indentation (use '=' to auto-indent)
     indent = true;
 
