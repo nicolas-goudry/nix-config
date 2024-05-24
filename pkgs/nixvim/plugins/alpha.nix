@@ -119,6 +119,40 @@ in
   };
 
   rootOpts = {
+    autoGroups.alpha = { };
+
+    # Custom autocommand (taken from AstroNvim)
+    # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/alpha.lua#L19-L43
+    autoCmd = [
+      {
+        desc = "Disable status, tablines and cmdheight for alpha";
+        event = [ "User" "BufWinEnter" ];
+        group = "alpha";
+
+        callback.__raw = ''
+          function(event)
+            if
+              (
+                (event.event == "User" and event.file == "AlphaReady")
+                or (event.event == "BufWinEnter" and vim.bo[event.buf].filetype == "alpha")
+              ) and not vim.g.before_alpha
+            then
+              vim.g.before_alpha = {
+                showtabline = vim.opt.showtabline:get(),
+                laststatus = vim.opt.laststatus:get(),
+                cmdheight = vim.opt.cmdheight:get(),
+              }
+              vim.opt.showtabline, vim.opt.laststatus, vim.opt.cmdheight = 0, 0, 0
+            elseif vim.g.before_alpha and event.event == "BufWinEnter" and vim.bo[event.buf].buftype ~= "nofile" then
+              vim.opt.laststatus, vim.opt.showtabline, vim.opt.cmdheight =
+                vim.g.before_alpha.laststatus, vim.g.before_alpha.showtabline, vim.g.before_alpha.cmdheight
+              vim.g.before_alpha = nil
+            end
+          end
+        '';
+      }
+    ];
+
     colorschemes.catppuccin.settings = {
       # Enable catppuccin colors
       # https://github.com/catppuccin/nvim/blob/main/lua/catppuccin/groups/integrations/alpha.lua
