@@ -7,6 +7,12 @@ _:
   opts = {
     enable = true;
     window.border = "single";
+
+    disable.filetypes = [
+      "TelescopePrompt"
+      "neo-tree"
+      "neo-tree-popup"
+    ];
   };
 
   rootOpts.colorschemes.catppuccin.settings.integrations.which_key = true;
