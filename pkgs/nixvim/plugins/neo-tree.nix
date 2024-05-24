@@ -28,6 +28,7 @@ _:
       # Custom functions (taken from AstroNvim)
       commands = {
         # Focus first directory child item or open directory
+        # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/neo-tree.lua#L120-L135
         child_or_open.__raw = ''
           function(state)
             local node = state.tree:get_node()
@@ -48,6 +49,7 @@ _:
         '';
 
         # Copy various path format of currently focused item
+        # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/neo-tree.lua#L136-L168
         copy_selector.__raw = ''
           function(state)
             local node = state.tree:get_node()
@@ -82,6 +84,8 @@ _:
           end
         '';
 
+        # Find file in currently focused item if it is a directory, or its closest parent directory
+        # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/neo-tree.lua#L205-L209
         find_file_in_dir.__raw = ''
           function(state)
             local node = state.tree:get_node()
@@ -90,6 +94,7 @@ _:
           end
         '';
 
+        # Live grep in currently focused item if it is a directory, or its closest parent directory
         grep_in_dir.__raw = ''
           function(state)
             local node = state.tree:get_node()
@@ -99,6 +104,7 @@ _:
         '';
 
         # Focus parent directory of currently focused item or close directory
+        # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/neo-tree.lua#L112-L119
         parent_or_close.__raw = ''
           function(state)
             local node = state.tree:get_node()
@@ -163,7 +169,7 @@ _:
       # Label position
       contentLayout.__raw = "'center'";
 
-      # Tabs separator
+      # No tabs separator
       separator = "";
 
       # Show tabs on winbar
@@ -188,11 +194,14 @@ _:
   };
 
   rootOpts = {
+    # Enable catppuccin colors
+    # https://github.com/catppuccin/nvim/blob/main/lua/catppuccin/groups/integrations/neotree.lua
     colorschemes.catppuccin.settings.integrations.neotree = true;
     autoGroups.neotree = { };
 
     # Custom autocommands (taken from AstroNvim)
     autoCmd = [
+      # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/neo-tree.lua#L21-L37
       {
         desc = "Open explorer on startup with directory";
         event = "BufEnter";
@@ -211,6 +220,7 @@ _:
           end
         '';
       }
+      # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/neo-tree.lua#L25-L35
       {
         desc = "Refresh explorer sources when closing lazygit";
         event = "TermClose";
@@ -241,6 +251,7 @@ _:
         key = "<leader>o";
         options.desc = "Toggle explorer focus";
 
+        # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/neo-tree.lua#L12-L18
         action.__raw = ''
           function()
             if vim.bo.filetype == "neo-tree" then
