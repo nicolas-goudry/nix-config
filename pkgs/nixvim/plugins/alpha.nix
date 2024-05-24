@@ -4,11 +4,14 @@ let
   header = {
     type = "text";
 
+    # Use color defined by catppuccin
     opts = {
       hl = "AlphaHeader";
       position = "center";
     };
 
+    # Generated from https://www.asciiart.eu/text-to-ascii-art
+    # Font used: Graffiti
     val = [
       "  ________  ____   ____.___   _____   "
       " /  _____/  \\   \\ /   /|   | /     \\  "
@@ -23,6 +26,7 @@ let
     type = "group";
     opts.spacing = 1;
 
+    # Use function defined in lua config (see below) to generate buttons
     val = [
       { __raw = "alpha_button('LDR n  ', '  New File')"; }
       { __raw = "alpha_button('LDR e  ', '  Explorer')"; }
@@ -32,10 +36,15 @@ let
     ];
   };
 
+  # Show random fortune as footer
   footer = {
     type = "text";
+
+    # Defined by Alpha
+    # https://github.com/goolord/alpha-nvim/blob/main/lua/alpha/fortune.lua
     val.__raw = "require('alpha.fortune')()";
 
+    # Use color defined by catppuccin
     opts = {
       hl = "AlphaFooter";
       position = "center";
@@ -43,6 +52,8 @@ let
   };
 
   layout = [
+    # Padding size depending on window height (taken from AstroNvim)
+    # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/alpha.lua#L141
     {
       type = "padding";
       val.__raw = "vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.2) }";
@@ -61,6 +72,9 @@ in
       nvim-web-devicons
     ];
 
+    # Based on Alpha dashboard theme with tweaks from AstroNvim
+    # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/alpha.lua#L86-L112
+    # https://github.com/goolord/alpha-nvim/blob/main/lua/alpha/themes/dashboard.lua#L46-L73
     config = ''
       local alpha_leader = "LDR"
 
@@ -106,8 +120,11 @@ in
 
   rootOpts = {
     colorschemes.catppuccin.settings = {
+      # Enable catppuccin colors
+      # https://github.com/catppuccin/nvim/blob/main/lua/catppuccin/groups/integrations/alpha.lua
       integrations.alpha = true;
 
+      # Override default catppuccin header color
       custom_highlights = ''
         function(colors)
           return {
@@ -122,6 +139,8 @@ in
         key = "<leader>h";
         options.desc = "Home screen";
 
+        # Open alpha in a non neo-tree window (taken from AstroNvim)
+        # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/alpha.lua#L10-L16
         action.__raw = ''
           function()
             local wins = vim.api.nvim_tabpage_list_wins(0)
