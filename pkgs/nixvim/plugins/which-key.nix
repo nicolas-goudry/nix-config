@@ -8,6 +8,7 @@ _:
     enable = true;
     window.border = "single";
 
+    # Disable which-key when in neo-tree or telescope
     disable.filetypes = [
       "TelescopePrompt"
       "neo-tree"
@@ -15,5 +16,7 @@ _:
     ];
   };
 
+  # Enable catppuccin colors
+  # https://github.com/catppuccin/nvim/blob/main/lua/catppuccin/groups/integrations/which_key.lua
   rootOpts.colorschemes.catppuccin.settings.integrations.which_key = true;
 }
