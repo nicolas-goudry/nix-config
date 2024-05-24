@@ -21,6 +21,8 @@ _:
   };
 
   rootOpts = {
+    # Enable catppuccin colors
+    # https://github.com/catppuccin/nvim/blob/main/lua/catppuccin/groups/integrations/treesitter.lua
     colorschemes.catppuccin.settings.integrations.treesitter = true;
 
     keymaps = [
