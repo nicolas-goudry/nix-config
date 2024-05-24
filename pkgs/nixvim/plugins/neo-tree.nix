@@ -13,6 +13,16 @@ _:
     # Close Neo-tree if it is the last window left in the tab
     closeIfLastWindow = true;
 
+    # Disable fold column (gutter)
+    eventHandlers = {
+      neo_tree_buffer_enter = ''
+        function(_)
+          vim.opt_local.signcolumn = "auto"
+          vim.opt_local.foldcolumn = "0"
+        end
+      '';
+    };
+
     # Extra options not exposed by the plugin
     extraOptions = {
       # Custom functions (taken from AstroNvim)
