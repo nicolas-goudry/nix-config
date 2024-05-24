@@ -1,3 +1,5 @@
+# homepage: https://github.com/goolord/alpha-nvim
+# nixvim doc: https://nix-community.github.io/nixvim/plugins/alpha/index.html
 { libn, pkgs, ... }:
 
 let

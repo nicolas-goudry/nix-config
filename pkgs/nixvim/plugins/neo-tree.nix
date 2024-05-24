@@ -1,6 +1,5 @@
 # homepage: https://github.com/nvim-neo-tree/neo-tree.nvim
 # nixvim doc: https://nix-community.github.io/nixvim/plugins/neo-tree/index.html
-# defaults options: https://github.com/nvim-neo-tree/neo-tree.nvim/blob/main/lua/neo-tree/defaults.lua
 _:
 
 {

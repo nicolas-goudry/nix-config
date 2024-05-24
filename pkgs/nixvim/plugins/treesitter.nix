@@ -1,3 +1,5 @@
+# homepage: https://github.com/nvim-treesitter/nvim-treesitter
+# nixvim doc: https://nix-community.github.io/nixvim/plugins/treesitter/index.html
 _:
 
 {
