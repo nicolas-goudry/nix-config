@@ -136,6 +136,20 @@ _:
       };
     };
 
+    defaultComponentConfigs = {
+      gitStatus.symbols = {
+        added = "";
+        conflict = "";
+        deleted = "";
+        ignored = "◌";
+        modified = "";
+        renamed = "";
+        staged = "";
+        unstaged = "";
+        untracked = "★";
+      };
+    };
+
     filesystem = {
       # Find and focus file in active buffer
       followCurrentFile.enabled = true;
