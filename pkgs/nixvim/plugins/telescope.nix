@@ -8,6 +8,8 @@
   };
 
   rootOpts = {
+    # Enable catppuccin colors
+    # https://github.com/catppuccin/nvim/blob/main/lua/catppuccin/groups/integrations/telescope.lua
     colorschemes.catppuccin.settings.integrations.telescope.enabled = true;
 
     # Set custom behavior for dropdown theme:
