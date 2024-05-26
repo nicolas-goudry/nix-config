@@ -64,7 +64,7 @@
       map mkTelescopeKeymap [
         {
           desc = "Resume previous search";
-          key = "<leader><cr>";
+          key = "<leader>f<cr>";
           fn = "resume";
         }
         {
