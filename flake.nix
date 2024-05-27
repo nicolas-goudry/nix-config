@@ -53,10 +53,7 @@
     };
 
     # Neovim the Nix way
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    nixvim-config.url = "github:nicolas-goudry/nixvim-config";
 
     # Secrets OPerationS for Nix
     sops = {
@@ -103,12 +100,6 @@
           inherit (inputs.disko.packages.${system}) disko;
 
           pkgs = nixpkgs.legacyPackages.${system};
-          unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
-
-          nixvim = {
-            lib = inputs.nixvim.lib.${system};
-            nixvim = inputs.nixvim.legacyPackages.${system};
-          };
         }
       );
 

@@ -3,17 +3,15 @@
 {
   # Custom packages from the 'pkgs' directory
   additions = final: _prev:
-    import ../pkgs {
-      # Needed by install-system script
-      inherit (inputs.disko.packages.${_prev.system}) disko;
-      inherit (final) unstable;
+    import ../pkgs
+      {
+        # Needed by install-system script
+        inherit (inputs.disko.packages.${_prev.system}) disko;
 
-      pkgs = final;
-
-      nixvim = {
-        lib = inputs.nixvim.lib.${_prev.system};
-        nixvim = inputs.nixvim.legacyPackages.${_prev.system};
-      };
+        pkgs = final;
+      } // {
+      nixvim = inputs.nixvim-config.packages.${_prev.system}.default;
+      nixvim-lite = inputs.nixvim-config.packages.${_prev.system}.lite;
     };
 
   # Change versions, add patches, set compilation flags, etc...

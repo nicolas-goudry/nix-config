@@ -144,33 +144,37 @@ in
     };
   };
 
-  environment = {
-    # Generate predictable machine ID from hostname and system MD5 hash
-    etc.machine-id.text = builtins.hashString "md5" "${hostname}@${platform}";
+  environment =
+    let
+      nixvim = if isInstall then pkgs.nixvim else pkgs.nixvim-lite;
+    in
+    {
+      # Generate predictable machine ID from hostname and system MD5 hash
+      etc.machine-id.text = builtins.hashString "md5" "${hostname}@${platform}";
 
-    # Enable ZSH completion for system packages
-    pathsToLink = [ "/share/zsh" ];
+      # Enable ZSH completion for system packages
+      pathsToLink = [ "/share/zsh" ];
 
-    # Replace default packages
-    # https://search.nixos.org/options?channel=unstable&show=environment.defaultPackages
-    defaultPackages = with pkgs; lib.mkForce [
-      coreutils-full
-      strace
-    ];
+      # Replace default packages
+      # https://search.nixos.org/options?channel=unstable&show=environment.defaultPackages
+      defaultPackages = with pkgs; lib.mkForce [
+        coreutils-full
+        strace
+      ];
 
-    systemPackages = with pkgs; [
-      curl
-      nixvim
-      sops
-    ];
+      systemPackages = with pkgs; [
+        curl
+        nixvim
+        sops
+      ];
 
-    # Default editor
-    variables = {
-      EDITOR = pkgs.nixvim;
-      SYSTEMD_EDITOR = pkgs.nixvim;
-      VISUAL = pkgs.nixvim;
+      # Default editor
+      variables = {
+        EDITOR = nixvim;
+        SYSTEMD_EDITOR = nixvim;
+        VISUAL = nixvim;
+      };
     };
-  };
 
   # Locale settings
   i18n = {
