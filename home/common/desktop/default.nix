@@ -1,14 +1,16 @@
-{ desktop, lib, pkgs, username, ... }:
+{ desktop, inputs, lib, pkgs, username, ... }:
 
 let
-  inherit (pkgs.stdenv) isDarwin isLinux;
+  inherit (pkgs.stdenv) isLinux;
 in
 {
-  imports =
-    # Desktop specific configuration for all users
-    lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop}
-    # User specific desktop configuration
-    ++ lib.optional (builtins.pathExists (./. + "/../../users/${username}/desktop.nix")) ../../users/${username}/desktop.nix;
+  imports = [
+    inputs.earth-view.homeManagerModules.earth-view
+  ]
+  # Desktop specific configuration for all users
+  ++ lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop}
+  # User specific desktop configuration
+  ++ lib.optional (builtins.pathExists (./. + "/../../users/${username}/desktop.nix")) ../../users/${username}/desktop.nix;
 
   home.packages = with pkgs; [
     mpv-unwrapped # Video player
@@ -21,4 +23,10 @@ in
     hunspellDicts.fr-any
     libreoffice-fresh # Productivity suite
   ];
+
+  services.earth-view = {
+    enable = isLinux;
+    interval = "4h";
+    gc.enable = true;
+  };
 }

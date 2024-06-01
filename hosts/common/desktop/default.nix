@@ -10,7 +10,7 @@
 
 */
 
-{ config, desktop, hostname, inputs, lib, pkgs, ... }:
+{ config, desktop, hostname, lib, pkgs, ... }:
 
 let
   # Precompute predicates
@@ -18,9 +18,7 @@ let
   isInstall = (builtins.substring 0 4 hostname) != "iso-";
 in
 {
-  imports = [
-    inputs.earth-view.nixosModules.earth-view
-  ] ++ lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop};
+  imports = lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop};
 
   # Enable RealtimeKit for PulseAudio to acquire realtime priority
   security.rtkit.enable = true;
@@ -178,12 +176,6 @@ in
   services = {
     # Enable CUPS on installs
     printing.enable = isInstall;
-
-    earth-view = {
-      enable = true;
-      autoStart = true;
-      interval = "4h";
-    };
 
     # Use Pipewire sound
     pipewire = {
