@@ -1,7 +1,7 @@
 { config, outputs, username, ... }:
 
 {
-  # Define sops source for user password
+  # Define sops source for secrets
   sops.secrets = outputs.libx.mkUserSecrets {
     inherit username;
 
