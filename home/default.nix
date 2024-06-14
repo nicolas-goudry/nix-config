@@ -396,7 +396,7 @@ in
     eza = {
       enable = true;
       # Disable shell aliases since they are defined by custom OMZ common-aliases plugin
-      enableAliases = false;
+      enableZshIntegration = false;
       git = true; # Show git status
       icons = true; # Show icons
       package = pkgs.unstable.eza; # Always use latest eza
