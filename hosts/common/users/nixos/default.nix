@@ -22,7 +22,7 @@ in
   };
 
   # Enable autologin
-  services.xserver.displayManager.autoLogin = lib.mkIf isWorkstationISO {
+  services.displayManager.autoLogin = lib.mkIf isWorkstationISO {
     enable = lib.mkForce true;
     user = "${username}";
   };

@@ -144,6 +144,9 @@ in
   services = {
     udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
+    # Disable autologin
+    displayManager.autoLogin.enable = false;
+
     gnome = {
       # Collection of services for storing addressbooks and calendars
       evolution-data-server.enable = lib.mkForce (!isPowerUser);
@@ -168,15 +171,10 @@ in
     xserver = {
       enable = true;
 
-      displayManager = {
-        # Disable autologin
-        autoLogin.enable = false;
+      # Enable Gnome display manager
+      displayManager.gdm.enable = true;
 
-        # Enable GNOME Display Manager
-        gdm.enable = true;
-      };
-
-      # Enable GNOME desktop manager
+      # Enable Gnome desktop manager
       desktopManager.gnome.enable = true;
     };
   };
