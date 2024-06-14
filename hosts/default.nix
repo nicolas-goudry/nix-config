@@ -43,28 +43,36 @@ let
   # Conditional DNS settings
   # default: OpenDNS
   defaultDns = [ "208.67.222.222" "208.67.220.220" ];
-  # peruser: CleanBrowsing (https://cleanbrowsing.org/filters/)
-  userDnsSettings = {
-    # Security Filter:
-    # - Blocks access to phishing, spam, malware and malicious domains.
-    nicolas = [ "185.228.168.9" "185.228.169.9" ];
 
-    # Adult Filter:
-    # - Blocks access to all adult, pornographic and explicit sites.
-    # - It does not block proxy or VPNs, nor mixed-content sites.
-    # - Sites like Reddit are allowed.
-    # - Google and Bing are set to the Safe Mode.
-    # - Malicious and Phishing domains are blocked.
-    #user = [ "185.228.168.10" "185.228.169.11" ];
+  # Per user DNS settings
+  userDnsSettings =
+    let
+      # CleanBrowsing filters (https://cleanbrowsing.org/filters/)
+      filters = {
+        # Security Filter:
+        # - Blocks access to phishing, spam, malware and malicious domains.
+        security = [ "185.228.168.9" "185.228.169.9" ];
 
-    # Family Filter:
-    # - Blocks access to all adult, pornographic and explicit sites.
-    # - It also blocks proxy and VPN domains that are used to bypass the filters.
-    # - Mixed content sites (like Reddit) are also blocked.
-    # - Google, Bing and Youtube are set to the Safe Mode.
-    # - Malicious and Phishing domains are blocked.
-    #user = [ "185.228.168.168" "185.228.169.168" ];
-  };
+        # Adult Filter:
+        # - Blocks access to all adult, pornographic and explicit sites.
+        # - It does not block proxy or VPNs, nor mixed-content sites.
+        # - Sites like Reddit are allowed.
+        # - Google and Bing are set to the Safe Mode.
+        # - Malicious and Phishing domains are blocked.
+        adult = [ "185.228.168.10" "185.228.169.11" ];
+
+        # Family Filter:
+        # - Blocks access to all adult, pornographic and explicit sites.
+        # - It also blocks proxy and VPN domains that are used to bypass the filters.
+        # - Mixed content sites (like Reddit) are also blocked.
+        # - Google, Bing and Youtube are set to the Safe Mode.
+        # - Malicious and Phishing domains are blocked.
+        family = [ "185.228.168.168" "185.228.169.168" ];
+      };
+    in
+    {
+      nicolas = filters.security;
+    };
 in
 {
   imports = [
