@@ -498,7 +498,7 @@ in
     zsh = {
       enable = true;
       enableCompletion = true;
-      enableAutosuggestions = true; # Suggest matching command from history while typing
+      autosuggestion.enable = true; # Suggest matching command from history while typing
       autocd = true; # Change to directory by its name only
       dotDir = ".config/zsh";
       package = pkgs.unstable.zsh; # Always use latest zsh
