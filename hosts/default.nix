@@ -103,7 +103,10 @@ in
     kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 
     # Add support for NTFS filesystems
-    supportedFilesystems = [ "ntfs" ];
+    supportedFilesystems = {
+      ntfs = true;
+      zfs = false;
+    };
 
     # Custom kernel parameters
     kernelParams = [

@@ -27,14 +27,6 @@ in
       espeak = _prev.espeak.override {
         mbrolaSupport = false;
       };
-
-      # Disable ZFS as it cannot be used with latest linux kernel required by the common hosts configuration. This is a
-      # workaround since we cannot remove the 'zfs' string from 'supportedFilesystems'.
-      # - https://github.com/NixOS/nixpkgs/blob/23.11/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix
-      # TODO: change boot.supportedFilesystems to an attrset when 24.05 is out.
-      zfs = _prev.zfs.overrideAttrs (_: {
-        meta.platforms = [ ];
-      });
     })
   ];
 }
