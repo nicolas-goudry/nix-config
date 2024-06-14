@@ -113,7 +113,7 @@ in
     # Add support for NTFS filesystems
     supportedFilesystems = {
       ntfs = true;
-      zfs = false;
+      zfs = lib.mkForce false;
     };
 
     # Custom kernel parameters
