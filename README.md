@@ -269,7 +269,7 @@ There are two installation method provided on the desktop ISO:
 * Run `install-system` from a terminal (recommended, only install option for the console ISO)
 * Use the graphical Calamares installer (basic NixOS installation, not using this flake)
 
-The `install-system` command is a binary wrapping the [`install.sh`](./hosts/common/users/nixos/install.sh) Bash script. Learn how to use it by reading its help message:
+The `install-system` command is a binary wrapping the [install Bash script](./hosts/common/users/nixos/install.nix) defined in a Nix file. Learn how to use it by reading its help message:
 
 ```shell
 install-system -h
