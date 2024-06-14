@@ -3,7 +3,7 @@
 let
   # Precompute predicates
   isInstall = builtins.substring 0 4 hostname != "iso-";
-  isWorkstation = if (desktop != null) then true else false;
+  isWorkstation = desktop != null;
   isWorkstationISO = !isInstall && isWorkstation;
 
   # Autostart alacritty
