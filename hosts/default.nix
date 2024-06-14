@@ -82,7 +82,9 @@ in
     ./common/users
   ]
   # Configure desktop if workstation
-  ++ lib.optional isWorkstation ./common/desktop;
+  ++ lib.optional isWorkstation ./common/desktop
+  # Common utilities custom scripts
+  ++ lib.optional isWorkstation ./common/utils;
 
   # Virtual console keymap
   console.keyMap = "fr";
