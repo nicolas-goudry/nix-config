@@ -57,7 +57,7 @@
     ${pkgs.coreutils}/bin/echo
     ${pkgs.coreutils}/bin/echo "    -H, --host      Host to install NixOS to"
     ${pkgs.coreutils}/bin/echo "    -u, --user      Username to install NixOS with"
-    ${pkgs.coreutils}/bin/echo "    -b, --branch    Branch to use for configurations $DIM(default: main)$NC"
+    ${pkgs.coreutils}/bin/echo -e "    -b, --branch    Branch to use for configurations $DIM(default: main)$NC"
     ${pkgs.coreutils}/bin/echo "    -K, --gpg       GnuPG key to use"
     ${pkgs.coreutils}/bin/echo "    --fetch-only    Clone source repository and exit"
     ${pkgs.coreutils}/bin/echo "    -h, --help      Show this help message"
