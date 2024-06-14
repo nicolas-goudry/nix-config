@@ -91,8 +91,8 @@ in
   ]
   # Configure desktop if workstation
   ++ lib.optional isWorkstation ./common/desktop
-  # Common utilities custom scripts
-  ++ lib.optional isWorkstation ./common/utils;
+  # Common utilities custom scripts on installs
+  ++ lib.optional isInstall ./common/utils;
 
   # Virtual console keymap
   console.keyMap = "fr";
