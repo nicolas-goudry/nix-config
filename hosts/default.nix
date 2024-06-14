@@ -337,7 +337,7 @@ in
     # Enable service discovery on installs
     avahi = lib.mkIf isInstall {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
       openFirewall = isWorkstation;
     };
 
