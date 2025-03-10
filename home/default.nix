@@ -97,12 +97,12 @@ in
     # To make nix3 commands consistent with your flake
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
 
-    # Automatically run nix store garbage collector (TODO: enable once 24.05 is out)
-    #gc = {
-    #  automatic = true;
-    #  frequency = "weekly";
-    #  options = "--delete-older-than 7d";
-    #};
+    # Automatically run nix store garbage collector
+    gc = {
+      automatic = true;
+      frequency = "weekly";
+      options = "--delete-older-than 7d";
+    };
 
     settings = {
       # Deduplicate and optimise nix store
