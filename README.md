@@ -14,7 +14,7 @@ Not _forked_ but shamelessly and heavily borrowed from [Wimpy’s NixOS & Home M
 
 ```plain
 .
-├── .keys       👈 hosts public GPG keys
+├── .keys       👈 users public GPG keys
 ├── home        👈 home-manager configurations
 ├── hosts       👈 NixOS configurations
 ├── lib         👈 helpers to make hosts and users home
@@ -24,7 +24,7 @@ Not _forked_ but shamelessly and heavily borrowed from [Wimpy’s NixOS & Home M
 
 ### 🔑 `.keys`
 
-This directory contains all configured hosts public GPG keys which are derived from their SSH RSA key. It is required for new installations since all secrets are re-encrypted with the new host public GPG key, therefore all other hosts public keys are needed as well.
+This directory contains all configured users public GPG keys. It is required for new installations since all secrets are re-encrypted with hosts age keys as well as users public GPG keys.
 
 For further details, read the [secrets handling](#️-secrets-handling) section.
 
@@ -278,13 +278,13 @@ install-system -h
 In a nutshell, the script will:
 
 * use [disko](https://github.com/nix-community/disko) (or a Bash script) to automatically partition and format the disks
-* prepare the host gpg identity
+* prepare the host age identity
 * install NixOS from this flake
 * copy this flake to the target user’s home directory in `~/nixstrap`
 * apply home-manager configuration if it exists
 
 > [!IMPORTANT]
-> In order to proceed with the installation, a GPG private key known to the [sops config](./.sops.yaml) is required to be in the local keyring.
+> In order to proceed with the installation, at least one GPG private key known to the [sops config](./.sops.yaml) is required to be in the local keyring.
 >
 > ```shell
 > gpg --import <gpg-private-key>
@@ -327,37 +327,43 @@ To handle secrets management, this flake uses [sops-nix](https://github.com/Mic9
 
 #### Opinionated approach
 
-This flake uses GPG keys to handle secrets. There is a main GPG key for physical users and a GPG key derived from SSH for each host. All secrets files are encrypted with the users GPG public keys and hosts GPG public keys. To decrypt the secrets, at least one valid GPG private key is required to be in the host keyring.
+* this flake uses a mix of GPG and [age](https://github.com/FiloSottile/age) keys to handle secrets
+* each physical user should own and define a GPG key in [sops config file](./.sops.yaml)
+* all hosts use an age key derived from their Ed25519 public SSH key
+* all secrets files are encrypted with the users GPG public keys and hosts age public keys
+* to decrypt the secrets, at least one valid GPG private key is required to be in the host keyring
 
 #### Handling new hosts
 
-When installing NixOS on a new host, the `install-system` script handles the creation of the new host GPG key, stores it under the [`.keys`](./.keys) directory, adds it to the [sops config file](./.sops.yaml) and re-encrypt all secrets afterward.
+When installing NixOS on a new host, the `install-system` script handles the creation of the new host age key, adds it to the [sops config file](./.sops.yaml) and re-encrypts all secrets afterward.
 
 If a new host were to be added without the `install-system` script, the following operations should be done manually:
 
-* derive new host GPG public key from its SSH RSA key
+* derive new host age public key from its Ed25519 public private SSH key
 
   ```shell
-  sudo nix run 'nixpkgs#ssh-to-pgp' -- -i /etc/ssh/ssh_host_rsa_key -o ./.keys/<hostname>.pub
+  sudo nix run 'nixpkgs#ssh-to-age' -- -i /etc/ssh/ssh_host_ed25519_key.pub
   ```
 
-* add the key fingerprint to [`.sops.yaml`](./.sops.yaml)
+> [!NOTE]
+> The output of this command is a public age key which is referred below as `<public-age>`.
+
+* add the public age key to [`.sops.yaml`](./.sops.yaml)
 
   ```yaml
   keys:
     hosts:
-      - &new-host <fingerprint>
+      - &new-host <public-age>
   creation_rules:
     - key_groups:
-        - pgp:
+        - age:
             - *new-host
   ```
 
-* import all hosts and users public keys to local keyring
+* import all users public keys to local keyring
 
   ```shell
   gpg --import .keys/*.pub
-  gpg --import <path-to-users-keys>
   ```
 
 * re-encrypt all secrets
