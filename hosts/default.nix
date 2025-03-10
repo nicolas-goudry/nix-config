@@ -98,7 +98,7 @@ in
   console.keyMap = "fr";
 
   # Enable NVIDIA Docker support if host has NVIDIA driver
-  hardware.nvidia-container-toolkit.enable = (isInstall && hasNvidia);
+  hardware.nvidia-container-toolkit.enable = (config.virtualisation.docker.enable && hasNvidia);
 
   # Set CPU frequency on performance mode
   powerManagement.cpuFreqGovernor = "performance";
