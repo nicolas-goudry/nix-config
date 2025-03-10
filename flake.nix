@@ -3,7 +3,7 @@
 
   inputs = {
     # https://nixos.org/manual/nixpkgs/stable/
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -29,7 +29,7 @@
     # https://nix-community.github.io/home-manager/index.xhtml
     # https://nix-community.github.io/home-manager/options.xhtml
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

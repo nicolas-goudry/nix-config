@@ -23,9 +23,6 @@ in
   # Enable RealtimeKit for PulseAudio to acquire realtime priority
   security.rtkit.enable = true;
 
-  # Enable ALSA
-  sound.enable = true;
-
   boot = {
     consoleLogLevel = 0;
     initrd.verbose = false;
@@ -115,6 +112,9 @@ in
   };
 
   hardware = {
+    # Enable hardware accelerated graphics drivers (ie. OpenGL)
+    graphics.enable = true;
+
     # Disable PulseAudio
     pulseaudio.enable = lib.mkForce false;
 
@@ -163,13 +163,6 @@ in
         offload.enable = false;
         sync.enable = true;
       };
-    };
-
-    # Enable OpenGL with DRI support
-    opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
     };
   };
 

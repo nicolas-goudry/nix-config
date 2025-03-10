@@ -97,11 +97,17 @@ in
   # Virtual console keymap
   console.keyMap = "fr";
 
+  # Enable NVIDIA Docker support if host has NVIDIA driver
+  hardware.nvidia-container-toolkit.enable = (isInstall && hasNvidia);
+
   # Set CPU frequency on performance mode
   powerManagement.cpuFreqGovernor = "performance";
 
   # Default timezone
   time.timeZone = "Europe/Paris";
+
+  # Enable Docker on installs
+  virtualisation.docker.enable = isInstall;
 
   boot = {
     # Allow communication between VMs and host OS
@@ -226,8 +232,8 @@ in
 
     # Common wireless configuration if host-enabled
     wireless = lib.mkIf config.networking.wireless.enable {
-      # Load wifi configurations
-      environmentFile = config.sops.secrets.wifi.path;
+      # Load wifi secrets
+      secretsFile = config.sops.secrets.wifi.path;
 
       # Allow normal users to control wpa_supplicant (useful for oneshot AP connection)
       userControlled.enable = true;
@@ -369,7 +375,7 @@ in
         }
       ];
 
-      # Basic securisation on installs
+      # Basic security on installs
       settings = lib.mkIf isInstall {
         PasswordAuthentication = false;
         PermitRootLogin = "no";
@@ -403,15 +409,5 @@ in
 
     # Set NixOS version name on installs
     nixos.label = lib.mkIf isInstall "-";
-  };
-
-  # Enable Docker on installs
-  virtualisation = lib.mkIf isInstall {
-    docker = {
-      enable = true;
-
-      # Enable NVIDIA Docker support if host has NVIDIA driver
-      enableNvidia = hasNvidia;
-    };
   };
 }

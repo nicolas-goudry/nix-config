@@ -2,11 +2,11 @@
 
 lib.mkIf config.networking.wireless.enable {
   networking.wireless.networks = {
-    "@WOJO_UUID@" = {
+    "Wojo" = {
       auth = ''
         eap=PEAP
         identity="@WOJO_USER@"
-        password="@WOJO_PASS@"
+        password="ext:wojo_pass"
       '';
       authProtocols = [ "WPA-EAP" ];
     };

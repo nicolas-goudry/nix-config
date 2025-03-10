@@ -18,17 +18,17 @@ let
       gnome-tour # Tour app
       gnome-user-docs # Help app
       orca # Screen reader
-      gnome.gnome-characters # Utility to find unusual characters
-      gnome.gnome-logs # Systemd journal log viewer
-      gnome.gnome-music # Music player
-      gnome.totem # Video player
+      gnome-characters # Utility to find unusual characters
+      gnome-logs # Systemd journal log viewer
+      gnome-music # Music player
+      totem # Video player
     ]
     # Exclude some apps from ISO images
     ++ lib.optionals (!isInstall) [
       loupe # Image viewer
       snapshot # Camera app
-      gnome.gnome-calculator # Calculator
-      gnome.simple-scan # Scanner utility
+      gnome-calculator # Calculator
+      simple-scan # Scanner utility
     ];
 
     add = lib.optionals isInstall (with pkgs; [
@@ -42,20 +42,20 @@ let
       baobab # Disk usage analysis
       gnome-text-editor # Default text editor
       snapshot # Camera app
-      gnome.gnome-backgrounds # Default wallpaper set
-      gnome.gnome-calendar # Calendar app
-      gnome.gnome-clocks # Clock app
-      gnome.gnome-contacts # Contacts app
-      gnome.gnome-font-viewer # Font viewer
-      gnome.gnome-maps # Maps app
-      gnome.gnome-themes-extra # Extra themes
-      gnome.gnome-weather # Weather app
-      gnome.yelp # Help viewer
+      gnome-backgrounds # Default wallpaper set
+      gnome-calendar # Calendar app
+      gnome-clocks # Clock app
+      gnome-contacts # Contacts app
+      gnome-font-viewer # Font viewer
+      gnome-maps # Maps app
+      gnome-themes-extra # Extra themes
+      gnome-weather # Weather app
+      yelp # Help viewer
     ];
 
     add = with pkgs; lib.optionals isInstall [
-      gnome.gnome-control-center # Utility to configure Gnome
-      gnome.gnome-tweaks # Gnome tweaks
+      gnome-control-center # Utility to configure Gnome
+      gnome-tweaks # Gnome tweaks
     ];
   };
 in
@@ -142,7 +142,7 @@ in
   security.pam.services.gdm.enableGnomeKeyring = true;
 
   services = {
-    udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+    udev.packages = with pkgs; [ gnome-settings-daemon ];
 
     # Disable autologin
     displayManager.autoLogin.enable = false;
@@ -164,8 +164,8 @@ in
       sushi.enable = true;
 
       # Files indexation and search tool
-      tracker.enable = isInstall;
-      tracker-miners.enable = isInstall;
+      tinysparql.enable = isInstall;
+      localsearch.enable = isInstall;
     };
 
     xserver = {

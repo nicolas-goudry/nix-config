@@ -2,12 +2,12 @@
 
 lib.mkIf config.networking.wireless.enable {
   networking.wireless.networks = {
-    "@CASA_UUID@" = {
-      psk = "@CASA_PSK@";
+    "La Casa" = {
+      psk = "ext:casa_psk";
     };
 
-    "@CASA_RAPIDA_UUID@" = {
-      psk = "@CASA_RAPIDA_PSK@";
+    "La Casa Rapida" = {
+      psk = "ext:casa_rapida_psk";
     };
   };
 }

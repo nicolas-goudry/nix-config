@@ -2,8 +2,8 @@
 
 lib.mkIf config.networking.wireless.enable {
   networking.wireless.networks = {
-    "@GPLUS_UUID@" = {
-      psk = "@GPLUS_PSK@";
+    "G.Plus" = {
+      psk = "ext:gplus_psk";
     };
   };
 }
