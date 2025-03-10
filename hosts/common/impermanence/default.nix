@@ -58,6 +58,8 @@
       "/var/lib/nixos"
       # See https://nixos.org/manual/nixos/stable/#sec-var-systemd
       "/var/lib/systemd"
+      # Save bluetooth devices
+      "/var/lib/bluetooth"
     ];
 
     # Files to persist
