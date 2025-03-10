@@ -229,7 +229,7 @@ in
     # Configure bat (https://github.com/sharkdp/bat), a modern cat replacement
     bat = {
       enable = true;
-      #package = pkgs.unstable.bat; # Always use latest bat (TODO: enable once 24.05 is out)
+      package = pkgs.unstable.bat; # Always use latest bat
 
       config = {
         color = "always"; # Always show colors
