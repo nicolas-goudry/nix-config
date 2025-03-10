@@ -2,7 +2,7 @@
 # gpg --show-keys <key> | awk '{ print $1 }' | head -n2 | tail -n1
 
 # Generate a host public key (used for encryption)
-# sudo nix run 'nixpkgs#ssh-to-pgp' -- -i /etc/ssh/ssh_host_rsa_key -o ./keys/<host>.pub
+# sudo nix run 'nixpkgs#ssh-to-age' -- -i /etc/ssh/ssh_host_ed25519_key -o ./keys/hosts/<host>.pub
 
 # Add secrets
 # nix run 'nixpkgs#sops' -- <path-to-secret>
@@ -13,10 +13,11 @@ keys:
   users:
     - &nicolas FBD3C792CCBD599671A6975AEC6884FA72B9465A
   hosts:
-    - &g-xps bf1db49023d416a996b8e227253fd37f56b98b99
+    - &g-xps age13cdfm8th92ewkqc5qlsg732jcwdqwx2q7s2fnp35dr9xulr2qgxqxm969h
 creation_rules:
   - path_regex: secrets.ya?ml$
     key_groups:
       - pgp:
-          - *g-xps
           - *nicolas
+        age:
+          - *g-xps

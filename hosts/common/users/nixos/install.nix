@@ -323,22 +323,18 @@
     # Since we cannot start systemd services through nix-enter, we have to manually generate the
     # host key after NixOS installation
     # See https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/networking/ssh/sshd.nix#L555
-    sudo ${pkgs.openssh}/bin/ssh-keygen -q -t rsa -b 4096 -C "$TARGET_HOST" -f /tmp/ssh_host_rsa_key -N ""
+    sudo ${pkgs.openssh}/bin/ssh-keygen -q -t ed25519 -C "$TARGET_HOST" -f /tmp/ssh_host_ed25519_key -N ""
 
-    # Derive host gpg public key from generated SSH RSA key
-    # Use of "2>&1" is important since ssh-to-pgp outputs key fingerprint to stderr
-    local host_gpg_key
-
-    host_gpg_key=$(sudo ${pkgs.ssh-to-pgp}/bin/ssh-to-pgp -i /tmp/ssh_host_rsa_key -o "$LOCAL_CLONE_DIR/.keys/$TARGET_HOST.pub" 2>&1)
-    ${pkgs.gnupg}/bin/gpg --import "$LOCAL_CLONE_DIR/.keys/$TARGET_HOST.pub"
+    # Derive host age public key from generated SSH RSA key
+    local host_age_key
+    host_age_key=$(sudo ${pkgs.ssh-to-age}/bin/ssh-to-age -i /tmp/ssh_host_ed25519_key.pub)
 
     # Add host to sops config
     local sops_config="$LOCAL_CLONE_DIR/.sops.yaml"
-
     ${pkgs.gnused}/bin/sed -i.backup "/&$TARGET_HOST/d" "$sops_config"
     ${pkgs.gnused}/bin/sed -i "/*$TARGET_HOST/d" "$sops_config"
-    ${pkgs.gnused}/bin/sed -i "/  hosts:/a\ \ \ \ - &$TARGET_HOST $host_gpg_key" "$sops_config"
-    ${pkgs.gnused}/bin/sed -i "/pgp:/a\ \ \ \ \ \ \ \ \ \ - *$TARGET_HOST" "$sops_config"
+    ${pkgs.gnused}/bin/sed -i "/  hosts:/a\ \ \ \ - &$TARGET_HOST $host_age_key" "$sops_config"
+    ${pkgs.gnused}/bin/sed -i "/age:/a\ \ \ \ \ \ \ \ \ \ - *$TARGET_HOST" "$sops_config"
 
     # Update secrets for new host
     ${pkgs.findutils}/bin/find "$(dirname "$sops_config")" -type f -name 'secrets.y*ml' -exec ${pkgs.sops}/bin/sops --config "$sops_config" updatekeys -y {} \;
@@ -349,7 +345,7 @@
     popd > /dev/null
 
     # Move generated SSH RSA key to host filesystem
-    sudo ${pkgs.coreutils}/bin/mv /tmp/ssh_host_rsa_key /mnt/persist/etc/ssh
+    sudo ${pkgs.coreutils}/bin/mv /tmp/ssh_host_ed25519_key /mnt/persist/etc/ssh
 
     # Rsync nix-config to the new host and set the remote origin to SSH for later use
     ${pkgs.rsync}/bin/rsync -a --delete "$LOCAL_CLONE_DIR" "/mnt/home/$TARGET_USER/"
