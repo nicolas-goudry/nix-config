@@ -5,7 +5,7 @@ let
 in
 {
   # Create a bootable ISO image with bcachefs
-  # - https://nixos.wiki/wiki/Bcachefs
+  # https://wiki.nixos.org/wiki/Bcachefs
   boot.supportedFilesystems = [ "bcachefs" ];
 
   # Since we use bcachefs we need those packages

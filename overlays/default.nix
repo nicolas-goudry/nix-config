@@ -15,7 +15,7 @@
     };
 
   # Change versions, add patches, set compilation flags, etc...
-  # https://nixos.wiki/wiki/Overlays
+  # https://wiki.nixos.org/wiki/Overlays
   # deadnix: skip
   modifications = _final: _prev: {
     # example = prev.example.overrideAttrs (oldAttrs: rec {

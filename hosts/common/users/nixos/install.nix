@@ -256,7 +256,7 @@
       [yY] )
         sudo true
         # Workaround for mounting encrypted bcachefs filesystems
-        # - https://nixos.wiki/wiki/Bcachefs#NixOS_installation_on_bcachefs
+        # - https://wiki.nixos.org/wiki/Bcachefs#NixOS_installation_on_bcachefs
         # - https://github.com/NixOS/nixpkgs/issues/32279
         sudo ${pkgs.keyutils}/bin/keyctl link @u @s
         sudo ${disko}/bin/disko --mode "$mode" "$config"

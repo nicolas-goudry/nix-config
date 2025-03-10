@@ -93,7 +93,7 @@ in
     # Install additional fonts
     packages = with pkgs; [
       # Only grab some fonts from nerdfonts
-      # https://nixos.wiki/wiki/Fonts#Installing_specific_fonts_from_nerdfonts
+      # https://wiki.nixos.org/wiki/Fonts#Installing_specific_nerdfonts
       (nerdfonts.override {
         # Available fonts: https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/data/fonts/nerdfonts/shas.nix
         fonts = [
@@ -119,7 +119,7 @@ in
     pulseaudio.enable = lib.mkForce false;
 
     # Bluetooth configuration
-    # https://nixos.wiki/wiki/Bluetooth
+    # https://wiki.nixos.org/wiki/Bluetooth
     # https://wiki.archlinux.org/title/bluetooth
     bluetooth = lib.mkIf isInstall {
       enable = true;
@@ -138,7 +138,7 @@ in
     };
 
     # NVIDIA configuration if host has NVIDIA drivers
-    # https://nixos.wiki/wiki/Nvidia
+    # https://wiki.nixos.org/wiki/NVIDIA
     nvidia = lib.mkIf (hasNvidia && isInstall) {
       # Fix screen tearing with prime
       modesetting.enable = true;

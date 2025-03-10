@@ -1,6 +1,6 @@
 # ❄️ [NixOS](https://nixos.org/) & [Home Manager](https://github.com/nix-community/home-manager) Configurations
 
-This repository contains a [Nix Flake](https://nixos.wiki/wiki/flakes) for configuring my computers and home environment. These are the computers this configuration currently manages:
+This repository contains a [Nix Flake](https://wiki.nixos.org/wiki/Flakes) for configuring my computers and home environment. These are the computers this configuration currently manages:
 
 | Hostname |      OEM | Model               | OS  | Kind | Status |
 | -------- | -------: | ------------------- | :-: | :--: | :----: |
@@ -147,7 +147,7 @@ This directory contains some helper functions which are used to craft host and h
 
 ### 🪡 `overlays`
 
-This directory contains [Nix Overlays](https://nixos.wiki/wiki/overlays) which allow to override packages definitions.
+This directory contains [Nix Overlays](https://wiki.nixos.org/wiki/Overlays) which allow to override packages definitions.
 
 A good use case example of an overlay is to update a package if its latest version is not available in [nixpkgs](https://github.com/nixos/nixpkgs).
 
