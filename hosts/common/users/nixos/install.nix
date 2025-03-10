@@ -345,7 +345,7 @@
     popd > /dev/null
 
     # Move generated SSH RSA key to host filesystem
-    sudo ${pkgs.coreutils}/bin/mv /tmp/ssh_host_ed25519_key /mnt/persist/etc/ssh
+    sudo ${pkgs.coreutils}/bin/mv '/tmp/ssh_host_ed25519_key*' /mnt/persist/etc/ssh
 
     # Rsync nix-config to the new host and set the remote origin to SSH for later use
     ${pkgs.rsync}/bin/rsync -a --delete "$LOCAL_CLONE_DIR" "/mnt/home/$TARGET_USER/"
