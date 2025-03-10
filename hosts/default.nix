@@ -219,7 +219,7 @@ in
     # Enable DHCP for all interfaces
     useDHCP = lib.mkDefault true;
 
-    extraHosts = ''
+    extraHosts = lib.mkIf (isWorkstation && isInstall) ''
       192.168.1.1   livebox
       192.168.1.100 nas.casa
     '';
