@@ -7,12 +7,11 @@ stdenvNoCC.mkDerivation {
   pname = "catppuccin-gitkraken";
   version = "unstable";
 
-  # TODO: use official repository once https://github.com/catppuccin/catppuccin/issues/2170 gets merged
   src = fetchFromGitHub {
-    owner = "davi19";
+    owner = "catppuccin";
     repo = "gitkraken";
-    rev = "c4077687174c85e7196c460b307a578a2b022888";
-    hash = "sha256-4bmrgI8NI7mC1PTssGtucPNJAAZimQeyMjffrY4Dme0=";
+    rev = "v1.1.0";
+    hash = lib.fakeHash;
   };
 
   installPhase = ''
