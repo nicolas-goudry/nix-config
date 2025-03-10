@@ -16,7 +16,6 @@
     # Configure wireless networks
     ../common/networks/casa.nix
     ../common/networks/gplus.nix
-    ../common/networks/numspot.nix
     ../common/networks/wojo.nix
 
     # Configure printers
