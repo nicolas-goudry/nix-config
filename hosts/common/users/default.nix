@@ -16,7 +16,8 @@
   ++ lib.optional (builtins.pathExists (./. + "/${username}")) ./${username};
 
   users = {
-    # Only handle users via configuration
+    # Only handle users via configuration (this is also needed for impermanence)
+    # See https://nixos.org/manual/nixos/stable/#sec-state-users
     mutableUsers = false;
 
     # Common user configuration

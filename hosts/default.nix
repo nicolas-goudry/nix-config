@@ -348,6 +348,9 @@ in
     # Allow applications to update firmware
     fwupd.enable = isInstall;
 
+    # Disable journal persistence
+    journald.storage = "volatile";
+
     # Enable service discovery on installs
     avahi = lib.mkIf isInstall {
       enable = true;
