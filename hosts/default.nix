@@ -113,8 +113,11 @@ in
     # Allow communication between VMs and host OS
     kernelModules = [ "vhost_vsock" ];
 
-    # Ensure latest available kernel
-    kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+    # Use latest LTS kernel with NVIDIA drivers, else use latest kernel
+    # See:
+    # - latest LTS: https://www.kernel.org/
+    # - discourse discussion: https://discourse.nixos.org/t/unable-to-build-nix-due-to-nvidia-drivers-due-or-kernel-6-10/49266/5?u=nicolas-goudry
+    kernelPackages = lib.mkForce (if hasNvidia then pkgs.linuxPackages_6_12 else pkgs.linuxPackages_latest);
 
     # Add support for NTFS filesystems
     supportedFilesystems = {
