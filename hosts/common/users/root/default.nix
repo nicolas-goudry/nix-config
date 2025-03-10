@@ -7,7 +7,7 @@
     neededForUsers = true;
   };
 
-  # Define user (note: use mkpasswd to create password hash)
+  # Define user (note: use "mkpasswd -m SHA-512" to create password hash)
   users.users.root = {
     # Required for warningless ISO build since base installation cd-dvd set it to an empty string
     # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/profiles/installation-device.nix#L40

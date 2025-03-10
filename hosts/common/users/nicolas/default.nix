@@ -27,7 +27,7 @@
   #  vivaldi
   #]);
 
-  # Define user (note: use mkpasswd to create password hash)
+  # Define user (note: use "mkpasswd -m SHA-512" to create password hash)
   users.users.nicolas = {
     description = "Nicolas Goudry";
     hashedPasswordFile = config.sops.secrets.nicolas-password.path;
