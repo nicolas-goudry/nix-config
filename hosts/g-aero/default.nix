@@ -9,7 +9,7 @@
 
 {
   imports = [
-    inputs.hardware.nixosModules.common-cpu-intel-kaby-lake
+    inputs.hardware.nixosModules.common-gpu-intel-kaby-lake
     inputs.hardware.nixosModules.common-gpu-nvidia
     inputs.hardware.nixosModules.common-pc-laptop
     inputs.hardware.nixosModules.common-pc-laptop-ssd
