@@ -163,12 +163,6 @@
 
   # Make sure a valid gpg key was provided to decrypt secrets
   ensure_gpg_key() {
-    # Set gpg config directory ownership to current user
-    sudo ${pkgs.coreutils}/bin/chown -R "$USER:$(${pkgs.coreutils}/bin/groups | ${pkgs.coreutils}/bin/cut -d' ' -f1)" "$HOME/.gnupg"
-
-    # Remove any existing gpg lockfile
-    ${pkgs.findutils}/bin/find "$HOME/.gnupg" -type f -name '*.lock' -exec ${pkgs.coreutils}/bin/rm -f {} \;
-
     if test -z "$GPG_KEY"; then
       ${pkgs.coreutils}/bin/echo
       error "$SCRIPT_NAME requires a gpg key"
