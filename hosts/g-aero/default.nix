@@ -48,4 +48,13 @@
     intelBusId = "PCI:0:2:0";
     nvidiaBusId = "PCI:1:0:0";
   };
+
+  # udev rule to always render with dGPU
+  # See https://discourse.nixos.org/t/issues-with-nvidia-prime-sync-on-wayland/57546/18
+  #
+  # Get attributes for dGPU
+  #   udevadm info /dev/dri/by-path/pci-0000:01:00.0-card --attribute-walk
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x030000", TAG+="mutter-device-preferred-primary"
+  '';
 }
