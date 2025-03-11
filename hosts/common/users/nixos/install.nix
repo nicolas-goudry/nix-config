@@ -311,7 +311,7 @@
         ;;
     esac
 
-    # Generate host SSH RSA key
+    # Generate host SSH key
     # Usually this is handled by services.openssh.hostKeys when services.openssh.enable is true,
     # however the host SSH keys creation only happens before SSH daemon systemd service starts.
     # Since we cannot start systemd services through nix-enter, we have to manually generate the
@@ -319,7 +319,7 @@
     # See https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/networking/ssh/sshd.nix#L555
     sudo ${pkgs.openssh}/bin/ssh-keygen -q -t ed25519 -C "$TARGET_HOST" -f /tmp/ssh_host_ed25519_key -N ""
 
-    # Derive host age public key from generated SSH RSA key
+    # Derive host age public key from generated SSH key
     local host_age_key
     host_age_key=$(sudo ${pkgs.ssh-to-age}/bin/ssh-to-age -i /tmp/ssh_host_ed25519_key.pub)
 
@@ -338,8 +338,8 @@
     sudo ${pkgs.nixos-install-tools}/bin/nixos-install --no-root-password --flake ".#$TARGET_HOST"
     popd > /dev/null
 
-    # Move generated SSH RSA key to host filesystem
-    sudo ${pkgs.coreutils}/bin/mv /tmp/ssh_host_ed25519_key /mnt/persist/etc/ssh
+    # Move generated SSH key pair to host filesystem
+    sudo ${pkgs.coreutils}/bin/mv /tmp/ssh_host_ed25519_key* /mnt/persist/etc/ssh
 
     # Rsync nix-config to the new host and set the remote origin to SSH for later use
     ${pkgs.rsync}/bin/rsync -a --delete "$LOCAL_CLONE_DIR" "/mnt/home/$TARGET_USER/"
