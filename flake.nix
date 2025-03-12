@@ -78,8 +78,6 @@
       libx = import ./lib { inherit inputs outputs stateVersion; inherit (nixpkgs) lib; };
     in
     {
-      inherit libx;
-
       # nix fmt
       formatter = libx.forAllSystems (system:
         nix-formatter-pack.lib.mkFormatter {
@@ -94,14 +92,7 @@
 
       # Custom packages and overlays
       overlays = import ./overlays { inherit inputs; };
-      packages = libx.forAllSystems (system:
-        import ./pkgs {
-          # Needed by install-system script
-          inherit (inputs.disko.packages.${system}) disko;
-
-          pkgs = nixpkgs.legacyPackages.${system};
-        }
-      );
+      packages = libx.forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
 
       # Custom modules
       nixosModules = import ./modules/nixos;
