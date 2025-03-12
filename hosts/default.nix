@@ -82,6 +82,7 @@ in
     inputs.impermanence.nixosModules.impermanence
     inputs.nix-index-database.nixosModules.nix-index
     inputs.sops.nixosModules.sops
+    outputs.nixosModules.wpa_supplicant
 
     # Configure host
     ./${hostname}
