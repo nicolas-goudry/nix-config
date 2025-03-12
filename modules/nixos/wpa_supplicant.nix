@@ -155,7 +155,7 @@ let
           declare -A secrets
           while IFS='=' read -r key val; do secrets["$key"]="$val"; done < ${cfg.secretsFile}
           while read -r line; do
-            for varname in ''${!secrets[@]}; do
+            for varname in "''${!secrets[@]}"; do
               line=''${line//@$varname@/''${secrets["$varname"]}}
             done
             echo $line >> "${finalConfig}"
