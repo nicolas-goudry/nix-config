@@ -153,7 +153,7 @@ let
         # substitute @...@ placeholders from secrets
         if [ -f "${configFile}" ] && [ -f "${cfg.secretsFile}" ]; then
           declare -A secrets
-          while read -r secret; do secrets["''${secret//=*}"]="''${secret#*=}"; done < ${cfg.secretsFile}
+          while IFS='=' read -r key val; do secrets["$key"]="$val"; done < ${cfg.secretsFile}
           while read -r line; do
             for varname in ''${!secrets[@]}; do
               line=''${line//@$varname@/''${secrets["$varname"]}}
