@@ -1,9 +1,7 @@
-{ desktop, hostname, lib, pkgs, username, ... }:
+{ desktop, isInstall, isWorkstation, lib, pkgs, username, ... }:
 
 let
   # Precompute predicates
-  isInstall = builtins.substring 0 4 hostname != "iso-";
-  isWorkstation = desktop != null;
   isWorkstationISO = !isInstall && isWorkstation;
 
   # Autostart alacritty

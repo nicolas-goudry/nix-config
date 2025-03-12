@@ -1,11 +1,10 @@
-{ config, hostname, lib, pkgs, username, ... }:
+{ config, isInstall, lib, pkgs, username, ... }:
 
 let
   # Define power-users
   powerUsers = [ "nicolas" ];
 
   # Precompute predicates
-  isInstall = builtins.substring 0 4 hostname != "iso-";
   isPowerUser = builtins.elem username powerUsers;
 
   # Classic packages configuration

@@ -20,9 +20,10 @@
 */
 
 { config
-, desktop
 , hostname
 , inputs
+, isInstall
+, isWorkstation
 , lib
 , modulesPath
 , outputs
@@ -35,8 +36,6 @@
 
 let
   # Precompute predicates
-  isInstall = (builtins.substring 0 4 hostname) != "iso-";
-  isWorkstation = !builtins.isNull desktop;
   hasNvidia = builtins.elem "nvidia" config.services.xserver.videoDrivers;
   isImpermanent = lib.hasAttr "persistence" config.environment;
 

@@ -10,12 +10,11 @@
 
 */
 
-{ config, desktop, hostname, lib, pkgs, ... }:
+{ config, desktop, isInstall, lib, pkgs, ... }:
 
 let
   # Precompute predicates
   hasNvidia = builtins.elem "nvidia" config.services.xserver.videoDrivers;
-  isInstall = (builtins.substring 0 4 hostname) != "iso-";
 in
 {
   imports = lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop};

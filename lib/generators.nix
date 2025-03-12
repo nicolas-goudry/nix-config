@@ -13,6 +13,11 @@
     , desktop ? null
     , platform ? "x86_64-linux"
     }:
+    let
+      isISO = builtins.substring 0 4 hostname == "iso-";
+      isInstall = !isISO;
+      isWorkstation = builtins.isString desktop;
+    in
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages.${platform};
 
@@ -25,6 +30,8 @@
           platform
           username
           stateVersion
+          isInstall
+          isWorkstation
           ;
       };
 
@@ -39,6 +46,11 @@
     , desktop ? null
     , platform ? "x86_64-linux"
     }:
+    let
+      isISO = builtins.substring 0 4 hostname == "iso-";
+      isInstall = !isISO;
+      isWorkstation = builtins.isString desktop;
+    in
     inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit
@@ -49,13 +61,13 @@
           platform
           username
           stateVersion
+          isInstall
+          isWorkstation
           ;
       };
 
       modules =
         let
-          # If the hostname starts with "iso-", generate an ISO image
-          isISO = builtins.substring 0 4 hostname == "iso-";
           cd-dvd =
             if (desktop == null) then
               "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
@@ -63,7 +75,9 @@
               "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-base.nix";
         in
         # Common host configuration merged with ISO installer if needed
-        [ ../hosts ] ++ (inputs.nixpkgs.lib.optional isISO cd-dvd);
+        [ ../hosts ]
+        # If the hostname is an ISO, generate an image
+        ++ (inputs.nixpkgs.lib.optional isISO cd-dvd);
     };
 
   # Function to generate user secrets for a user
