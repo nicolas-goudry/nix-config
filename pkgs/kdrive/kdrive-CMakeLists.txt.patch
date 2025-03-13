@@ -1,0 +1,66 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1ef67e3..c638984 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,7 +7,7 @@ IF(APPLE)
+     SET(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+ ENDIF(APPLE)
+
+-set(BIN_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
++set(BIN_OUTPUT_DIRECTORY "${CMAKE_INSTALL_BINDIR}")
+ set(BUILD_SHARED_LIBS FALSE)
+
+ include("${CMAKE_CURRENT_LIST_DIR}/THEME.cmake")
+diff --git a/src/libcommon/CMakeLists.txt b/src/libcommon/CMakeLists.txt
+index d2fdaa6..1af930e 100644
+--- a/src/libcommon/CMakeLists.txt
++++ b/src/libcommon/CMakeLists.txt
+@@ -93,7 +93,8 @@ elseif(APPLE)
+         ${APPKIT_LIBRARY})
+ else()
+     target_link_libraries(${libcommon_NAME}
+-        "/usr/local/lib/liblog4cplusU.so")
++        log4cplus::log4cplusU
++        xxHash::xxhash)
+ endif()
+
+ if(ZLIB_FOUND)
+diff --git a/src/libcommonserver/CMakeLists.txt b/src/libcommonserver/CMakeLists.txt
+index 5546e1c..bfbe1f3 100644
+--- a/src/libcommonserver/CMakeLists.txt
++++ b/src/libcommonserver/CMakeLists.txt
+@@ -107,8 +107,8 @@ elseif(APPLE)
+         utf8proc)
+ else()
+     target_link_libraries(${libcommonserver_NAME}
+-        "/usr/local/lib/liblog4cplusU.so"
+-        "/usr/local/lib/libxxhash.so"
++        log4cplus::log4cplusU
++        xxHash::xxhash
+         utf8proc)
+ endif()
+
+diff --git a/src/libparms/CMakeLists.txt b/src/libparms/CMakeLists.txt
+index 1aaf95a..011f602 100644
+--- a/src/libparms/CMakeLists.txt
++++ b/src/libparms/CMakeLists.txt
+@@ -66,5 +66,5 @@ elseif(APPLE)
+         "/usr/local/lib/liblog4cplusU.dylib")
+ else()
+     target_link_libraries(${libparms_NAME}
+-        "/usr/local/lib/liblog4cplusU.so")
++        log4cplus::log4cplusU)
+ endif()
+diff --git a/src/libsyncengine/CMakeLists.txt b/src/libsyncengine/CMakeLists.txt
+index c55ba2b..88bb7db 100644
+--- a/src/libsyncengine/CMakeLists.txt
++++ b/src/libsyncengine/CMakeLists.txt
+@@ -185,7 +185,7 @@ elseif(APPLE)
+         "/usr/local/lib/libxxhash.0.dylib")
+ else()
+     target_link_libraries(${libsyncengine_NAME}
+-        "/usr/local/lib/liblog4cplusU.so"
+-        "/usr/local/lib/libxxhash.so")
++        log4cplus::log4cplusU
++        xxHash::xxhash)
+ endif()
