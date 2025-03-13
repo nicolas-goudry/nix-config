@@ -27,7 +27,6 @@ in
     systemPackages =
       lib.optionals (!isInstall) [
         alacritty-autostart
-        pkgs.install-system
       ]
       ++ lib.optional isWorkstationISO pkgs.gparted;
   };
