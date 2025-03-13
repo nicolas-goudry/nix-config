@@ -85,8 +85,6 @@ let
     };
 in
 {
-  # Common utilities custom scripts on installs
-  ++ lib.optional isInstall ./common/utils;
   imports =
     [
       # Modules
