@@ -34,7 +34,13 @@ types.submodule {
       };
 
       showDescription = mkOption {
-        type = types.nullOr (types.enum [ "always" "hover" "never" ]);
+        type = types.nullOr (
+          types.enum [
+            "always"
+            "hover"
+            "never"
+          ]
+        );
         default = "always";
         description = ''
           Show commit description.
@@ -98,34 +104,39 @@ types.submodule {
         '';
       };
     }
-    (if mode == "app" then {
-      lazy = mkOption {
-        type = types.bool;
-        default = true;
-        description = ''
-          Enable commits lazy loading. Additional commits will be
-          loaded if the earliest commit in the graph is reached.
-        '';
-      };
+    (
+      if mode == "app" then
+        {
+          lazy = mkOption {
+            type = types.bool;
+            default = true;
+            description = ''
+              Enable commits lazy loading. Additional commits will be
+              loaded if the earliest commit in the graph is reached.
+            '';
+          };
 
-      max = mkOption {
-        type = types.addCheck types.ints.positive (x: x >= 500);
-        default = 2000;
-        description = ''
-          Maximum number of commits to show in the commit graph.
-          Lower counts may help improve performance. Minimum value is
-          500.
-        '';
-      };
+          max = mkOption {
+            type = types.addCheck types.ints.positive (x: x >= 500);
+            default = 2000;
+            description = ''
+              Maximum number of commits to show in the commit graph.
+              Lower counts may help improve performance. Minimum value is
+              500.
+            '';
+          };
 
-      showAll = mkOption {
-        type = types.bool;
-        default = false;
-        description = ''
-          Always show all commits in repository. This setting may
-          cause performance issue with large repositories.
-        '';
-      };
-    } else { })
+          showAll = mkOption {
+            type = types.bool;
+            default = false;
+            description = ''
+              Always show all commits in repository. This setting may
+              cause performance issue with large repositories.
+            '';
+          };
+        }
+      else
+        { }
+    )
   ];
 }

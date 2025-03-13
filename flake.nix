@@ -56,10 +56,11 @@
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , ...
-    } @ inputs:
+    {
+      self,
+      nixpkgs,
+      ...
+    }@inputs:
     let
       inherit (self) outputs;
 
@@ -67,7 +68,10 @@
       stateVersion = "23.11";
 
       # Custom helpers library
-      libx = import ./lib { inherit inputs outputs stateVersion; inherit (nixpkgs) lib; };
+      libx = import ./lib {
+        inherit inputs outputs stateVersion;
+        inherit (nixpkgs) lib;
+      };
     in
     {
       inherit libx;
@@ -131,26 +135,60 @@
       nixosConfigurations = {
         # Live ISO
         # nix build '.#nixosConfigurations.<hostname>.config.system.build.isoImage'
-        iso-console = libx.mkHost { hostname = "iso-console"; username = "nixos"; };
-        iso-gnome = libx.mkHost { hostname = "iso-gnome"; username = "nixos"; desktop = "gnome"; };
+        iso-console = libx.mkHost {
+          hostname = "iso-console";
+          username = "nixos";
+        };
+        iso-gnome = libx.mkHost {
+          hostname = "iso-gnome";
+          username = "nixos";
+          desktop = "gnome";
+        };
         # Workstations
         # sudo nixos-rebuild boot --flake '.#<hostname>'
         # sudo nixos-rebuild switch --flake '.#<hostname>'
         # nix build '.#nixosConfigurations.<hostname>.config.system.build.topLevel'
-        g-xps = libx.mkHost { hostname = "g-xps"; username = "nicolas"; desktop = "gnome"; };
-        g-aero = libx.mkHost { hostname = "g-aero"; username = "nicolas"; desktop = "gnome"; };
+        g-xps = libx.mkHost {
+          hostname = "g-xps";
+          username = "nicolas";
+          desktop = "gnome";
+        };
+        g-aero = libx.mkHost {
+          hostname = "g-aero";
+          username = "nicolas";
+          desktop = "gnome";
+        };
       };
 
       # Standalone home-manager configuration entrypoints (TODO: configs)
       # home-manager switch -b backup --flake '.#<username@hostname>'
       homeConfigurations = {
         # .iso images
-        "nixos@iso-console" = libx.mkHome { hostname = "iso-console"; username = "nixos"; };
-        "nixos@iso-gnome" = libx.mkHome { hostname = "iso-gnome"; username = "nixos"; desktop = "gnome"; };
+        "nixos@iso-console" = libx.mkHome {
+          hostname = "iso-console";
+          username = "nixos";
+        };
+        "nixos@iso-gnome" = libx.mkHome {
+          hostname = "iso-gnome";
+          username = "nixos";
+          desktop = "gnome";
+        };
         # Workstations
-        "nicolas@g-xps" = libx.mkHome { hostname = "g-xps"; username = "nicolas"; desktop = "gnome"; };
-        "nicolas@g-aero" = libx.mkHome { hostname = "g-aero"; username = "nicolas"; desktop = "gnome"; };
-        "nicolas@g-ns" = libx.mkHome { hostname = "g-ns"; username = "nicolas"; desktop = "gnome"; };
+        "nicolas@g-xps" = libx.mkHome {
+          hostname = "g-xps";
+          username = "nicolas";
+          desktop = "gnome";
+        };
+        "nicolas@g-aero" = libx.mkHome {
+          hostname = "g-aero";
+          username = "nicolas";
+          desktop = "gnome";
+        };
+        "nicolas@g-ns" = libx.mkHome {
+          hostname = "g-ns";
+          username = "nicolas";
+          desktop = "gnome";
+        };
       };
     };
 }

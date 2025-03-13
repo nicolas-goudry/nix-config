@@ -1,4 +1,11 @@
-{ config, desktop, lib, pkgs, platform, ... }:
+{
+  config,
+  desktop,
+  lib,
+  pkgs,
+  platform,
+  ...
+}:
 
 let
   desktopString = if builtins.isNull desktop then "console" else desktop;

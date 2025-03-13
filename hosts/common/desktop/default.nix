@@ -1,5 +1,4 @@
 /*
-
   This file contains all common options for desktop environments. It should
   ensure that all workstations are provided with basic configuration for common
   desktop-specific stuff like sound, fonts and services that only make sense
@@ -7,10 +6,16 @@
 
   Desktop-specific configuration options are in '<desktop>/default.nix' and
   should only contain options relative to this specific desktop.
-
 */
 
-{ config, desktop, isInstall, lib, pkgs, ... }:
+{
+  config,
+  desktop,
+  isInstall,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # Precompute predicates
@@ -26,22 +31,23 @@ in
     consoleLogLevel = 0;
     initrd.verbose = false;
 
-    kernelParams = [
-      # Disable blinking cursor in virtual terminal
-      "vt.global_cursor_default=0"
-      # Improve system performance, load balancing, and interrupt handling efficiency
-      # on multi-core systems by allowing interrupt handling to be threaded and
-      # distributed across multiple CPU cores
-      "threadirqs"
-    ]
-    # Silent boot on installs
-    # https://wiki.archlinux.org/title/silent_boot
-    ++ lib.optionals isInstall [
-      "quiet"
-      "rd.systemd.show_status=auto"
-      "udev.log_level=3"
-      "rd.udev.log_level=3"
-    ];
+    kernelParams =
+      [
+        # Disable blinking cursor in virtual terminal
+        "vt.global_cursor_default=0"
+        # Improve system performance, load balancing, and interrupt handling efficiency
+        # on multi-core systems by allowing interrupt handling to be threaded and
+        # distributed across multiple CPU cores
+        "threadirqs"
+      ]
+      # Silent boot on installs
+      # https://wiki.archlinux.org/title/silent_boot
+      ++ lib.optionals isInstall [
+        "quiet"
+        "rd.systemd.show_status=auto"
+        "udev.log_level=3"
+        "rd.udev.log_level=3"
+      ];
 
     # Boot splashscreen
     # https://wiki.archlinux.org/title/plymouth
@@ -53,10 +59,13 @@ in
   };
 
   # Add WPA GUI if wireless networks are enabled
-  environment.systemPackages = with pkgs; [
-    alacritty
-    brave
-  ] ++ lib.optional config.networking.wireless.enable wpa_supplicant_gui;
+  environment.systemPackages =
+    with pkgs;
+    [
+      alacritty
+      brave
+    ]
+    ++ lib.optional config.networking.wireless.enable wpa_supplicant_gui;
 
   fonts = {
     # Basic set of fonts

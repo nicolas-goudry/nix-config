@@ -1,5 +1,4 @@
 /*
-
   This file should contain all configuration options which are common to all
   hosts, be they workstations or servers.
 
@@ -16,22 +15,22 @@
   See the 'common/users/default.nix' file for the common configuration options
   applied to all users. User-specific options should be handled by home-manager
   in the top-level 'users' directory.
-
 */
 
-{ config
-, hostname
-, inputs
-, isInstall
-, isWorkstation
-, lib
-, modulesPath
-, outputs
-, pkgs
-, platform
-, stateVersion
-, username
-, ...
+{
+  config,
+  hostname,
+  inputs,
+  isInstall,
+  isWorkstation,
+  lib,
+  modulesPath,
+  outputs,
+  pkgs,
+  platform,
+  stateVersion,
+  username,
+  ...
 }:
 
 let
@@ -41,7 +40,10 @@ let
 
   # Conditional DNS settings
   # default: OpenDNS
-  defaultDns = [ "208.67.222.222" "208.67.220.220" ];
+  defaultDns = [
+    "208.67.222.222"
+    "208.67.220.220"
+  ];
 
   # Per user DNS settings
   userDnsSettings =
@@ -50,7 +52,10 @@ let
       filters = {
         # Security Filter:
         # - Blocks access to phishing, spam, malware and malicious domains.
-        security = [ "185.228.168.9" "185.228.169.9" ];
+        security = [
+          "185.228.168.9"
+          "185.228.169.9"
+        ];
 
         # Adult Filter:
         # - Blocks access to all adult, pornographic and explicit sites.
@@ -58,7 +63,10 @@ let
         # - Sites like Reddit are allowed.
         # - Google and Bing are set to the Safe Mode.
         # - Malicious and Phishing domains are blocked.
-        adult = [ "185.228.168.10" "185.228.169.11" ];
+        adult = [
+          "185.228.168.10"
+          "185.228.169.11"
+        ];
 
         # Family Filter:
         # - Blocks access to all adult, pornographic and explicit sites.
@@ -66,7 +74,10 @@ let
         # - Mixed content sites (like Reddit) are also blocked.
         # - Google, Bing and Youtube are set to the Safe Mode.
         # - Malicious and Phishing domains are blocked.
-        family = [ "185.228.168.168" "185.228.169.168" ];
+        family = [
+          "185.228.168.168"
+          "185.228.169.168"
+        ];
       };
     in
     {
@@ -74,25 +85,26 @@ let
     };
 in
 {
-  imports = [
-    # Modules
-    (modulesPath + "/installer/scan/not-detected.nix")
-    inputs.disko.nixosModules.disko
-    inputs.impermanence.nixosModules.impermanence
-    inputs.nix-index-database.nixosModules.nix-index
-    inputs.sops.nixosModules.sops
-    outputs.nixosModules.wpa_supplicant
-
-    # Configure host
-    ./${hostname}
-
-    # Configure users
-    ./common/users
-  ]
-  # Configure desktop if workstation
-  ++ lib.optional isWorkstation ./common/desktop
   # Common utilities custom scripts on installs
   ++ lib.optional isInstall ./common/utils;
+  imports =
+    [
+      # Modules
+      (modulesPath + "/installer/scan/not-detected.nix")
+      inputs.disko.nixosModules.disko
+      inputs.impermanence.nixosModules.impermanence
+      inputs.nix-index-database.nixosModules.nix-index
+      inputs.sops.nixosModules.sops
+      outputs.nixosModules.wpa_supplicant
+
+      # Configure host
+      ./${hostname}
+
+      # Configure users
+      ./common/users
+    ]
+    # Configure desktop if workstation
+    ++ lib.optional isWorkstation ./common/desktop;
 
   # Virtual console keymap
   console.keyMap = "fr";
@@ -117,7 +129,9 @@ in
     # See:
     # - latest LTS: https://www.kernel.org/
     # - discourse discussion: https://discourse.nixos.org/t/unable-to-build-nix-due-to-nvidia-drivers-due-or-kernel-6-10/49266/5?u=nicolas-goudry
-    kernelPackages = lib.mkForce (if hasNvidia then pkgs.linuxPackages_6_12 else pkgs.linuxPackages_latest);
+    kernelPackages = lib.mkForce (
+      if hasNvidia then pkgs.linuxPackages_6_12 else pkgs.linuxPackages_latest
+    );
 
     # Add support for NTFS filesystems
     supportedFilesystems = {
@@ -179,10 +193,12 @@ in
 
       # Replace default packages
       # https://search.nixos.org/options?channel=unstable&show=environment.defaultPackages
-      defaultPackages = with pkgs; lib.mkForce [
-        coreutils-full
-        strace
-      ];
+      defaultPackages =
+        with pkgs;
+        lib.mkForce [
+          coreutils-full
+          strace
+        ];
 
       systemPackages = with pkgs; [
         curl
@@ -220,7 +236,8 @@ in
     hostName = hostname;
 
     # DNS settings
-    nameservers = if builtins.hasAttr username userDnsSettings then userDnsSettings.${username} else defaultDns;
+    nameservers =
+      if builtins.hasAttr username userDnsSettings then userDnsSettings.${username} else defaultDns;
 
     # Disable NetworkManager
     networkmanager.enable = lib.mkForce false;
@@ -249,7 +266,9 @@ in
 
     # Add each flake input as a registry
     # To make nix3 commands consistent with this flake
-    registry = (lib.mapAttrs (_: flake: { inherit flake; })) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+    registry = (lib.mapAttrs (_: flake: { inherit flake; })) (
+      (lib.filterAttrs (_: lib.isType "flake")) inputs
+    );
 
     # Automatically run nix store garbage collector
     gc = {

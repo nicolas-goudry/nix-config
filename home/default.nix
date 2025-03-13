@@ -1,14 +1,15 @@
-{ config
-, isInstall
-, isWorkstation
-, hostname
-, inputs
-, lib
-, pkgs
-, outputs
-, stateVersion
-, username
-, ...
+{
+  config,
+  isInstall,
+  isWorkstation,
+  hostname,
+  inputs,
+  lib,
+  pkgs,
+  outputs,
+  stateVersion,
+  username,
+  ...
 }:
 
 let
@@ -18,17 +19,20 @@ let
   p10kPath = ".config/zsh/.p10k.zsh";
 in
 {
-  imports = [
-    # Modules
-    inputs.nix-index-database.hmModules.nix-index
-    inputs.sops.homeManagerModules.sops
-  ]
-  # Load custom user definition if it exists
-  ++ lib.optional (builtins.pathExists (./. + "/users/${username}")) ./users/${username}
-  # Load custom host definition if it exists
-  ++ lib.optional (builtins.pathExists (./. + "/users/${username}/${hostname}.nix")) ./users/${username}/${hostname}.nix
-  # Configure desktop if workstation
-  ++ lib.optional isWorkstation ./common/desktop;
+  imports =
+    [
+      # Modules
+      inputs.nix-index-database.hmModules.nix-index
+      inputs.sops.homeManagerModules.sops
+    ]
+    # Load custom user definition if it exists
+    ++ lib.optional (builtins.pathExists (./. + "/users/${username}")) ./users/${username}
+    # Load custom host definition if it exists
+    ++ lib.optional (builtins.pathExists (
+      ./. + "/users/${username}/${hostname}.nix"
+    )) ./users/${username}/${hostname}.nix
+    # Configure desktop if workstation
+    ++ lib.optional isWorkstation ./common/desktop;
 
   # Configure editorconfig (https://editorconfig.org/)
   editorconfig = {
@@ -446,9 +450,11 @@ in
       };
 
       # Include catppuccin delta theme
-      includes = [{
-        path = "${pkgs.catppuccin-delta}/catppuccin.gitconfig";
-      }];
+      includes = [
+        {
+          path = "${pkgs.catppuccin-delta}/catppuccin.gitconfig";
+        }
+      ];
     };
 
     # Configure GPG
@@ -469,12 +475,13 @@ in
             # For each public key, create an attribute set with a 'text' attribute of the file content
             (file: _type: { text = builtins.readFile ../.keys/${file}; })
             # Build attribute set of all public keys in .keys directory
-            (lib.filterAttrs
-              # Only keep top-level regular files ending in '.pub'
-              (file: type: type == "regular" && lib.hasSuffix ".pub" file)
-              # Read .keys directory
-              # Returns something like '{ "g-xps.pub" = "regular"; }'
-              (builtins.readDir ../.keys)
+            (
+              lib.filterAttrs
+                # Only keep top-level regular files ending in '.pub'
+                (file: type: type == "regular" && lib.hasSuffix ".pub" file)
+                # Read .keys directory
+                # Returns something like '{ "g-xps.pub" = "regular"; }'
+                (builtins.readDir ../.keys)
             )
         );
     };
@@ -548,26 +555,27 @@ in
 
         # Enable OMZ plugins
         # https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
-        plugins = [
-          "aliases" # Aliases cheatsheet https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/aliases
-          # Common aliases (OVERRIDDEN!!!)
-          "common-aliases"
-          "direnv" # Create direnv hook
-          "git" # Git aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
-          "sudo" # Prefix command with sudo by pressing ESC twice
-        ]
-        # Docker aliases
-        ++ lib.optionals isInstall [
-          "docker" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker
-          "docker-compose" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker-compose
-        ]
-        # Kubernetes aliases
-        ++ lib.optionals (lib.elem pkgs.kubectl config.home.packages) [
-          "kubectl" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl
-          "kubectx" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectx
-        ]
-        # Helm aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/helm
-        ++ lib.optional (lib.elem pkgs.helm config.home.packages) "helm";
+        plugins =
+          [
+            "aliases" # Aliases cheatsheet https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/aliases
+            # Common aliases (OVERRIDDEN!!!)
+            "common-aliases"
+            "direnv" # Create direnv hook
+            "git" # Git aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
+            "sudo" # Prefix command with sudo by pressing ESC twice
+          ]
+          # Docker aliases
+          ++ lib.optionals isInstall [
+            "docker" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker
+            "docker-compose" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker-compose
+          ]
+          # Kubernetes aliases
+          ++ lib.optionals (lib.elem pkgs.kubectl config.home.packages) [
+            "kubectl" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl
+            "kubectx" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectx
+          ]
+          # Helm aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/helm
+          ++ lib.optional (lib.elem pkgs.helm config.home.packages) "helm";
       };
 
       shellAliases = {

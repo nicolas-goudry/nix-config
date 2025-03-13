@@ -1,4 +1,9 @@
-{ lib, outputs, pkgs, ... }:
+{
+  lib,
+  outputs,
+  pkgs,
+  ...
+}:
 
 {
   home.programs = {

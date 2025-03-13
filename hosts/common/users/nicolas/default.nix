@@ -1,4 +1,9 @@
-{ config, outputs, username, ... }:
+{
+  config,
+  outputs,
+  username,
+  ...
+}:
 
 {
   # Define sops source for secrets
@@ -7,11 +12,30 @@
 
     sopsFile = ./secrets.yaml;
     secrets = [
-      { name = "nicolas-password"; neededForUsers = true; }
-      { name = "ssh-keys_aur"; dir = ".ssh"; file = "aur"; }
-      { name = "ssh-keys_aur.pub"; dir = ".ssh"; file = "aur.pub"; }
-      { name = "ssh-keys_id_rsa_goudry.nicolas@gmail.com"; dir = ".ssh"; file = "id_rsa_goudry.nicolas@gmail.com"; }
-      { name = "ssh-keys_id_rsa_goudry.nicolas@gmail.com.pub"; dir = ".ssh"; file = "id_rsa_goudry.nicolas@gmail.com.pub"; }
+      {
+        name = "nicolas-password";
+        neededForUsers = true;
+      }
+      {
+        name = "ssh-keys_aur";
+        dir = ".ssh";
+        file = "aur";
+      }
+      {
+        name = "ssh-keys_aur.pub";
+        dir = ".ssh";
+        file = "aur.pub";
+      }
+      {
+        name = "ssh-keys_id_rsa_goudry.nicolas@gmail.com";
+        dir = ".ssh";
+        file = "id_rsa_goudry.nicolas@gmail.com";
+      }
+      {
+        name = "ssh-keys_id_rsa_goudry.nicolas@gmail.com.pub";
+        dir = ".ssh";
+        file = "id_rsa_goudry.nicolas@gmail.com.pub";
+      }
     ];
   };
 

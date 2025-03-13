@@ -97,7 +97,11 @@ in
   };
 
   logLevel = mkOption {
-    type = types.enum [ "standard" "extended" "silly" ];
+    type = types.enum [
+      "standard"
+      "extended"
+      "silly"
+    ];
     default = "standard";
     description = ''
       Set log level in activity log.
@@ -121,7 +125,7 @@ in
 
   profiles = mkOption {
     type = types.listOf profileSubmodule;
-    default = [{ isDefault = true; }];
+    default = [ { isDefault = true; } ];
     description = ''
       Profiles configuration. All settings in profile take
       precedence over global settings, ie. if a profile defines

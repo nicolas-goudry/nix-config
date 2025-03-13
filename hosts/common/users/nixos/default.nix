@@ -1,11 +1,22 @@
-{ desktop, isInstall, isWorkstation, lib, pkgs, username, ... }:
+{
+  desktop,
+  isInstall,
+  isWorkstation,
+  lib,
+  pkgs,
+  username,
+  ...
+}:
 
 let
   # Precompute predicates
   isWorkstationISO = !isInstall && isWorkstation;
 
   # Autostart alacritty
-  alacritty-autostart = pkgs.makeAutostartItem { name = "Alacritty"; package = pkgs.alacritty; };
+  alacritty-autostart = pkgs.makeAutostartItem {
+    name = "Alacritty";
+    package = pkgs.alacritty;
+  };
 in
 {
   # Declare user without password
@@ -13,10 +24,12 @@ in
 
   # Add ISO install packages
   environment = {
-    systemPackages = lib.optionals (!isInstall) [
-      alacritty-autostart
-      pkgs.install-system
-    ] ++ lib.optional isWorkstationISO pkgs.gparted;
+    systemPackages =
+      lib.optionals (!isInstall) [
+        alacritty-autostart
+        pkgs.install-system
+      ]
+      ++ lib.optional isWorkstationISO pkgs.gparted;
   };
 
   # Enable autologin

@@ -2,12 +2,13 @@
 # See https://discourse.nixos.org/t/wireless-network-configuration-parameters-hidding/54935/3
 
 # Adapted from: https://github.com/NixOS/nixpkgs/blob/fbf681227517914eaa409d1cb265fe98a625351d/nixos/modules/services/networking/wpa_supplicant.nix
-{ config
-, lib
-, options
-, pkgs
-, utils
-, ...
+{
+  config,
+  lib,
+  options,
+  pkgs,
+  utils,
+  ...
 }:
 
 with lib;
@@ -110,10 +111,9 @@ let
   mkUnit =
     iface:
     let
-      deviceUnit = optional
-        (
-          iface != null
-        ) "sys-subsystem-net-devices-${utils.escapeSystemdPath iface}.device";
+      deviceUnit = optional (
+        iface != null
+      ) "sys-subsystem-net-devices-${utils.escapeSystemdPath iface}.device";
       configStr =
         if cfg.allowAuxiliaryImperativeNetworks then
           "-c /etc/wpa_supplicant.conf -I ${finalConfig}"
@@ -134,9 +134,11 @@ let
       # if `userControl.enable`, the supplicant automatically changes the permissions
       #  and owning group of the runtime dir; setting `umask` ensures the generated
       #  config file isn't readable (except to root);  see nixpkgs#267693
-      serviceConfig.UMask = "066";
-      serviceConfig.RuntimeDirectory = "wpa_supplicant";
-      serviceConfig.RuntimeDirectoryMode = "700";
+      serviceConfig = {
+        UMask = "066";
+        RuntimeDirectory = "wpa_supplicant";
+        RuntimeDirectoryMode = "700";
+      };
 
       script = ''
         ${optionalString (configIsGenerated && !cfg.allowAuxiliaryImperativeNetworks) ''
@@ -567,19 +569,18 @@ in
 
   config = mkIf cfg.enable {
     assertions =
-      flip mapAttrsToList cfg.networks
-        (
-          name: cfg: {
-            assertion =
-              with cfg;
-              count (x: x != null) [
-                psk
-                pskRaw
-                auth
-              ] <= 1;
-            message = ''options networking.wireless."${name}".{psk,pskRaw,auth} are mutually exclusive'';
-          }
-        )
+      flip mapAttrsToList cfg.networks (
+        name: cfg: {
+          assertion =
+            with cfg;
+            count (x: x != null) [
+              psk
+              pskRaw
+              auth
+            ] <= 1;
+          message = ''options networking.wireless."${name}".{psk,pskRaw,auth} are mutually exclusive'';
+        }
+      )
       ++ [
         {
           assertion = length cfg.interfaces > 1 -> !cfg.dbusControlled;

@@ -1,22 +1,31 @@
-{ config, desktop, lib, pkgs, ... }:
+{
+  config,
+  desktop,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   isGnome = desktop == "gnome";
 in
 {
-  home.packages = with pkgs; [
-    discord
-    obsidian
-    pika-backup
-    slack
-    spotify
-  ] ++ lib.optionals isGnome [
-    gnome.pomodoro # Pomodoro app
-    gnomeExtensions.clipboard-indicator # Clipboard manager with history
-    gnomeExtensions.gsconnect # Connect to and control Android phones
-    gnomeExtensions.notification-timeout # Configure notifications timeout
-    gnomeExtensions.resource-monitor # Show resources usage in tray
-  ];
+  home.packages =
+    with pkgs;
+    [
+      discord
+      obsidian
+      pika-backup
+      slack
+      spotify
+    ]
+    ++ lib.optionals isGnome [
+      gnome.pomodoro # Pomodoro app
+      gnomeExtensions.clipboard-indicator # Clipboard manager with history
+      gnomeExtensions.gsconnect # Connect to and control Android phones
+      gnomeExtensions.notification-timeout # Configure notifications timeout
+      gnomeExtensions.resource-monitor # Show resources usage in tray
+    ];
 
   dconf.settings = lib.mkIf isGnome {
     # Enabled extensions

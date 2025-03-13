@@ -1,17 +1,19 @@
-{ inputs
-, lib
-, outputs
-, stateVersion
-, ...
+{
+  inputs,
+  lib,
+  outputs,
+  stateVersion,
+  ...
 }:
 
 {
   # Function to generate home-manager configurations
   mkHome =
-    { hostname
-    , username
-    , desktop ? null
-    , platform ? "x86_64-linux"
+    {
+      hostname,
+      username,
+      desktop ? null,
+      platform ? "x86_64-linux",
     }:
     let
       isISO = builtins.substring 0 4 hostname == "iso-";
@@ -41,10 +43,11 @@
 
   # Function to generate NixOS configurations
   mkHost =
-    { hostname
-    , username
-    , desktop ? null
-    , platform ? "x86_64-linux"
+    {
+      hostname,
+      username,
+      desktop ? null,
+      platform ? "x86_64-linux",
     }:
     let
       isISO = builtins.substring 0 4 hostname == "iso-";
@@ -95,9 +98,10 @@
   #   ];
   # }
   mkUserSecrets =
-    { secrets
-    , sopsFile
-    , username
+    {
+      secrets,
+      sopsFile,
+      username,
     }:
     lib.attrsets.mergeAttrsList (
       lib.forEach secrets (secret: {
@@ -109,7 +113,10 @@
           group = lib.mkIf (!secret ? "neededForUsers") "users";
           mode = if secret ? "mode" then secret.mode else "0400";
           path = lib.mkIf (secret ? "path" || secret ? "dir") (
-            if secret ? "path" then secret.path else "/home/${username}/${secret.dir}/${if secret ? "file" then secret.file else secret.name}"
+            if secret ? "path" then
+              secret.path
+            else
+              "/home/${username}/${secret.dir}/${if secret ? "file" then secret.file else secret.name}"
           );
         };
       })

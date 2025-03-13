@@ -20,7 +20,13 @@ types.submodule {
           };
 
           tabBehavior = mkOption {
-            type = types.nullOr (types.enum [ "enter" "ignore" "navigation" ]);
+            type = types.nullOr (
+              types.enum [
+                "enter"
+                "ignore"
+                "navigation"
+              ]
+            );
             default = "ignore";
             description = ''
               Behavior of the tab key in the integrated terminal when
@@ -33,7 +39,11 @@ types.submodule {
         };
 
         cursor = mkOption {
-          type = types.enum [ "bar" "block" "underline" ];
+          type = types.enum [
+            "bar"
+            "block"
+            "underline"
+          ];
           default = "block";
           description = ''
             Style of the cursor in the integrated terminal.
@@ -85,7 +95,14 @@ types.submodule {
           };
 
           position = mkOption {
-            type = types.nullOr (types.enum [ "bottom" "left" "right" "top" ]);
+            type = types.nullOr (
+              types.enum [
+                "bottom"
+                "left"
+                "right"
+                "top"
+              ]
+            );
             default = "bottom";
             description = ''
               Default graph panel position. This setting only affects
@@ -97,7 +114,10 @@ types.submodule {
 
       editor = {
         eol = mkOption {
-          type = types.enum [ "CRLF" "LF" ];
+          type = types.enum [
+            "CRLF"
+            "LF"
+          ];
           default = "LF";
           description = ''
             End of line character to use in the editor.
@@ -155,13 +175,17 @@ types.submodule {
       };
 
       theme = mkOption {
-        type = types.nullOr (types.either types.str (types.enum [
-          "light"
-          "light-high-contrast"
-          "dark"
-          "dark-high-contrast"
-          "system"
-        ]));
+        type = types.nullOr (
+          types.either types.str (
+            types.enum [
+              "light"
+              "light-high-contrast"
+              "dark"
+              "dark-high-contrast"
+              "system"
+            ]
+          )
+        );
         default = if mode == "app" then "system" else null;
         example = "dark";
         description = ''
@@ -170,39 +194,44 @@ types.submodule {
         '';
       };
     }
-    (if mode == "app" then {
-      enableToolbarLabels = mkOption {
-        type = types.bool;
-        default = true;
-        description = ''
-          Show toolbar icon labels.
-        '';
-      };
+    (
+      if mode == "app" then
+        {
+          enableToolbarLabels = mkOption {
+            type = types.bool;
+            default = true;
+            description = ''
+              Show toolbar icon labels.
+            '';
+          };
 
-      extraThemes = mkOption {
-        type = types.listOf types.path;
-        default = [ ];
-        example = literalExpression "[ \"\${pkgs.catppuccin-gitkraken}/catppuccin-mocha.jsonc\" ]";
-        description = ''
-          Paths to extra themes to install.
-        '';
-      };
+          extraThemes = mkOption {
+            type = types.listOf types.path;
+            default = [ ];
+            example = literalExpression "[ \"\${pkgs.catppuccin-gitkraken}/catppuccin-mocha.jsonc\" ]";
+            description = ''
+              Paths to extra themes to install.
+            '';
+          };
 
-      hideWorkspaceTab = mkOption {
-        type = types.bool;
-        default = false;
-        description = ''
-          Hide workspace tab when closed.
-        '';
-      };
+          hideWorkspaceTab = mkOption {
+            type = types.bool;
+            default = false;
+            description = ''
+              Hide workspace tab when closed.
+            '';
+          };
 
-      showProjectBreadcrumb = mkOption {
-        type = types.bool;
-        default = true;
-        description = ''
-          Show workspace breadcrumb in toolbar.
-        '';
-      };
-    } else { })
+          showProjectBreadcrumb = mkOption {
+            type = types.bool;
+            default = true;
+            description = ''
+              Show workspace breadcrumb in toolbar.
+            '';
+          };
+        }
+      else
+        { }
+    )
   ];
 }

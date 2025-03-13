@@ -1,11 +1,12 @@
-{ gitSubmodule
-, gpgSubmodule
-, graphSubmodule
-, lib
-, sshSubmodule
-, toolsSubmodule
-, uiSubmodule
-, userSubmodule
+{
+  gitSubmodule,
+  gpgSubmodule,
+  graphSubmodule,
+  lib,
+  sshSubmodule,
+  toolsSubmodule,
+  uiSubmodule,
+  userSubmodule,
 }:
 
 with lib;
