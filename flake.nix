@@ -33,13 +33,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Nix formatting pack
-    # https://gerschtli.github.io/nix-formatter-pack/nix-formatter-pack-options.html
-    nix-formatter-pack = {
-      url = "github:Gerschtli/nix-formatter-pack";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Weekly updated nix-index database
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -64,7 +57,6 @@
 
   outputs =
     { self
-    , nix-formatter-pack
     , nixpkgs
     , ...
     } @ inputs:
@@ -78,14 +70,51 @@
       libx = import ./lib { inherit inputs outputs stateVersion; inherit (nixpkgs) lib; };
     in
     {
-      # nix fmt
-      formatter = libx.forAllSystems (system:
-        nix-formatter-pack.lib.mkFormatter {
-          pkgs = nixpkgs.legacyPackages.${system};
-          config.tools = {
-            deadnix.enable = true;
-            nixpkgs-fmt.enable = true;
-            statix.enable = true;
+      inherit libx;
+
+      # Formatting style using official Nix formatter
+      # Run with: nix fmt
+      formatter = libx.forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
+
+      # Flake checks
+      # Run with: nix flake check (use --keep-going=true to report as much as possible)
+      checks = libx.forAllSystems (
+        system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+          mkChecker =
+            {
+              name,
+              nativeBuildInputs,
+              text,
+            }:
+            pkgs.stdenvNoCC.mkDerivation {
+              inherit nativeBuildInputs;
+
+              name = "${name}-check";
+              dontBuild = true;
+              src = ./.;
+              doCheck = true;
+              checkPhase = text;
+              installPhase = ''
+                mkdir "$out"
+              '';
+            };
+        in
+        {
+          deadnix = mkChecker {
+            name = "deadnix";
+            nativeBuildInputs = with pkgs; [ deadnix ];
+            text = ''
+              deadnix -f
+            '';
+          };
+          statix = mkChecker {
+            name = "statix";
+            nativeBuildInputs = with pkgs; [ statix ];
+            text = ''
+              statix check
+            '';
           };
         }
       );
