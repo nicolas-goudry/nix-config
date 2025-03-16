@@ -345,7 +345,6 @@ in
     nix-index = {
       enable = true;
       enableZshIntegration = true;
-      package = pkgs.unstable.nix-index; # Always use latest nix-index
     };
 
     # Basic ssh configuration
