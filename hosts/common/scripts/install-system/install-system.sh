@@ -370,7 +370,7 @@ install_nixos() {
 
   # Enter to the new install and apply home-manager configuration
   sudo nixos-enter --root /mnt --command "chown -R ${target_user}:users /home/${target_user}"
-  sudo nixos-enter --root /mnt --command "cd /home/${target_user}; env USER=${target_user} HOME=/home/${target_user} home-manager switch --flake \".#${target_user}@${target_host}\""
+  sudo nixos-enter --root /mnt --command "env -C /home/${target_user}/${flake_name} USER=${target_user} HOME=/home/${target_user} /etc/profiles/per-user/${target_user}/bin/home-manager switch --flake \".#${target_user}@${target_host}\""
   sudo nixos-enter --root /mnt --command "chown -R ${target_user}:users /home/${target_user}"
 }
 
