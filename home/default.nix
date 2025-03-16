@@ -74,7 +74,6 @@ in
     # https://github.com/ibraheemdev/modern-unix
     packages = with pkgs; [
       catppuccin-delta # catppuccin theme for delta
-      catppuccin-ghostty # catppuccin theme for ghostty
       fastfetch # system info
       glow # markdown renderer
       magic-wormhole-rs # secure file transfer
@@ -162,10 +161,6 @@ in
       # Add Ghostty configuration syntax
       installBatSyntax = true;
       installVimSyntax = true;
-
-      themes = {
-        catppuccin-mocha = builtins.fromTOML (builtins.readFile "${pkgs.catppuccin-ghostty}/catppuccin-mocha.conf");
-      };
 
       # See https://ghostty.org/docs/config/reference
       settings = {
