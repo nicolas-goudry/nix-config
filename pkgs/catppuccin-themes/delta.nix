@@ -11,7 +11,7 @@ stdenvNoCC.mkDerivation {
   src = fetchFromGitHub {
     owner = "catppuccin";
     repo = "delta";
-    rev = "765eb17d0268bf07c20ca439771153f8bc79444f";
+    rev = "e9e21cffd98787f1b59e6f6e42db599f9b8ab399";
     hash = "sha256-GA0n9obZlD0Y2rAbGMjcdJ5I0ij1NEPBFC7rv7J49QI=";
   };
 
