@@ -380,7 +380,6 @@ If a new host were to be added without the `install-system` script, the followin
 * ❓ Impermanence on `/home`
 * Configure nixvim ➡️ [typecraft course](https://www.youtube.com/playlist?list=PLsz00TDipIffreIaUNk64KxTIkQaGguqn) | [understanding neovim](https://www.youtube.com/playlist?list=PLx2ksyallYzW4WNYHD9xOFrPRYGlntAft)
 * Hosts
-  * Fix NVIDIA GPU not used (see [Discourse post](https://discourse.nixos.org/t/force-using-nvidia-gpu/41729/5))
   * Write a `disks.sh` script to format g-xps disk while keeping Windows dual boot
 * Home
   * Finish adding and configuring programs
