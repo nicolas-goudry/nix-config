@@ -4,29 +4,29 @@
   fetchFromGitHub,
 }:
 
-stdenvNoCC.mkDerivation {
+stdenvNoCC.mkDerivation rec {
   pname = "catppuccin-gitkraken";
-  version = "unstable";
+  version = "1.1.0";
 
   src = fetchFromGitHub {
     owner = "catppuccin";
     repo = "gitkraken";
-    rev = "v1.1.0";
-    hash = lib.fakeHash;
+    rev = version;
+    hash = "sha256-df4m2WUotT2yFPyJKEq46Eix/2C/N05q8aFrVQeH1sA=";
   };
 
   installPhase = ''
     runHook preInstall
 
     mkdir -p $out
-    cp src/catppuccin-*.jsonc $out
+    cp themes/catppuccin-*.jsonc $out
 
     runHook postInstall
   '';
 
   meta = with lib; {
     description = "Soothing pastel theme for GitKraken";
-    homepage = "https://github.com/davi19/gitkraken";
+    homepage = "https://github.com/catppucin/gitkraken";
     license = licenses.mit;
     maintainers = [ maintainers.nicolas-goudry ];
   };
