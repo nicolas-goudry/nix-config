@@ -169,6 +169,11 @@
           username = "nicolas";
           desktop = "gnome";
         };
+        vbox = libx.mkHost {
+          hostname = "vbox";
+          username = "nicolas";
+          desktop = "gnome";
+        };
       };
 
       # Standalone home-manager configuration entrypoints (TODO: configs)
