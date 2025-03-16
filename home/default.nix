@@ -24,6 +24,9 @@ in
       # Modules
       inputs.nix-index-database.hmModules.nix-index
       inputs.sops.homeManagerModules.sops
+
+      # Add scripts
+      ./common/scripts
     ]
     # Load custom user definition if it exists
     ++ lib.optional (builtins.pathExists (./. + "/users/${username}")) ./users/${username}
