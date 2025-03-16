@@ -184,11 +184,6 @@
           username = "nicolas";
           desktop = "gnome";
         };
-        "nicolas@g-ns" = libx.mkHome {
-          hostname = "g-ns";
-          username = "nicolas";
-          desktop = "gnome";
-        };
       };
     };
 }
