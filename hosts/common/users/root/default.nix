@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   # Define sops source for root user password
@@ -19,5 +24,8 @@
     #openssh.authorizedKeys.keys = [
     #  "<key-here>"
     #];
+
+    # Provide home-manager for setup through nixos-enter in install-system script
+    packages = [ pkgs.home-manager ];
   };
 }
