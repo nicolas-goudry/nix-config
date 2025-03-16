@@ -20,7 +20,7 @@ in
       spotify
     ]
     ++ lib.optionals isGnome [
-      gnome.pomodoro # Pomodoro app
+      gnome-pomodoro # Pomodoro app
       gnomeExtensions.clipboard-indicator # Clipboard manager with history
       gnomeExtensions.gsconnect # Connect to and control Android phones
       gnomeExtensions.notification-timeout # Configure notifications timeout
