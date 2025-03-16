@@ -11,6 +11,9 @@ green="\e[32m" # Green foreground
 yellow="\e[33m" # Yellow foreground
 blue="\e[34m" # Blue foreground
 
+nixstrap="${HOME}/nixstrap"
+action="build"
+
 to_stderr() {
   >&2 echo -e "${*}"
 }
@@ -69,22 +72,18 @@ needs_arg() {
 
 usage() {
   echo
-  echo "Build and switch to given home-manager configuration."
+  echo "Build or switch Home Manager configuration using 'nh'."
   echo
   to_stdout "${bld}Usage:${nc}"
-  to_stdout "    ${dim}\$${nc} ${script_name} <${choices}>"
+  to_stdout "    ${dim}\$${nc} ${script_name} <build|switch>"
   echo
+  to_stdout "${bld}Options:${nc}"
+  cat <<EOF | column -tds '|'
+    -h, --help|Show this help message
+EOF
 }
 
 main() {
-  nixstrap="${HOME}/nixstrap"
-
-  if ! [ -d "${nixstrap}" ]; then
-    die "Bootstrap configuration not found in ${nixstrap}"
-  fi
-
-  choices=$(find "${nixstrap}/home/users" -mindepth 1 -maxdepth 1 -o -type d -printf '%f\n' | xargs echo | tr ' ' '|')
-
   while getopts 'h-:' OPT; do
     # support long options: https://stackoverflow.com/a/28466267/519360
     if test "$OPT" = "-"; then # long option: reformulate OPT and OPTARG
@@ -112,24 +111,35 @@ main() {
     esac
   done
 
-  if [ -z "${1}" ] || ! [[ "${1}" =~ ^(${choices})$ ]]; then
-    error "Invalid home-manager configuration"
+  if [ -z "${1}" ]; then
+    warn "No argument specified, assuming ${action}"
+  elif ! [[ "${1}" =~ ^(build|switch)$ ]]; then
+    error "Invalid argument: ${1}"
     usage
     die
+  else
+    action="${1}"
   fi
 
-  all_cores=$(nproc)
+  if ! [ -d "${nixstrap}" ]; then
+    die "Bootstrap configuration not found in ${nixstrap}"
+  fi
+
+  if [ "$(uname -s)" == "Darwin" ]; then
+    all_cores=$(sysctl -n hw.logicalcpu)
+  else
+    all_cores=$(nproc)
+  fi
+
   build_cores=$(LC_NUMERIC="en_US.UTF-8" printf "%.0f" "$(echo "${all_cores} * 0.75" | bc)")
-  { pushd "${nixstrap}" > /dev/null; } 2>&1 || exit 1
-  info "Switch to home of ${1} with ${build_cores} cores"
-  home-manager switch \
-    --extra-experimental-features flakes \
-    --extra-experimental-features nix-command \
-    --cores "${build_cores}" \
-    --flake . \
-    -b backup \
-    "${1}"
-  { popd > /dev/null; } 2>&1 || exit 1
+  info "${action^}ing Home Manager  with ${build_cores} cores"
+  extra_args=""
+
+  if [ "${action}" == "switch" ]; then
+    extra_args="--backup-extension $(date +y%m%d_%H%M%S)"
+  fi
+
+  nh home "${action}" "${extra_args}" "${nixstrap}" -- --cores "${build_cores}"
 }
 
 main "$@"

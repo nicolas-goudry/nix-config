@@ -100,6 +100,9 @@ in
 
       # Configure users
       ./common/users
+
+      # Add scripts
+      ./common/scripts
     ]
     # Configure desktop if workstation
     ++ lib.optional isWorkstation ./common/desktop;
