@@ -33,6 +33,7 @@
           username
           stateVersion
           isInstall
+          isISO
           isWorkstation
           ;
       };
@@ -65,6 +66,7 @@
           username
           stateVersion
           isInstall
+          isISO
           isWorkstation
           ;
       };
