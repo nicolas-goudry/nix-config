@@ -12,7 +12,7 @@ stdenvNoCC.mkDerivation {
     owner = "catppuccin";
     repo = "alacritty";
     rev = "f6cb5a5c2b404cdaceaff193b9c52317f62c62f7";
-    hash = "sha256-Pi1Hicv3wPALGgqurdTzXEzJNx7vVh+8B9tlqhRpR2Y=";
+    hash = "sha256-H8bouVCS46h0DgQ+oYY8JitahQDj0V9p2cOoD4cQX+Q=";
   };
 
   installPhase = ''
