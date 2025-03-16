@@ -403,7 +403,7 @@ in
       # Disable shell aliases since they are defined by custom OMZ common-aliases plugin
       enableZshIntegration = false;
       git = true; # Show git status
-      icons = true; # Show icons
+      icons = "auto"; # Show icons
       package = pkgs.unstable.eza; # Always use latest eza
 
       extraOptions = [
