@@ -367,6 +367,11 @@ install_nixos() {
   pushd "/mnt/home/${target_user}/${flake_name}" > /dev/null
   git remote set-url origin "${source_repo_ssh}"
   popd > /dev/null
+
+  # Enter to the new install and apply home-manager configuration
+  sudo nixos-enter --root /mnt --command "chown -R ${target_user}:users /home/${target_user}"
+  sudo nixos-enter --root /mnt --command "cd /home/${target_user}; env USER=${target_user} HOME=/home/${target_user} home-manager switch --flake \".#${target_user}@${target_host}\""
+  sudo nixos-enter --root /mnt --command "chown -R ${target_user}:users /home/${target_user}"
 }
 
 main() {
