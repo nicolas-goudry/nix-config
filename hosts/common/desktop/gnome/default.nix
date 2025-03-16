@@ -21,7 +21,7 @@ let
       [
         epiphany # Web browser
         gnome-connections # Remote desktop client
-        gnome-console # Replaced by alacritty
+        gnome-console # Replaced by ghostty
         gnome-photos # Replaced by loupe
         gnome-tour # Tour app
         gnome-user-docs # Help app
@@ -141,7 +141,7 @@ in
             "org/gnome/shell".favorite-apps = [
               "io.calamares.calamares.desktop"
               "gparted.desktop"
-              "Alacritty.desktop"
+              "com.mitchellh.ghostty.desktop"
               "nixos-manual.desktop"
             ];
 

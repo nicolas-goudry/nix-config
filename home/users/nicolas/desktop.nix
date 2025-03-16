@@ -184,7 +184,7 @@ in
 
       tools.terminal = {
         default = "custom";
-        package = pkgs.unstable.alacritty;
+        package = pkgs.unstable.ghostty;
       };
 
       ui = {

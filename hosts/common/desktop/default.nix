@@ -62,7 +62,7 @@ in
   environment.systemPackages =
     with pkgs;
     [
-      alacritty
+      ghostty
       brave
     ]
     ++ lib.optional config.networking.wireless.enable wpa_supplicant_gui;

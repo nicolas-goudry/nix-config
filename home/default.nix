@@ -73,8 +73,8 @@ in
     # Modern Unix experience
     # https://github.com/ibraheemdev/modern-unix
     packages = with pkgs; [
-      catppuccin-alacritty # catppuccin theme for alacritty
       catppuccin-delta # catppuccin theme for delta
+      catppuccin-ghostty # catppuccin theme for ghostty
       fastfetch # system info
       glow # markdown renderer
       magic-wormhole-rs # secure file transfer
@@ -153,81 +153,24 @@ in
     # Let Home Manager install and manage itself
     home-manager.enable = true;
 
-    # Configure Alacritty (https://github.com/alacritty/alacritty)
-    alacritty = {
+    # Configure Ghostty (https://github.com/ghostty-org/ghostty)
+    ghostty = {
       enable = true;
-      package = pkgs.unstable.alacritty;
+      enableZshIntegration = true;
+      package = pkgs.unstable.ghostty;
 
-      # See https://alacritty.org/config-alacritty.html
+      # Add Ghostty configuration syntax
+      installBatSyntax = true;
+      installVimSyntax = true;
+
+      themes = {
+        catppuccin-mocha = builtins.fromTOML (builtins.readFile "${pkgs.catppuccin-ghostty}/catppuccin-mocha.conf");
+      };
+
+      # See https://ghostty.org/docs/config/reference
       settings = {
         # Apply catppuccin theme
-        import = [ "${pkgs.catppuccin-alacritty}/catppuccin-mocha.toml" ];
-
-        # Use same scrolling history as ZSH
-        scrolling.history = config.programs.zsh.history.size;
-
-        # Save selected text to primary clipboard
-        selection.save_to_clipboard = true;
-
-        # Visual bell animation and color
-        bell = {
-          animation = "EaseOut";
-          duration = 200;
-          color = "#f38ba8"; # Catppuccin mocha red
-        };
-
-        # Use real black background
-        colors.primary.background = "#000000";
-
-        # Different cursor styles in vi and normal mode
-        cursor = {
-          style = {
-            shape = "Beam";
-            blinking = "Always";
-          };
-
-          vi_mode_style = {
-            shape = "Block";
-            blinking = "Never";
-          };
-        };
-
-        font = {
-          normal = {
-            family = "MesloLGS NF";
-            style = "Regular";
-          };
-
-          bold.style = "Bold";
-          italic.style = "Regular Italic";
-          bold_italic.style = "Bold Italic";
-        };
-
-        keyboard.bindings = [
-          # Super+Alt toggles vi mode on Linux
-          # Cmd+Alt toggles vi mode on Mac
-          {
-            key = "Alt";
-            mods = if isDarwin then "Command" else "Super";
-            action = "ToggleViMode";
-          }
-        ];
-
-        window = {
-          # Blur content behind window
-          blur = true;
-
-          # No borders nor title bar
-          decorations = "None";
-
-          # Transparency
-          opacity = 0.8;
-
-          padding = {
-            x = 8;
-            y = 8;
-          };
-        };
+        theme = "catppuccin-mocha";
       };
     };
 

@@ -12,10 +12,10 @@ let
   # Precompute predicates
   isWorkstationISO = !isInstall && isWorkstation;
 
-  # Autostart alacritty
-  alacritty-autostart = pkgs.makeAutostartItem {
-    name = "Alacritty";
-    package = pkgs.alacritty;
+  # Autostart Ghostty
+  ghostty-autostart = pkgs.makeAutostartItem {
+    name = "com.mitchellh.ghostty";
+    package = pkgs.ghostty;
   };
 in
 {
@@ -26,7 +26,7 @@ in
   environment = {
     systemPackages =
       lib.optionals (!isInstall) [
-        alacritty-autostart
+        ghostty-autostart
       ]
       ++ lib.optional isWorkstationISO pkgs.gparted;
   };
