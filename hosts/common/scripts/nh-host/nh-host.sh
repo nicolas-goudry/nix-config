@@ -127,7 +127,7 @@ main() {
 
   all_cores=$(nproc)
   build_cores=$(LC_NUMERIC="en_US.UTF-8" printf "%.0f" "$(echo "${all_cores} * 0.75" | bc)")
-  info "${action^}ing NixOS  with ${build_cores} cores"
+  info "${action^}ing NixOS   with ${build_cores} cores"
   nh os "${action}" "${nixstrap}" -- --cores "${build_cores}"
 }
 

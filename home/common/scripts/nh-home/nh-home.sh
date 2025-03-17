@@ -132,7 +132,7 @@ main() {
   fi
 
   build_cores=$(LC_NUMERIC="en_US.UTF-8" printf "%.0f" "$(echo "${all_cores} * 0.75" | bc)")
-  info "${action^}ing Home Manager  with ${build_cores} cores"
+  info "${action^}ing Home Manager   with ${build_cores} cores"
   extra_args=()
 
   if [ "${action}" == "switch" ]; then
