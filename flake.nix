@@ -200,6 +200,11 @@
           username = "nicolas";
           desktop = "gnome";
         };
+        "nicolas@vbox" = libx.mkHome {
+          hostname = "vbox";
+          username = "nicolas";
+          desktop = "gnome";
+        };
       };
     };
 }
