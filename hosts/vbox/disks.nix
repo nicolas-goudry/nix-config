@@ -13,7 +13,6 @@
           partitions = {
             ESP = {
               type = "EF00";
-              name = "esp";
               end = "1024M";
 
               content = {
@@ -28,7 +27,6 @@
             };
 
             root = {
-              name = "root";
               size = "100%";
 
               content = {
