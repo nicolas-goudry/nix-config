@@ -364,9 +364,7 @@ install_nixos() {
 
   # Rsync nix-config to the new host and set the remote origin to SSH for later use
   rsync -a --delete "${clone_dir}" "/mnt/home/${target_user}/"
-  pushd "/mnt/home/${target_user}/${flake_name}" > /dev/null
-  git remote set-url origin "${source_repo_ssh}"
-  popd > /dev/null
+  git -C "/mnt/home/${target_user}/$flake_name}" remote set-url origin "${source_repo_ssh}"
 
   # Enter to the new install and apply home-manager configuration
   sudo nixos-enter --root /mnt --command "chown -R ${target_user}:users /home/${target_user}"
