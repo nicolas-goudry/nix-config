@@ -36,7 +36,7 @@
 let
   # Precompute predicates
   hasNvidia = builtins.elem "nvidia" config.services.xserver.videoDrivers;
-  isImpermanent = lib.hasAttr "persistence" config.environment;
+  isImpermanent = lib.hasAttr "/persist" config.environment.persistence;
 
   # Conditional DNS settings
   # default: OpenDNS
