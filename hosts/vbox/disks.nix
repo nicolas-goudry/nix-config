@@ -13,12 +13,13 @@
           partitions = {
             ESP = {
               type = "EF00";
-              end = "1024M";
+              end = "1G";
 
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                # Set permission mask (rwx to owner only)
                 mountOptions = [
                   "defaults"
                   "umask=0077"
