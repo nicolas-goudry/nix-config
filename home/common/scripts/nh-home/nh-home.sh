@@ -133,13 +133,13 @@ main() {
 
   build_cores=$(LC_NUMERIC="en_US.UTF-8" printf "%.0f" "$(echo "${all_cores} * 0.75" | bc)")
   info "${action^}ing Home Manager  with ${build_cores} cores"
-  extra_args=""
+  extra_args=()
 
   if [ "${action}" == "switch" ]; then
-    extra_args="--backup-extension $(date +y%m%d_%H%M%S)"
+    extra_args=("--backup-extension" "$(date +%y%m%d_%H%M%S)")
   fi
 
-  nh home "${action}" "${extra_args}" "${nixstrap}" -- --cores "${build_cores}"
+  nh home "${action}" "${extra_args[@]}" "${nixstrap}" -- --cores "${build_cores}"
 }
 
 main "$@"
