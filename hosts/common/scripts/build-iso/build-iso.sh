@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eo pipefail
+set +u -eo pipefail
 
 script_name=$(basename "${0}")
 nc="\e[0m" # Unset styles
