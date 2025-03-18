@@ -360,7 +360,10 @@ install_nixos() {
   popd > /dev/null
 
   # Move generated SSH key pair to host filesystem
-  sudo mv /tmp/ssh_host_ed25519_key* /mnt/etc/ssh
+  # First, try to move to /persist (host is impermanent) and if it fails move to default location
+  if ! sudo mv /tmp/ssh_host_ed25519_key* /mnt/persist/etc/ssh; then
+    sudo mv /tmp/ssh_host_ed25519_key* /mnt/etc/ssh
+  fi
 
   # Rsync nix-config to the new host and set the remote origin to SSH for later use
   rsync -a --delete "${clone_dir}" "/mnt/home/${target_user}/"
