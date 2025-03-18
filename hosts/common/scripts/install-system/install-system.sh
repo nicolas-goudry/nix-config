@@ -223,6 +223,7 @@ ensure_disks_config() {
     die "Disk configuration is missing: no disko configuration file nor disk preparation script was found for ${target_host}"
   fi
 }
+
 # Check if the host we're provisioning expects a password to unlock a disk
 # If it does, prompt for it
 configure_disk_encryption() {
@@ -371,7 +372,7 @@ install_nixos() {
 
   # Enter to the new install and apply home-manager configuration
   sudo nixos-enter --root /mnt --command "chown -R ${target_user}:users /home/${target_user}"
-  sudo nixos-enter --root /mnt --command "nix-daemon & env -C /home/${target_user}/${flake_name} su -c 'home-manager switch --flake \".#${target_user}@${target_host}\"' nicolas"
+  sudo nixos-enter --root /mnt --command "nix-daemon & env -C /home/${target_user}/${flake_name} su -c 'home-manager switch --flake \".#${target_user}@${target_host}\"' ${target_user}"
   sudo nixos-enter --root /mnt --command "chown -R ${target_user}:users /home/${target_user}"
 }
 
