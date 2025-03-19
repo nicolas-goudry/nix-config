@@ -75,8 +75,12 @@ usage() {
   to_stdout "Build ISO from NixOS configuration."
   to_stdout
   to_stdout "${bld}Usage:${nc}"
-  to_stdout "    ${dim}\$${nc} ${script_name} <${choices}>"
+  to_stdout "    ${dim}\$${nc} ${script_name} <${choices}> [options]"
   to_stdout
+  to_stdout "${bld}Options:${nc}"
+  cat <<EOF | column -tds '|'
+    -h, --help|Show this help message
+EOF
 }
 
 main() {

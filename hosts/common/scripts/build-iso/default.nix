@@ -13,6 +13,7 @@ let
       findutils
       gnused
       nix-output-monitor
+      unixtools.column
     ];
   };
 in

@@ -77,7 +77,7 @@ usage() {
   to_stdout "NixOS installation helper script."
   to_stdout
   to_stdout "${bld}Usage:${nc}"
-  to_stdout "    ${dim}\$${nc} ${script_name}"
+  to_stdout "    ${dim}\$${nc} ${script_name} [options]"
   to_stdout
   to_stdout "${bld}Options:${nc}"
   cat <<EOF | column -tds '|'
