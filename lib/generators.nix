@@ -54,6 +54,11 @@
       isISO = builtins.substring 0 4 hostname == "iso-";
       isInstall = !isISO;
       isWorkstation = builtins.isString desktop;
+      cd-dvd =
+        if isWorkstation then
+          "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-base.nix"
+        else
+          "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix";
     in
     inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {
@@ -71,18 +76,8 @@
           ;
       };
 
-      modules =
-        let
-          cd-dvd =
-            if (desktop == null) then
-              "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
-            else
-              "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-base.nix";
-        in
-        # Common host configuration merged with ISO installer if needed
-        [ ../hosts ]
-        # If the hostname is an ISO, generate an image
-        ++ (inputs.nixpkgs.lib.optional isISO cd-dvd);
+      # Common host configuration merged with ISO installer if needed
+      modules = [ ../hosts ] ++ (inputs.nixpkgs.lib.optional isISO cd-dvd);
     };
 
   # Function to generate user secrets for a user
