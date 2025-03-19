@@ -71,12 +71,12 @@ needs_arg() {
 }
 
 usage() {
-  echo
-  echo "Build or switch Home Manager configuration using 'nh'."
-  echo
+  to_stdout
+  to_stdout "Build or switch Home Manager configuration using 'nh'."
+  to_stdout
   to_stdout "${bld}Usage:${nc}"
   to_stdout "    ${dim}\$${nc} ${script_name} <build|switch>"
-  echo
+  to_stdout
   to_stdout "${bld}Options:${nc}"
   cat <<EOF | column -tds '|'
     -h, --help|Show this help message
