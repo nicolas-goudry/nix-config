@@ -81,6 +81,8 @@ usage() {
   cat <<EOF | column -tds '|'
     -h, --help|Show this help message
 EOF
+  to_stdout
+  to_stdout "Note: unknown options will be passed down to 'nh'."
 }
 
 main() {
@@ -99,26 +101,16 @@ main() {
         usage
         exit 0
         ;;
-      ??* ) # bad long option
-        >&2 echo "${0}: illegal option -- $OPT"
-        usage
-        die
-        ;;
-      ? ) # bad short option (error reported via getopts)
-        usage
-        die
-        ;;
     esac
   done
 
-  if [ -z "${1}" ]; then
-    warn "No argument specified, assuming ${action}"
-  elif ! [[ "${1}" =~ ^(build|switch)$ ]]; then
-    error "Invalid argument: ${1}"
+  if ! [[ "${1}" =~ ^(build|switch)$ ]]; then
+    error "Invalid action provided: ${1}"
     usage
     die
   else
     action="${1}"
+    shift
   fi
 
   if ! [ -d "${nixstrap}" ]; then
@@ -127,8 +119,8 @@ main() {
 
   all_cores=$(nproc)
   build_cores=$(LC_NUMERIC="en_US.UTF-8" printf "%.0f" "$(echo "${all_cores} * 0.75" | bc)")
-  info "${action^}ing NixOS   with ${build_cores} cores"
-  nh os "${action}" "${nixstrap}" -- --cores "${build_cores}"
+  info "${action^}ing NixOS  with ${build_cores} cores"
+  nh os "${action}" "${@}" "${nixstrap}" -- --cores "${build_cores}"
 }
 
 main "$@"
