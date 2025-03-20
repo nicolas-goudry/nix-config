@@ -7,12 +7,6 @@
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # Common hardware profiles
-    hardware.url = "github:nixos/nixos-hardware";
-
-    # Persist important state
-    impermanence.url = "github:nix-community/impermanence";
-
     # Disk formatting and partitioning tool
     disko = {
       url = "github:nix-community/disko";
@@ -25,6 +19,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Common hardware profiles
+    hardware.url = "github:nixos/nixos-hardware";
+
     # Users home directory management
     # https://nix-community.github.io/home-manager/index.xhtml
     # https://nix-community.github.io/home-manager/options.xhtml
@@ -32,6 +29,9 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Persist important state
+    impermanence.url = "github:nix-community/impermanence";
 
     # Weekly updated nix-index database
     nix-index-database = {
