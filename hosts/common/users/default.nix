@@ -35,13 +35,10 @@
       # Default user shell
       shell = pkgs.zsh;
 
+      # Conditionally assigned groups
       extraGroups =
-        [
-          # Add user to sudoers
-          "wheel"
-        ]
         # Add user to docker group if docker is enabled
-        ++ lib.optionals config.virtualisation.docker.enable [
+        lib.optionals config.virtualisation.docker.enable [
           "docker"
         ]
         # Add user to vboxusers group if virtualbox is enabled
