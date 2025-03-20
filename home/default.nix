@@ -163,10 +163,7 @@ in
       installVimSyntax = true;
 
       # See https://ghostty.org/docs/config/reference
-      settings = {
-        # Apply catppuccin theme
-        theme = "catppuccin-mocha";
-      };
+      settings = { };
     };
 
     # Configure bat (https://github.com/sharkdp/bat), a modern cat replacement
