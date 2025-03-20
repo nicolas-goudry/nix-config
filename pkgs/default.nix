@@ -5,7 +5,6 @@ pkgs:
 
 {
   # example = pkgs.callPackage ./example.nix { };
-  catppuccin-alacritty = pkgs.callPackage ./catppuccin-themes/alacritty.nix { };
   catppuccin-delta = pkgs.callPackage ./catppuccin-themes/delta.nix { };
   catppuccin-gitkraken = pkgs.callPackage ./catppuccin-themes/gitkraken.nix { };
   kdrive = pkgs.callPackage ./kdrive { };
