@@ -21,25 +21,26 @@
       isWorkstation = builtins.isString desktop;
     in
     inputs.home-manager.lib.homeManagerConfiguration {
+      # Common home-manager configuration
+      modules = [ ../home ];
+
+      # Packages for given platform
       pkgs = inputs.nixpkgs.legacyPackages.${platform};
 
       extraSpecialArgs = {
         inherit
-          inputs
-          outputs
           desktop
           hostname
-          platform
-          username
-          stateVersion
+          inputs
           isInstall
           isISO
           isWorkstation
+          outputs
+          platform
+          stateVersion
+          username
           ;
       };
-
-      # Common home-manager configuration
-      modules = [ ../home ];
     };
 
   # Function to generate NixOS configurations
