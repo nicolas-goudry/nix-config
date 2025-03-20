@@ -4,7 +4,6 @@
   isWorkstation,
   lib,
   pkgs,
-  username,
   ...
 }:
 
@@ -20,7 +19,10 @@ let
 in
 {
   # Declare user without password
-  users.users.${username}.description = "NixOS";
+  users.users.nixos = {
+    description = "NixOS";
+    extraGroups = [ "wheel" ];
+  };
 
   # Add ISO install packages
   environment = {
@@ -34,7 +36,7 @@ in
   # Enable autologin
   services.displayManager.autoLogin = lib.mkIf isWorkstationISO {
     enable = lib.mkForce true;
-    user = "${username}";
+    user = "nixos";
   };
 
   system = {
@@ -49,7 +51,7 @@ in
   systemd.tmpfiles = lib.mkIf isWorkstationISO {
     rules = [
       # Initialize dummy ZSH config file to avoid config prompt
-      "f /home/${username}/.zshrc 0755 ${username} users - # dummy"
+      "f /home/nixos/.zshrc 0755 nixos users - # dummy"
       # Initialize empty wifi secrets file to prevent wpa_supplicant to fail
       # This is needed since on ISO images there are no valid keys to decrypt wifi secrets
       "d /run/secrets 0755 root root"
