@@ -93,6 +93,7 @@ in
       inputs.impermanence.nixosModules.impermanence
       inputs.nix-index-database.nixosModules.nix-index
       inputs.sops.nixosModules.sops
+      inputs.stylix.nixosModules.stylix
       outputs.nixosModules.wpa_supplicant
 
       # Configure host
@@ -427,6 +428,11 @@ in
     secrets = lib.mkIf config.networking.wireless.enable {
       wifi.sopsFile = ./common/networks/secrets.yaml;
     };
+  };
+
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
   };
 
   system = {
