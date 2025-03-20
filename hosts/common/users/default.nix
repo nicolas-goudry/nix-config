@@ -18,7 +18,7 @@
       ./root
     ]
     # Load custom user definition if it exists
-    ++ lib.optional (builtins.pathExists (./. + "/${username}")) ./${username};
+    ++ lib.optional (username != "" && builtins.pathExists (./. + "/${username}")) ./${username};
 
   users = {
     # Only handle users via configuration (this is also needed for impermanence)
@@ -26,7 +26,7 @@
     mutableUsers = false;
 
     # Common user configuration
-    users.${username} = {
+    users.${username} = lib.mkIf (username != "") {
       isNormalUser = true;
 
       # Provide home-manager for users

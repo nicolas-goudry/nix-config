@@ -10,8 +10,8 @@
   # Function to generate home-manager configurations
   mkHome =
     {
-      hostname,
       username,
+      hostname ? "",
       desktop ? null,
       platform ? "x86_64-linux",
     }:
@@ -46,7 +46,7 @@
   mkHost =
     {
       hostname,
-      username,
+      username ? "",
       desktop ? null,
       platform ? "x86_64-linux",
     }:
@@ -61,23 +61,23 @@
           "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix";
     in
     inputs.nixpkgs.lib.nixosSystem {
+      # Common host configuration merged with ISO installer if needed
+      modules = [ ../hosts ] ++ (inputs.nixpkgs.lib.optional isISO cd-dvd);
+
       specialArgs = {
         inherit
-          inputs
-          outputs
           desktop
           hostname
-          platform
-          username
-          stateVersion
+          inputs
           isInstall
           isISO
           isWorkstation
+          outputs
+          platform
+          stateVersion
+          username
           ;
       };
-
-      # Common host configuration merged with ISO installer if needed
-      modules = [ ../hosts ] ++ (inputs.nixpkgs.lib.optional isISO cd-dvd);
     };
 
   # Function to generate user secrets for a user
@@ -100,22 +100,26 @@
       sopsFile,
       username,
     }:
-    lib.attrsets.mergeAttrsList (
-      lib.forEach secrets (secret: {
-        ${secret.name} = {
-          inherit sopsFile;
+    if username == "" then
+      { }
+    else
+      lib.attrsets.mergeAttrsList (
+        lib.forEach secrets (secret: {
+          ${secret.name} = {
+            inherit sopsFile;
 
-          neededForUsers = if secret ? "neededForUsers" then secret.neededForUsers else false;
-          owner = lib.mkIf (!secret ? "neededForUsers") username;
-          group = lib.mkIf (!secret ? "neededForUsers") "users";
-          mode = if secret ? "mode" then secret.mode else "0400";
-          path = lib.mkIf (secret ? "path" || secret ? "dir") (
-            if secret ? "path" then
-              secret.path
-            else
-              "/home/${username}/${secret.dir}/${if secret ? "file" then secret.file else secret.name}"
-          );
-        };
-      })
-    );
+            neededForUsers = if secret ? "neededForUsers" then secret.neededForUsers else false;
+            owner = lib.mkIf (!secret ? "neededForUsers") username;
+            group = lib.mkIf (!secret ? "neededForUsers") "users";
+            mode = if secret ? "mode" then secret.mode else "0400";
+
+            path = lib.mkIf (secret ? "path" || secret ? "dir") (
+              if secret ? "path" then
+                secret.path
+              else
+                "/home/${username}/${secret.dir}/${if secret ? "file" then secret.file else secret.name}"
+            );
+          };
+        })
+      );
 }
