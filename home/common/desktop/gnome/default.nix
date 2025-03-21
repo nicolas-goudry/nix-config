@@ -39,6 +39,7 @@ in
         "org/gnome/desktop/media-handling".autorun-never = true;
         "org/gnome/desktop/remote-desktop/rdp".enable = false;
         "org/gnome/desktop/session".idle-delay = mkUint32 300;
+        "org/gnome/settings-daemon/plugins/color".night-light-enabled = true;
         "org/gnome/settings-daemon/plugins/media-keys".home = [ "<Super>e" ];
         "org/gnome/settings-daemon/plugins/sharing/gnome-user-share-webdav".enabled-connections =
           mkEmptyArray type.string;
@@ -175,13 +176,6 @@ in
           show-delete-permanently = true;
           show-directory-item-counts = "local-only";
           show-image-thumbnails = "local-only";
-        };
-
-        "org/gnome/settings-daemon/plugins/color" = {
-          night-light-enabled = true;
-          night-light-schedule-automatic = false;
-          night-light-schedule-from = 20.0;
-          night-light-schedule-to = 7.0;
         };
 
         "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [
