@@ -54,6 +54,7 @@ trace() {
   done
 }
 
+# shellcheck disable=SC2120
 die() {
   if [ "${#}" -gt 0 ]; then
     error "${*}"
