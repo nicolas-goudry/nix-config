@@ -25,15 +25,16 @@ in
       inputs.nix-index-database.hmModules.nix-index
       inputs.sops.homeManagerModules.sops
 
+      # Configure user
+      ./${username}
+
       # Add scripts
       ./common/scripts
     ]
-    # Load custom user definition if it exists
-    ++ lib.optional (builtins.pathExists (./. + "/users/${username}")) ./users/${username}
-    # Load custom host definition if it exists
+    # Configure host-specific settings for user if it exists
     ++ lib.optional (builtins.pathExists (
-      ./. + "/users/${username}/${hostname}.nix"
-    )) ./users/${username}/${hostname}.nix
+      ./. + "/${username}/${hostname}.nix"
+    )) ./${username}/${hostname}.nix
     # Configure desktop if workstation
     ++ lib.optional isWorkstation ./common/desktop;
 
