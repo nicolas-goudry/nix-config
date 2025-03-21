@@ -6,15 +6,26 @@
 }:
 
 let
+  flavor = "mocha";
+  accent = "red";
+  size = "compact";
+  tweaks = [ "rimless" ];
+
+  gnomeThemeName = "catppuccin-${flavor}-${accent}-${size}+${lib.concatStringsSep "," tweaks}";
   gnomeThemePkg = pkgs.catppuccin-gtk.override {
-    accents = [ "red" ];
-    size = "compact";
-    tweaks = [ "rimless" ];
-    variant = "mocha";
+    inherit size tweaks;
+
+    accents = [ accent ];
+    variant = flavor;
   };
-  gnomeThemeName = "Catppuccin-Mocha-Compact-Red-Dark";
-  cursorsThemePkg = pkgs.catppuccin-cursors.mochaRed;
-  cursorsThemeName = "Catppuccin-Mocha-Red-Cursors";
+
+  gnomeIconThemeName = "Papirus-${if flavor == "latte" then "Light" else "Dark"}";
+  gnomeIconThemePkg = pkgs.catppuccin-papirus-folders.override {
+    inherit accent flavor;
+  };
+
+  cursorsThemeName = "catppuccin-${flavor}-${accent}-cursors";
+  cursorsThemePkg = pkgs.catppuccin-cursors.${flavor + (lib.toUpper (builtins.substring 0 1 accent)) + (builtins.substring 1 (builtins.stringLength accent) accent)};
 in
 {
   # Default gnome configuration via dconf
@@ -54,7 +65,7 @@ in
 
         "org/gnome/desktop/interface" = {
           clock-format = "24h";
-          color-scheme = "prefer-dark";
+          color-scheme = if flavor == "latte" then "default" else "prefer-dark";
           clock-show-date = true;
           clock-show-seconds = true;
           enable-hot-corners = false;
@@ -332,13 +343,13 @@ in
       gtk-decoration-layout = "appmenu:minimize,maximize,close";
     };
 
-    # Enable catppuccin icon theme (https://github.com/catppuccin/cursors)
+    # Enable catppuccin icon theme (https://github.com/catppuccin/papirus-folders)
     iconTheme = {
-      name = cursorsThemeName;
-      package = cursorsThemePkg;
+      name = gnomeIconThemeName;
+      package = gnomeIconThemePkg;
     };
 
-    # Add catppuccin theme (https://github.com/catppuccin/gtk)
+    # Add catppuccin GTK theme (https://github.com/catppuccin/gtk)
     theme = {
       name = gnomeThemeName;
       package = gnomeThemePkg;
