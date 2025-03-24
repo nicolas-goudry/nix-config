@@ -25,7 +25,12 @@ let
   };
 
   cursorsThemeName = "catppuccin-${flavor}-${accent}-cursors";
-  cursorsThemePkg = pkgs.catppuccin-cursors.${flavor + (lib.toUpper (builtins.substring 0 1 accent)) + (builtins.substring 1 (builtins.stringLength accent) accent)};
+  cursorsThemePkg =
+    pkgs.catppuccin-cursors.${
+      flavor
+      + (lib.toUpper (builtins.substring 0 1 accent))
+      + (builtins.substring 1 (builtins.stringLength accent) accent)
+    };
 in
 {
   # Default gnome configuration via dconf
