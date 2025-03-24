@@ -1,11 +1,11 @@
+{ diskDevice, diskName ? null, lib, ... }:
+
 {
   disko.devices = {
     disk = {
       sda = {
         type = "disk";
-        # From target host run 'lsblk' to get disk name
-        # Then run 'ls -la /dev/disk/by-path | grep <disk-name>'
-        device = "/dev/disk/by-path/pci-0000:00:17.0-ata-4.0";
+        device = diskDevice;
 
         content = {
           type = "gpt";
@@ -40,7 +40,7 @@
 
                   # mkfs.btrfs extra arguments (https://btrfs.readthedocs.io/en/latest/mkfs.btrfs.html)
                   # - "-f": force overwrite block devices when existing fs is detected
-                  extraArgs = [ "-f" ];
+                  extraArgs = [ "-f" ] ++ (lib.optional (!isNull diskName) [ "-L" "nixos" ]);
 
                   # btrfs mount options: https://btrfs.readthedocs.io/en/latest/btrfs-man5.html#mount-options
                   subvolumes = {
