@@ -24,7 +24,7 @@ in
 {
   imports = lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop};
 
-  # Enable RealtimeKit for PulseAudio to acquire realtime priority
+  # Enable RealtimeKit to acquire realtime scheduling priority for I/O threads
   security.rtkit.enable = true;
 
   boot = {
@@ -119,9 +119,6 @@ in
     # Enable hardware accelerated graphics drivers (ie. OpenGL)
     graphics.enable = true;
 
-    # Disable PulseAudio
-    pulseaudio.enable = lib.mkForce false;
-
     # Bluetooth configuration
     # https://wiki.nixos.org/wiki/Bluetooth
     # https://wiki.archlinux.org/title/bluetooth
@@ -174,11 +171,13 @@ in
     # Enable CUPS on installs
     printing.enable = isInstall;
 
-    # Use Pipewire sound
+    # Sound
     pipewire = {
-      enable = true;
+      # Enable ALSA support
       alsa.enable = true;
       alsa.support32Bit = true;
+
+      # Enable PulseAudio server emulation
       pulse.enable = true;
     };
 
