@@ -1,4 +1,6 @@
-# Reference: https://wiki.nixos.org/wiki/PipeWire
+# References:
+# - https://wiki.nixos.org/wiki/PipeWire
+# - https://search.nixos.org/options?channel=unstable&query=services.pipewire
 { cfg, lib, ... }:
 
 with lib;

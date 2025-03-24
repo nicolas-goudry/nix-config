@@ -24,8 +24,7 @@ in
 {
   imports = lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop};
 
-  # Enable RealtimeKit to acquire realtime scheduling priority for I/O threads
-  security.rtkit.enable = true;
+  featx.sound.enable = true;
 
   boot = {
     consoleLogLevel = 0;
@@ -174,16 +173,6 @@ in
   services = {
     # Enable CUPS on installs
     printing.enable = isInstall;
-
-    # Sound
-    pipewire = {
-      # Enable ALSA support
-      alsa.enable = true;
-      alsa.support32Bit = true;
-
-      # Enable PulseAudio server emulation
-      pulse.enable = true;
-    };
 
     # Disable xterm
     xserver = {
