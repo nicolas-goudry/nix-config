@@ -81,13 +81,13 @@ usage() {
   to_stdout "    ${dim}\$${nc} ${script_name} [options]"
   to_stdout
   to_stdout "${bld}Options:${nc}"
-  cat <<EOF | column -tds '|'
-    -H, --host|Host to install NixOS to
-    -u, --user|Username to install NixOS with
-    -b, --branch|Branch to use for configuration|default: main
-    -K, --gpg|GnuPG key to use
-    --fetch-only|Clone source repository and exit
-    -h, --help|Show this help message
+  cat <<EOF | column -ts '|'
+    -H, --host|required|Host to install NixOS to
+    -u, --user|required|Username to install NixOS with
+    -k, --key|required|PGP key to use for encryption/decryption
+    -b, --branch|default: main|Branch to use for configuration
+    -f, --fetch||Clone source repository and exit
+    -h, --help||Show this help message
 EOF
 }
 
@@ -383,7 +383,7 @@ main() {
   gpg_key=""
   target_branch="main"
 
-  while getopts 'hH:u:b:K:-:' OPT; do
+  while getopts 'hfH:u:b:k:-:' OPT; do
     # support long options: https://stackoverflow.com/a/28466267/519360
     if test "${OPT}" = "-"; then # long option: reformulate OPT and OPTARG
       OPT="${OPTARG%%=*}" # extract long option name
@@ -406,11 +406,11 @@ main() {
         needs_arg
         target_branch="${OPTARG}"
         ;;
-      K | gpg )
+      k | key )
         needs_arg
         gpg_key="${OPTARG}"
         ;;
-      "fetch-only" )
+      f | "fetch-only" )
         ensure_repo overwrite
         exit 0
         ;;
