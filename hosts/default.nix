@@ -113,14 +113,17 @@ in
   # Virtual console keymap
   console.keyMap = "fr";
 
+  # Internationalisation settings
+  featx.locale = {
+    format = "fr_FR.UTF-8";
+    timeZone = "Europe/Paris";
+  };
+
   # Enable NVIDIA Docker support if host has NVIDIA driver
   hardware.nvidia-container-toolkit.enable = config.virtualisation.docker.enable && hasNvidia;
 
   # Set CPU frequency on performance mode
   powerManagement.cpuFreqGovernor = "performance";
-
-  # Default timezone
-  time.timeZone = "Europe/Paris";
 
   # Enable Docker on installs
   virtualisation.docker.enable = isInstall;
@@ -217,23 +220,6 @@ in
         VISUAL = nixvim;
       };
     };
-
-  # Locale settings
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-
-    extraLocaleSettings = {
-      LC_ADDRESS = "fr_FR.UTF-8";
-      LC_IDENTIFICATION = "fr_FR.UTF-8";
-      LC_MEASUREMENT = "fr_FR.UTF-8";
-      LC_MONETARY = "fr_FR.UTF-8";
-      LC_NAME = "fr_FR.UTF-8";
-      LC_NUMERIC = "fr_FR.UTF-8";
-      LC_PAPER = "fr_FR.UTF-8";
-      LC_TELEPHONE = "fr_FR.UTF-8";
-      LC_TIME = "fr_FR.UTF-8";
-    };
-  };
 
   networking = {
     # Use passed hostname to configure basic networking
