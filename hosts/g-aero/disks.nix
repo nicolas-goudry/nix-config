@@ -34,7 +34,6 @@
                 type = "luks";
                 name = "crypted";
                 settings.allowDiscards = true;
-                passwordFile = "/tmp/data.passwordFile";
 
                 content = {
                   type = "btrfs";
