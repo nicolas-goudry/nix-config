@@ -29,6 +29,7 @@ let
       rsync
       sops
       ssh-to-age
+      unixtools.column
       util-linux
       yq
     ];
