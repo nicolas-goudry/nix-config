@@ -104,6 +104,8 @@ in
 
       # Add scripts
       ./common/scripts
+
+      ./common/features
     ]
     # Configure desktop if workstation
     ++ lib.optional isWorkstation ./common/desktop;
