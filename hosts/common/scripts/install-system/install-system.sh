@@ -238,7 +238,7 @@ ensure_disk() {
     error "Invalid disk provided: ${target_disk}"
   else
     is_error=false
-    target_disk=$(echo "${disks_path}" | grep -E "${target_disk}$" | cut -d' ' -f1)
+    target_disk=$(echo "${disks_path}" | grep -E "${target_disk}$" | head -n1 | cut -d' ' -f1)
     success "Disk set and valid"
   fi
 
