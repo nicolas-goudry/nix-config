@@ -206,7 +206,7 @@ ensure_pgp_key() {
 
   # Import hosts public keys (needed for secrets re-encryption before install)
   for pubkey in "${clone_dir}"/.keys/*.pub; do
-    gpg --import "${pubkey}";
+    gpg --quiet --import "${pubkey}"
   done
 }
 
