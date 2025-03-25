@@ -40,7 +40,7 @@
 
                   # mkfs.btrfs extra arguments (https://btrfs.readthedocs.io/en/latest/mkfs.btrfs.html)
                   # - "-f": force overwrite block devices when existing fs is detected
-                  extraArgs = [ "-f" ] ++ (lib.optional (!isNull diskName) [ "-L" "nixos" ]);
+                  extraArgs = [ "-f" ] ++ (lib.optionals (!isNull diskName) [ "-L" diskName ]);
 
                   # btrfs mount options: https://btrfs.readthedocs.io/en/latest/btrfs-man5.html#mount-options
                   subvolumes = {
