@@ -263,6 +263,8 @@ ensure_disk() {
 run_disko() {
   local config="${1}"
   local mode="${2}"
+  local disk="${3}"
+  local diskName="${4}"
   local reply
 
   # Make sure config file exists
@@ -288,11 +290,21 @@ run_disko() {
       ;;
   esac
 
+  local disko_args=()
+
+  if [ -n "${disk}" ]; then
+    disko_args+=("--arg" "diskDevice" "${disk}")
+  fi
+
+  if [ -n "${diskName}" ]; then
+    disko_args+=("--arg" "diskName" "${diskName}")
+  fi
+
   # Workaround for mounting encrypted bcachefs filesystems
   # - https://wiki.nixos.org/wiki/Bcachefs#NixOS_installation_on_bcachefs
   # - https://github.com/NixOS/nixpkgs/issues/32279
   sudo keyctl link @u @s
-  sudo disko --mode "${mode}" "${config}"
+  sudo disko --mode "${mode}" "${disko_args[@]}" "${config}"
 }
 
 # Prepare host disks
