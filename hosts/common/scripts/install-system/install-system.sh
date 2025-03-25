@@ -219,30 +219,6 @@ ensure_disks_config() {
   fi
 }
 
-# Check if the host we're provisioning expects a password to unlock a disk
-# If it does, prompt for it
-configure_disk_encryption() {
-  if grep -q "data.passwordFile" "${clone_dir}/hosts/${target_host}/disks.nix"; then
-    warn "disk configuration requires encryption!"
-
-    while true; do
-      read -rsp "Enter password  : " password
-      to_stdout
-      read -rsp "Confirm password: " password_confirm
-      to_stdout
-
-      if test "${password}" = "${password_confirm}"; then
-        break
-      else
-        error "Passwords do not match, please try again"
-      fi
-    done
-
-    # Write the password with no trailing newline (important!)
-    echo -n "${password}" > /tmp/data.passwordFile
-  fi
-}
-
 # Run disko with given config and mode
 run_disko() {
   local config="${1}"
@@ -288,8 +264,6 @@ prepare_disks() {
       die "failed to prepare disks"
     fi
   else
-    # Configure disk encryption (if required) before running disko
-    configure_disk_encryption
     run_disko "${clone_dir}/hosts/${target_host}/disks.nix" "disko"
 
     # If the main configuration was denied, make sure the root partition is mounted
