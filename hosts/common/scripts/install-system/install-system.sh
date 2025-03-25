@@ -293,11 +293,11 @@ run_disko() {
   local disko_args=()
 
   if [ -n "${disk}" ]; then
-    disko_args+=("--arg" "diskDevice" "${disk}")
+    disko_args+=("--argstr" "diskDevice" "${disk}")
   fi
 
   if [ -n "${diskName}" ]; then
-    disko_args+=("--arg" "diskName" "${diskName}")
+    disko_args+=("--argstr" "diskName" "${diskName}")
   fi
 
   # Workaround for mounting encrypted bcachefs filesystems
