@@ -84,6 +84,7 @@ usage() {
   cat <<EOF | column -ts '|'
     -H, --host|required|Host to install NixOS to
     -u, --user|required|Username to install NixOS with
+    -d, --disk|required|Disk to install NixOS into
     -k, --key|required|PGP key to use for encryption/decryption
     -b, --branch|default: main|Branch to use for configuration
     -f, --fetch||Clone source repository and exit
@@ -348,10 +349,11 @@ install_nixos() {
 main() {
   target_host=""
   target_user=""
+  target_disk=""
   pgp_key=""
   target_branch="main"
 
-  while getopts 'hfH:u:b:k:-:' OPT; do
+  while getopts 'hfH:u:d:b:k:-:' OPT; do
     # support long options: https://stackoverflow.com/a/28466267/519360
     if test "${OPT}" = "-"; then # long option: reformulate OPT and OPTARG
       OPT="${OPTARG%%=*}" # extract long option name
@@ -369,6 +371,10 @@ main() {
       u | user )
         needs_arg
         target_user="${OPTARG}"
+        ;;
+      d | disk )
+        needs_arg
+        target_disk="${OPTARG}"
         ;;
       b | branch )
         needs_arg
