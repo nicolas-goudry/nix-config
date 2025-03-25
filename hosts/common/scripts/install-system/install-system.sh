@@ -316,11 +316,12 @@ prepare_disks() {
       die "failed to prepare disks"
     fi
   else
-    run_disko "${clone_dir}/hosts/${target_host}/disks.nix" "disko"
+    ensure_disk
+    run_disko "${clone_dir}/hosts/${target_host}/disks.nix" "disko" "${target_disk}" "nixos"
 
     # If the main configuration was denied, make sure the root partition is mounted
     if ! mountpoint -q /mnt; then
-      run_disko "${clone_dir}/hosts/${target_host}/disks.nix" "mount"
+      run_disko "${clone_dir}/hosts/${target_host}/disks.nix" "mount" "${target_disk}" "nixos"
     fi
 
     # Prepare additional disks if required
