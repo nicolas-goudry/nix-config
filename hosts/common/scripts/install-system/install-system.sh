@@ -184,15 +184,15 @@ ensure_user() {
   fi
 }
 
-# Make sure a valid gpg key was provided to decrypt secrets
-ensure_gpg_key() {
-  if [ -z "${gpg_key}" ]; then
-    error "GPG key is not defined"
+# Make sure a valid PGP key was provided to decrypt secrets
+ensure_pgp_key() {
+  if [ -z "${pgp_key}" ]; then
+    error "PGP key is not defined"
     usage
-  elif ! gpg -K "${gpg_key}" &> /dev/null; then
-    die "GPG key (${gpg_key}) was not found in keyring"
+  elif ! gpg -K "${pgp_key}" &> /dev/null; then
+    die "PGP key (${pgp_key}) was not found in keyring"
   else
-    success "GPG key in keyring"
+    success "PGP key in keyring"
   fi
 
   # Gather known keys from .sops.yaml file
@@ -200,8 +200,8 @@ ensure_gpg_key() {
   known_keys=$(yq '.keys.users | map(ascii_upcase)' "${clone_dir}/.sops.yaml" | jq -r '.[]')
 
   # Fail if key is not known by sops
-  if ! echo "${known_keys}" | grep -x -q "${gpg_key}"; then
-    die "GPG key is not a known installation key"
+  if ! echo "${known_keys}" | grep -x -q "${pgp_key}"; then
+    die "PGP key is not a known installation key"
   fi
 
   # Import hosts public keys (needed for secrets re-encryption before install)
@@ -374,7 +374,7 @@ install_nixos() {
 main() {
   target_host=""
   target_user=""
-  gpg_key=""
+  pgp_key=""
   target_branch="main"
 
   while getopts 'hfH:u:b:k:-:' OPT; do
@@ -402,7 +402,7 @@ main() {
         ;;
       k | key )
         needs_arg
-        gpg_key="${OPTARG}"
+        pgp_key="${OPTARG}"
         ;;
       f | "fetch-only" )
         ensure_repo overwrite
@@ -428,7 +428,7 @@ main() {
   ensure_repo
   ensure_host
   ensure_user
-  ensure_gpg_key
+  ensure_pgp_key
   ensure_disks_config
   prepare_disks
   install_nixos
