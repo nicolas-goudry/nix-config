@@ -220,6 +220,45 @@ ensure_disks_config() {
   fi
 }
 
+# Make sure disk destination is set
+ensure_disk() {
+  local disks disks_id disks_path
+  local is_error=true
+
+  # Get all available disks, sorted by path
+  disks=$(lsblk -d --noheading --output NAME --paths | sort)
+  # Get all disks identifiers
+  disks_id=$(find /dev/disk/by-id -maxdepth 1 -type l -printf '%p %l\n' | sed 's|\.\./\.\.|/dev|' | sort -k2,2)
+  # Get all disks paths
+  disks_path=$(find /dev/disk/by-path -maxdepth 1 -type l -printf '%p %l\n' | sed 's|\.\./\.\.|/dev|' | sort -k2,2)
+
+  if [ -z "${target_disk}" ]; then
+    error "Disk is not defined"
+  elif ! [[ "${target_disk}" =~ ^($(echo "${disks}" | tr '\n' '|'))$ ]]; then
+    error "Invalid disk provided: ${target_disk}"
+  else
+    is_error=false
+    target_disk=$(echo "${disks_path}" | grep -E "${target_disk}$" | cut -d' ' -f1)
+    success "Disk set and valid"
+  fi
+
+  # In case of error, output available users
+  if [ "${is_error}" = "true" ]; then
+    disks_output=$(join -2 2 <(join -2 2 <(echo "${disks}") <(echo "${disks_id}")) <(echo "${disks_path}"))
+
+    to_stdout
+    echo "${disks_output}" | column -tN "Available disks",ID,PATH
+
+    if [ -z "${target_disk}" ]; then
+      to_stdout
+      to_stdout "Use '--disk' to define the installation target disk."
+      to_stdout "See usage for details."
+    fi
+
+    die
+  fi
+}
+
 # Run disko with given config and mode
 run_disko() {
   local config="${1}"
