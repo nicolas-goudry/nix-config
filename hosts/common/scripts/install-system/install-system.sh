@@ -138,11 +138,8 @@ ensure_host() {
   # In case of error, output available hosts
   if [ "${is_error}" = "true" ]; then
     to_stdout
-    to_stdout "Available hosts:"
 
-    for host in ${hosts}; do
-      to_stdout "  - ${host}"
-    done
+    echo "${hosts}" | column -tN "Available hosts:"
 
     if [ -z "${target_host}" ]; then
       to_stdout
@@ -174,11 +171,8 @@ ensure_user() {
   # In case of error, output available users
   if [ "${is_error}" = "true" ]; then
     to_stdout
-    to_stdout "Available users:"
 
-    for user in ${users}; do
-      to_stdout "  - ${user}"
-    done
+    echo "${users}" | column -tN "Available users:"
 
     if [ -z "${target_user}" ]; then
       to_stdout
