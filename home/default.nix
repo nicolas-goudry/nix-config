@@ -22,8 +22,10 @@ in
   imports =
     [
       # Modules
+      inputs.impermanence.homeManagerModules.impermanence
       inputs.nix-index-database.hmModules.nix-index
       inputs.sops.homeManagerModules.sops
+      inputs.stylix.homeManagerModules.stylix
 
       # Configure user
       ./${username}
