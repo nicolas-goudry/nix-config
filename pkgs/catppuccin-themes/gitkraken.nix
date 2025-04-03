@@ -26,7 +26,7 @@ stdenvNoCC.mkDerivation rec {
 
   meta = with lib; {
     description = "Soothing pastel theme for GitKraken";
-    homepage = "https://github.com/catppucin/gitkraken";
+    homepage = "https://github.com/catppuccin/gitkraken";
     license = licenses.mit;
     maintainers = [ maintainers.nicolas-goudry ];
   };
