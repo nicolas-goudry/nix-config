@@ -12,7 +12,7 @@ let
   shellApplication = pkgs.writeShellApplication {
     inherit name;
 
-    text = builtins.readFile ./${name}.sh;
+    text = builtins.readFile ./script.sh;
 
     runtimeInputs = with pkgs; [
       inputs.disko.packages.${platform}.default
