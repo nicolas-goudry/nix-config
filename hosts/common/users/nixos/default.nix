@@ -16,10 +16,12 @@ let
     name = "com.mitchellh.ghostty";
     package = pkgs.ghostty;
   };
+
+  user = builtins.baseNameOf (builtins.toString ./.);
 in
 {
   # Declare user without password
-  users.users.nixos = {
+  users.users.${user} = {
     description = "NixOS";
     extraGroups = [ "wheel" ];
   };
@@ -35,8 +37,9 @@ in
 
   # Enable autologin
   services.displayManager.autoLogin = lib.mkIf isWorkstationISO {
+    inherit user;
+
     enable = lib.mkForce true;
-    user = "nixos";
   };
 
   system = {
@@ -51,7 +54,7 @@ in
   systemd.tmpfiles = lib.mkIf isWorkstationISO {
     rules = [
       # Initialize dummy ZSH config file to avoid config prompt
-      "f /home/nixos/.zshrc 0755 nixos users - # dummy"
+      "f /home/${user}/.zshrc 0755 ${user} users - # dummy"
       # Initialize empty wifi secrets file to prevent wpa_supplicant to fail
       # This is needed since on ISO images there are no valid keys to decrypt wifi secrets
       "d /run/secrets 0755 root root"

@@ -5,7 +5,9 @@
   ...
 }:
 
-{
+let
+  user = builtins.baseNameOf (builtins.toString ./.);
+in {
   # Define sops source for secrets
   sops.secrets = outputs.libx.mkUserSecrets {
     inherit username;
@@ -52,7 +54,7 @@
   #]);
 
   # Define user (note: use "mkpasswd -m SHA-512" to create password hash)
-  users.users.nicolas = {
+  users.users.${user} = {
     description = "Nicolas Goudry";
     extraGroups = [ "wheel" ];
     hashedPasswordFile = config.sops.secrets.nicolas-password.path;
