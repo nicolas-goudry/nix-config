@@ -7,6 +7,11 @@
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Disk formatting and partitioning tool
     disko = {
       url = "github:nix-community/disko";

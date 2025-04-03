@@ -89,6 +89,7 @@ in
     [
       # Modules
       (modulesPath + "/installer/scan/not-detected.nix")
+      inputs.catppuccin.nixosModules.catppuccin
       inputs.disko.nixosModules.disko
       inputs.impermanence.nixosModules.impermanence
       inputs.nix-index-database.nixosModules.nix-index
