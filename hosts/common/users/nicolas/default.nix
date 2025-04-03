@@ -53,6 +53,8 @@ in {
   #  vivaldi
   #]);
 
+  nix.settings.trusted-users = [ user ];
+
   # Define user (note: use "mkpasswd -m SHA-512" to create password hash)
   users.users.${user} = {
     description = "Nicolas Goudry";
