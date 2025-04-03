@@ -31,10 +31,6 @@ in
     consoleLogLevel = 0;
     initrd.verbose = false;
 
-    # Boot splashscreen
-    # https://wiki.archlinux.org/title/plymouth
-    plymouth.enable = true;
-
     kernelParams =
       [
         # Disable blinking cursor in virtual terminal
@@ -52,6 +48,14 @@ in
         "udev.log_level=3"
         "rd.udev.log_level=3"
       ];
+
+    # Boot splashscreen
+    # https://wiki.archlinux.org/title/plymouth
+    plymouth = {
+      enable = true;
+      theme = "catppuccin-mocha";
+      themePackages = [ (pkgs.catppuccin-plymouth.override { variant = "mocha"; }) ];
+    };
   };
 
   # Add WPA GUI if wireless networks are enabled
