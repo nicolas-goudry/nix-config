@@ -102,9 +102,9 @@ let
   modulesTree = importModulesRecursively baseDir [ rootModuleName ];
 in
 {
+  # Export the merged configurations
+  inherit (modulesTree) config;
+
   # Export the complete options structure under the root module name
   options.${rootModuleName} = modulesTree.options;
-
-  # Export the merged configurations
-  config = modulesTree.config;
 }

@@ -23,7 +23,7 @@ with lib;
     };
   };
 
-  config = mkIf (cfg.enable) {
+  config = mkIf cfg.enable {
     # Disable PulseAudio
     # TODO: Replace with 'services.pulseaudio.enable' on 25.05
     hardware.pulseaudio.enable = false;
