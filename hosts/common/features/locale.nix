@@ -22,7 +22,7 @@ with lib;
     };
 
     timeZone = mkOption {
-      type = types.nullOr str;
+      type = types.nullOr types.str;
       # Default to UTC
       default = null;
     };
