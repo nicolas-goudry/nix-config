@@ -7,7 +7,8 @@
 
 let
   user = builtins.baseNameOf (builtins.toString ./.);
-in {
+in
+{
   # Define sops source for secrets
   sops.secrets = outputs.libx.mkUserSecrets {
     inherit username;
