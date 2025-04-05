@@ -34,7 +34,10 @@ with lib;
     i18n = {
       defaultLocale = cfg.language;
 
-      i18n.supportedLocales = unique [ "${cfg.language}/UTF-8" "${cfg.format}/UTF-8" ];
+      i18n.supportedLocales = unique [
+        "${cfg.language}/UTF-8"
+        "${cfg.format}/UTF-8"
+      ];
 
       extraLocaleSettings = {
         LC_ALL = cfg.language;
