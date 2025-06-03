@@ -6,6 +6,51 @@
   ...
 }:
 
+let
+  # recurseReadDir: path -> [string]? -> attrset
+  #
+  # Recursively reads a directory and creates a nested attribute set where:
+  # - Keys are the file paths (without .nix extension)
+  # - Values are the original file names
+  # - Nested directories are represented as nested attribute sets
+  #
+  # Parameters:
+  #   dir: Path to the directory to read
+  #   parentPath: Optional list of path segments for nested directories
+  #
+  # Example:
+  #   recurseReadDir ./foo null
+  #   => {
+  #     "bar" = "bar.nix";
+  #     "nested" = {
+  #       "baz" = "baz.nix";
+  #     };
+  #   }
+  # :p recurseReadDir ./hosts/common/features null
+  recurseReadDir =
+    dir: parentPath:
+    let
+      entries = builtins.readDir dir;
+      files = builtins.attrNames entries;
+    in
+    lib.foldl' (
+      flatDirListing: entry:
+      let
+        fullPath = "${dir}/${entry}";
+        newPath = if builtins.isNull parentPath then [ entry ] else parentPath ++ [ entry ];
+        attrName = lib.removeSuffix ".nix" entry;
+      in
+      if entries.${entry} == "directory" then
+        lib.recursiveUpdate flatDirListing (recurseReadDir fullPath newPath)
+      else if entries.${entry} == "regular" && lib.hasSuffix ".nix" entry then
+        if builtins.isNull parentPath then
+          lib.recursiveUpdate flatDirListing { ${attrName} = fullPath; }
+        else
+          lib.recursiveUpdate flatDirListing (lib.setAttrByPath (parentPath ++ [ attrName ]) fullPath)
+      else
+        flatDirListing
+    ) { } files;
+in
 {
   # Function to generate home-manager configurations
   mkHome =
@@ -123,4 +168,78 @@
           };
         })
       );
+
+  mkModuleFromDir =
+    path:
+    { config, lib, ... }@args:
+    let
+      namespace = baseNameOf path;
+      dirTree = recurseReadDir path null;
+      submodules = lib.mapAttrsRecursive (
+        attrPath: submodulePath:
+        let
+          submodule = import submodulePath;
+        in
+        {
+          inherit (submodule) mkOptions mkConfig;
+          path = lib.remove "default" attrPath;
+        }
+      ) dirTree;
+      collectConfigs =
+        attrs:
+        let
+          handleAttr =
+            name: value:
+            if builtins.isAttrs value then
+              if value ? mkConfig then
+                value.mkConfig (lib.attrByPath value.path { } config)
+              else
+                collectConfigs value
+            else
+              [ ];
+        in
+        lib.flatten (lib.mapAttrsToList handleAttr attrs);
+      collectOptions =
+        attrs:
+        let
+          handleAttr =
+            name: value:
+            if builtins.isAttrs value then
+              if value ? mkOptions then
+                lib.setAttrByPath value.path (
+                  lib.mkOption {
+                    type = lib.types.submodule {
+                      options = value.mkOptions lib;
+                    };
+                    default = { };
+                    description = "Generated options for ${builtins.head value.path}";
+                  }
+                )
+              else
+                lib.setAttrByPath [ name ] (
+                  lib.mkOption {
+                    type = lib.types.submodule {
+                      options = collectOptions value;
+                    };
+                    default = { };
+                    description = "Generated options for ${name}";
+                  }
+                )
+            else
+              { };
+        in
+        lib.foldl' lib.recursiveUpdate { } (lib.mapAttrsToList handleAttr attrs);
+    in
+    {
+      imports = collectConfigs submodules;
+      options = {
+        ${namespace} = lib.mkOption {
+          type = lib.types.submodule {
+            options = collectOptions submodules;
+          };
+          default = { };
+          description = "Options for ${namespace}";
+        };
+      };
+    };
 }

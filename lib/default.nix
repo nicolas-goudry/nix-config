@@ -8,6 +8,7 @@ in
   inherit (generators)
     mkHome
     mkHost
+    mkModuleFromDir
     mkUserSecrets
     ;
   inherit (nixgl)

@@ -24,7 +24,7 @@ in
 {
   imports = lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop};
 
-  featx.sound.enable = true;
+  features.sound.enable = true;
 
   boot = {
     consoleLogLevel = 0;

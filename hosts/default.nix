@@ -24,6 +24,7 @@
   isInstall,
   isWorkstation,
   lib,
+  libx,
   modulesPath,
   outputs,
   pkgs,
@@ -106,7 +107,7 @@ in
       # Add scripts
       ./common/scripts
 
-      ./common/features
+      (outputs.libx.mkModuleFromDir ./common/features)
     ]
     # Configure desktop if workstation
     ++ lib.optional isWorkstation ./common/desktop;
@@ -115,7 +116,7 @@ in
   console.keyMap = "fr";
 
   # Internationalisation settings
-  featx.locale = {
+  features.locale = {
     format = "fr_FR.UTF-8";
     timeZone = "Europe/Paris";
   };
