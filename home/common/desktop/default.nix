@@ -19,8 +19,8 @@ in
     ++ lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop}
     # User specific desktop configuration
     ++ lib.optional (builtins.pathExists (
-      ./. + "/../../users/${username}/desktop.nix"
-    )) ../../users/${username}/desktop.nix;
+      ./. + "/../../${username}/desktop.nix"
+    )) ../../${username}/desktop.nix;
 
   home.packages =
     with pkgs;
