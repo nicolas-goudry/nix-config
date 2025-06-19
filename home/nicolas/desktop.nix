@@ -1,6 +1,7 @@
 {
   config,
   desktop,
+  inputs,
   lib,
   pkgs,
   ...
@@ -10,6 +11,10 @@ let
   isGnome = desktop == "gnome";
 in
 {
+  imports = [
+    inputs.nixkraken.homeManagerModules.nixkraken
+  ];
+
   home.packages =
     with pkgs;
     [
@@ -158,7 +163,7 @@ in
   };
 
   programs = {
-    gitkraken = {
+    nixkraken = {
       enable = true;
       package = pkgs.unstable.gitkraken;
       acceptEULA = true;

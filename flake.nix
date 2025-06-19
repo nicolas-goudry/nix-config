@@ -50,6 +50,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixkraken.url = "git+ssh://git@github.com/nicolas-goudry/nixkraken";
+
     # Neovim the Nix way
     nixvim-config.url = "github:nicolas-goudry/nixvim-config";
 

@@ -2,5 +2,5 @@
 # https://wiki.nixos.org/wiki/NixOS_modules
 
 {
-  gitkraken = import ./gitkraken;
+  # module = import ./module;
 }

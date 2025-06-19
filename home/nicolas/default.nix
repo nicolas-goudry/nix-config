@@ -1,10 +1,6 @@
-{ outputs, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  imports = [
-    outputs.homeManagerModules.gitkraken
-  ];
-
   # Install user packages depending on host
   home.packages = with pkgs; [
     kubectl
