@@ -207,6 +207,7 @@ in
         curl
         nixvim
         sops
+        tree
       ];
 
       # Default editor
