@@ -23,7 +23,7 @@ in
     # Modules
     inputs.catppuccin.homeModules.catppuccin
     inputs.impermanence.homeManagerModules.impermanence
-    inputs.nix-index-database.hmModules.nix-index
+    inputs.nix-index-database.homeModules.nix-index
     inputs.sops.homeManagerModules.sops
     inputs.stylix.homeManagerModules.stylix
 
@@ -460,7 +460,7 @@ in
         size = 100000; # Ensure long history
       };
 
-      initExtra = ''
+      initContent = lib.mkOrder 550 ''
         # Do not display duplicates of a line previously found in the line editor
         setopt HIST_FIND_NO_DUPS
 
@@ -471,9 +471,7 @@ in
         # https://github.com/romkatv/powerlevel10k
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
         [[ ! -f ~/${p10kPath} ]] || source ~/${p10kPath}
-      '';
 
-      initExtraBeforeCompInit = ''
         # Enable P10K instant prompt
         # https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#instant-prompt
         if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
