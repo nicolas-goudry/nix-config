@@ -29,9 +29,9 @@ in
   networking.wireless.enable = lib.mkForce true;
 
   nixpkgs.overlays = [
-    (_final: _prev: {
+    (final: prev: {
       # Prevent mbrola-voices (~650MB) from being on the live media
-      espeak = _prev.espeak.override {
+      espeak = prev.espeak.override {
         mbrolaSupport = false;
       };
     })
