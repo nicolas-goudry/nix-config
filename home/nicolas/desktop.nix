@@ -165,21 +165,16 @@ in
   programs = {
     nixkraken = {
       enable = true;
-      package = pkgs.unstable.gitkraken;
       acceptEULA = true;
-      collapsePermanentTabs = true;
-      enableCloudPatch = true;
-      logLevel = "extended";
-      skipTour = true;
+      skipTutorial = true;
+      git.package = pkgs.unstable.git;
+      ssh.useLocalAgent = true;
+      defaultProfile.name = "OSS";
 
-      commitGraph = {
+      graph = {
+        maxCommits = 500;
         showAuthor = true;
-      };
-
-      gpg = {
-        signingKey = config.programs.git.signing.key;
-        signCommits = config.programs.git.signing.signByDefault;
-        signTags = config.programs.git.signing.signByDefault;
+        showDatetime = true;
       };
 
       notifications = {
@@ -187,26 +182,25 @@ in
         marketing = false;
       };
 
+
       tools.terminal = {
-        default = "custom";
         package = pkgs.unstable.ghostty;
+        extraOptions = "%d";
       };
 
       ui = {
         cli.autocomplete.tabBehavior = "navigation";
-        extraThemes = [ "${pkgs.catppuccin-gitkraken}/catppuccin-mocha.jsonc" ];
-        hideWorkspaceTab = true;
-        theme = "catppuccin-mocha.jsonc";
+        launchpad.collapsed = true;
+        spellCheck = false;
+
+        # Catppuccin Mocha
+        extraThemes = [ (pkgs.gitkraken-themes.catppuccin.override { withVariants = [ "mocha" ]; }) ];
+        theme = pkgs.gitkraken-themes.catppuccin.mocha;
 
         editor = {
           tabSize = 2;
           wrap = true;
         };
-      };
-
-      user = {
-        email = config.programs.git.userEmail;
-        name = config.programs.git.userName;
       };
     };
   };
