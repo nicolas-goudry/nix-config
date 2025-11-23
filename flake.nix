@@ -69,16 +69,33 @@
       url = "github:danth/stylix/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Code linter and formatter
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     {
       self,
       nixpkgs,
+      treefmt-nix,
       ...
     }@inputs:
     let
       inherit (self) outputs;
+
+      # Supported systems
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+        # We also need this in order to be able to enable to support 32-bit applications
+        "i686-linux"
+      ];
 
       # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
       stateVersion = "23.11";
@@ -88,60 +105,33 @@
         inherit inputs outputs stateVersion;
         inherit (nixpkgs) lib;
       };
+
+      # Small tool to iterate over each systems
+      eachSystem = f: inputs.nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
+      # Eval the treefmt modules from ./treefmt.nix
+      treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
     in
     {
       inherit libx;
 
-      # Formatting style using official Nix formatter
-      # Run with: nix fmt
-      formatter = libx.forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
-
       # Flake checks
       # Run with: nix flake check (use --keep-going=true to report as much as possible)
-      checks = libx.forAllSystems (
-        system:
-        let
-          pkgs = import nixpkgs { inherit system; };
-          mkChecker =
-            {
-              name,
-              nativeBuildInputs,
-              text,
-            }:
-            pkgs.stdenvNoCC.mkDerivation {
-              inherit nativeBuildInputs;
+      checks = eachSystem (pkgs: {
+        formatting = treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.check self;
+      });
 
-              name = "${name}-check";
-              dontBuild = true;
-              src = ./.;
-              doCheck = true;
-              checkPhase = text;
-              installPhase = ''
-                mkdir "$out"
-              '';
-            };
-        in
-        {
-          deadnix = mkChecker {
-            name = "deadnix";
-            nativeBuildInputs = with pkgs; [ deadnix ];
-            text = ''
-              deadnix -f
-            '';
-          };
-          statix = mkChecker {
-            name = "statix";
-            nativeBuildInputs = with pkgs; [ statix ];
-            text = ''
-              statix check
-            '';
-          };
-        }
-      );
+      # Formatting style using treefmt-nix
+      # Run with: nix fmt
+      formatter = eachSystem (pkgs: treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.wrapper);
 
       # Custom packages and overlays
-      overlays = import ./overlays { inherit inputs; };
-      packages = libx.forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+      overlays = import ./overlays { inherit inputs outputs; };
+      packages = eachSystem (pkgs:
+        pkgs.lib.packagesFromDirectoryRecursive {
+          inherit (pkgs) callPackage;
+          directory = ./pkgs;
+        }
+      );
 
       # Custom modules
       nixosModules = import ./modules/nixos;

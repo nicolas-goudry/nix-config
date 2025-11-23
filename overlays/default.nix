@@ -1,20 +1,17 @@
-{ inputs, ... }:
+{ inputs, outputs, ... }:
 
 {
   # Custom packages from the 'pkgs' directory
   additions =
     final: prev:
     let
-      localPkgs = prev.lib.packagesFromDirectoryRecursive {
-        inherit (prev.pkgs) callPackage;
-        directory = ../pkgs;
-      };
+      inherit (prev.stdenv.hostPlatform) system;
     in
-    localPkgs
+    outputs.packages.${system}
     // {
-      inherit (inputs.nixkraken.packages.${prev.stdenv.hostPlatform.system}) gitkraken-themes;
-      nixvim = inputs.nixvim-config.packages.${prev.stdenv.hostPlatform.system}.default;
-      nixvim-lite = inputs.nixvim-config.packages.${prev.stdenv.hostPlatform.system}.lite;
+      inherit (inputs.nixkraken.packages.${system}) gitkraken-themes;
+      nixvim = inputs.nixvim-config.packages.${system}.default;
+      nixvim-lite = inputs.nixvim-config.packages.${system}.lite;
     };
 
   # Change versions, add patches, set compilation flags, etc...
