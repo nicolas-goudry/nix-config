@@ -194,23 +194,26 @@ in
 
     # Reference: https://chromeenterprise.google/intl/en_us/policies/
     extraOpts = {
-      # Disable built-in password manager (we use Bitwarden)
-      PasswordManagerEnabled = false;
-      PasswordManagerPasskeysEnabled = false;
-      # Always select system default printer in print preview
-      PrintPreviewUseSystemDefaultPrinter = true;
-      # Disable subtitles translation (data is sent to Google)
-      LiveTranslationEnabled = false;
+      # Disable credit card suggestions
+      AutofillCreditCardEnabled = false;
+      # Remove Chrome Labs icon from toolbar
+      BrowserLabsEnabled = false;
       # Always ask for geolocation
       DefaultGeolocationSetting = 3;
       # Always ask for notifications
       DefaultNotificationsSetting = 3;
       # Disable popups on all sites
       DefaultPopupsSetting = 2;
-      # Disable credit card suggestions
-      AutofillCreditCardEnabled = false;
-      # Remove Chrome Labs icon from toolbar
-      BrowserLabsEnabled = false;
+      # Enable memory saver and configure it for moderate memory savings
+      HighEfficiencyModeEnabled = true;
+      MemorySaverModeSavings = 0;
+      # Disable subtitles translation (data is sent to Google)
+      LiveTranslationEnabled = false;
+      # Disable built-in password manager (we use Bitwarden)
+      PasswordManagerEnabled = false;
+      PasswordManagerPasskeysEnabled = false;
+      # Always select system default printer in print preview
+      PrintPreviewUseSystemDefaultPrinter = true;
       # Disable Chrome promotion pages
       PromotionsEnabled = false;
       # Spell check languages (must be installed)
