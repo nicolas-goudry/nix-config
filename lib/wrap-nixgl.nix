@@ -1,7 +1,4 @@
-{
-  inputs,
-  ...
-}:
+{ inputs, ... }:
 
 {
   # Helper to wrap package with NixGL (https://github.com/nix-community/nixGL)

@@ -2,7 +2,7 @@
 
 let
   generators = import ./generators.nix args;
-  nixgl = import ./nixgl.nix args;
+  nixgl = import ./wrap-nixgl.nix args;
 in
 {
   inherit (generators)
