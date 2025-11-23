@@ -13,12 +13,11 @@
 }:
 
 {
-  imports =
-    [
-      ./root
-    ]
-    # Load custom user definition if it exists
-    ++ lib.optional (username != "" && builtins.pathExists (./. + "/${username}")) ./${username};
+  imports = [
+    ./root
+  ]
+  # Load custom user definition if it exists
+  ++ lib.optional (username != "" && builtins.pathExists (./. + "/${username}")) ./${username};
 
   users = {
     # Only handle users via configuration (this is also needed for impermanence)

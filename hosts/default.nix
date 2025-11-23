@@ -85,29 +85,28 @@ let
     };
 in
 {
-  imports =
-    [
-      # Modules
-      (modulesPath + "/installer/scan/not-detected.nix")
-      inputs.catppuccin.nixosModules.catppuccin
-      inputs.disko.nixosModules.disko
-      inputs.impermanence.nixosModules.impermanence
-      inputs.nix-index-database.nixosModules.nix-index
-      inputs.sops.nixosModules.sops
-      inputs.stylix.nixosModules.stylix
-      outputs.nixosModules.wpa_supplicant
+  imports = [
+    # Modules
+    (modulesPath + "/installer/scan/not-detected.nix")
+    inputs.catppuccin.nixosModules.catppuccin
+    inputs.disko.nixosModules.disko
+    inputs.impermanence.nixosModules.impermanence
+    inputs.nix-index-database.nixosModules.nix-index
+    inputs.sops.nixosModules.sops
+    inputs.stylix.nixosModules.stylix
+    outputs.nixosModules.wpa_supplicant
 
-      # Configure host
-      ./${hostname}
+    # Configure host
+    ./${hostname}
 
-      # Configure users
-      ./common/users
+    # Configure users
+    ./common/users
 
-      # Add scripts
-      ./common/scripts
-    ]
-    # Configure desktop if workstation
-    ++ lib.optional isWorkstation ./common/desktop;
+    # Add scripts
+    ./common/scripts
+  ]
+  # Configure desktop if workstation
+  ++ lib.optional isWorkstation ./common/desktop;
 
   # Virtual console keymap
   console.keyMap = "fr";

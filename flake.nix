@@ -126,7 +126,8 @@
 
       # Custom packages and overlays
       overlays = import ./overlays { inherit inputs outputs; };
-      packages = eachSystem (pkgs:
+      packages = eachSystem (
+        pkgs:
         pkgs.lib.packagesFromDirectoryRecursive {
           inherit (pkgs) callPackage;
           directory = ./pkgs;

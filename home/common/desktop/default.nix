@@ -11,16 +11,15 @@ let
   inherit (pkgs.stdenv) isLinux;
 in
 {
-  imports =
-    [
-      inputs.earth-view.homeManagerModules.earth-view
-    ]
-    # Desktop specific configuration for all users
-    ++ lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop}
-    # User specific desktop configuration
-    ++ lib.optional (builtins.pathExists (
-      ./. + "/../../${username}/desktop.nix"
-    )) ../../${username}/desktop.nix;
+  imports = [
+    inputs.earth-view.homeManagerModules.earth-view
+  ]
+  # Desktop specific configuration for all users
+  ++ lib.optional (builtins.pathExists (./. + "/${desktop}")) ./${desktop}
+  # User specific desktop configuration
+  ++ lib.optional (builtins.pathExists (
+    ./. + "/../../${username}/desktop.nix"
+  )) ../../${username}/desktop.nix;
 
   home.packages =
     with pkgs;

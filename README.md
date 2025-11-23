@@ -63,77 +63,77 @@ These configurations, located in the [`hosts/common`](./hosts/common/) directory
 
 These are consumed automatically:
 
-* [`desktop`](./hosts/common/desktop/): desktop configurations
-* [`users`](./hosts/common/users/): user accounts definitions
+- [`desktop`](./hosts/common/desktop/): desktop configurations
+- [`users`](./hosts/common/users/): user accounts definitions
 
 <details>
   <summary><b>About desktops</b></summary>
 
-  All desktops share a common [base configuration](./hosts/common/desktop/default.nix) which configures usual desktop stuff like pretty boot (splashscreen), fonts, browser, audio, bluetooth, graphics and more…
+All desktops share a common [base configuration](./hosts/common/desktop/default.nix) which configures usual desktop stuff like pretty boot (splashscreen), fonts, browser, audio, bluetooth, graphics and more…
 
-  Each desktop is defined in its own directory and only contains configuration specific to this desktop.
+Each desktop is defined in its own directory and only contains configuration specific to this desktop.
 
-  Desktop configuration is automatically consumed by hosts which define a `desktop` argument.
+Desktop configuration is automatically consumed by hosts which define a `desktop` argument.
 
-  --
+--
 
 </details>
 
 <details>
   <summary><b>About users</b></summary>
 
-  These configurations must not configure the users home directory, packages and so on. They are only here to create the users, assign their groups, define their password… With the exception of `nixos` user (read further).
+These configurations must not configure the users home directory, packages and so on. They are only here to create the users, assign their groups, define their password… With the exception of `nixos` user (read further).
 
-  User configuration is automatically consumed by hosts which define a `username` argument.
+User configuration is automatically consumed by hosts which define a `username` argument.
 
-  There are two special users in this directory: [`root`](./hosts/common/users/root/) and [`nixos`](./hosts/common/users/nixos/).
+There are two special users in this directory: [`root`](./hosts/common/users/root/) and [`nixos`](./hosts/common/users/nixos/).
 
-  The `root` user is the superuser definition for all hosts and is always consumed by configurations.
+The `root` user is the superuser definition for all hosts and is always consumed by configurations.
 
-  The `nixos` user is the user used by ISO configurations. It is the only user which configures more than its basic definition. It comes with a Bash script to [install NixOS](#-install-nixos) on a given host.
+The `nixos` user is the user used by ISO configurations. It is the only user which configures more than its basic definition. It comes with a Bash script to [install NixOS](#-install-nixos) on a given host.
 
-  --
+--
 
 </details>
 
 These are explicitly consumed by hosts:
 
-* [`networks`](./hosts/common/networks/): network configurations
-* [`printers`](./hosts/common/printers/): printer configurations
+- [`networks`](./hosts/common/networks/): network configurations
+- [`printers`](./hosts/common/printers/): printer configurations
 
 <details>
   <summary><b>About networks</b></summary>
 
-  Since this flake takes a fully declarative approach, the [NetworkManager](https://wiki.archlinux.org/title/NetworkManager) service is disabled in order to be able to configure wireless networks declaratively with [wpa_supplicant](https://wiki.archlinux.org/title/wpa_supplicant).
+Since this flake takes a fully declarative approach, the [NetworkManager](https://wiki.archlinux.org/title/NetworkManager) service is disabled in order to be able to configure wireless networks declaratively with [wpa_supplicant](https://wiki.archlinux.org/title/wpa_supplicant).
 
-  Multiple networks are available for consumption, they contain the wireless networks authentication details stored as [sops](https://github.com/getsops/sops) secrets as well as their NixOS configuration.
+Multiple networks are available for consumption, they contain the wireless networks authentication details stored as [sops](https://github.com/getsops/sops) secrets as well as their NixOS configuration.
 
-  For hosts to consume networks, they need to add the network configuration to their `imports` list and enable `networking.wireless.enable`.
+For hosts to consume networks, they need to add the network configuration to their `imports` list and enable `networking.wireless.enable`.
 
-  ```nix
-  imports = [ ../common/networks/<network-name> ];
-  networking.wireless.enable = true;
-  ```
+```nix
+imports = [ ../common/networks/<network-name> ];
+networking.wireless.enable = true;
+```
 
-  --
+--
 
 </details>
 
 <details>
   <summary><b>About printers</b></summary>
 
-  Similarly to wireless networks, printers configuration can be consumed by hosts which needs these printers.
+Similarly to wireless networks, printers configuration can be consumed by hosts which needs these printers.
 
-  Each printer definition should install the printer drivers and define the printer configuration.
+Each printer definition should install the printer drivers and define the printer configuration.
 
-  For hosts to consume printers, they need to add the printer configuration to their `imports` list and enable `services.printing.enable` (automatically enabled on desktops).
+For hosts to consume printers, they need to add the printer configuration to their `imports` list and enable `services.printing.enable` (automatically enabled on desktops).
 
-  ```nix
-  imports = [ ../common/printers/<printer-name> ];
-  services.printing.enable = true; # Only required on servers
-  ```
+```nix
+imports = [ ../common/printers/<printer-name> ];
+services.printing.enable = true; # Only required on servers
+```
 
-  --
+--
 
 </details>
 
@@ -141,9 +141,9 @@ These are explicitly consumed by hosts:
 
 This directory contains some helper functions which are used to craft host and home-manager configurations:
 
-* `mkHome`: generates an attrset for home-manager configuration of users
-* `mkHost`: generates an attrset for NixOS configuration of hosts (both installs and ISOs)
-* `forAllSystems`: generates a list of all supported systems by this flake
+- `mkHome`: generates an attrset for home-manager configuration of users
+- `mkHost`: generates an attrset for NixOS configuration of hosts (both installs and ISOs)
+- `forAllSystems`: generates a list of all supported systems by this flake
 
 ### 🪡 `overlays`
 
@@ -224,8 +224,8 @@ Create a basic hardware configuration in `hosts/new-host/default.nix`:
 
 For the disks configuration, two paths are available:
 
-* use [disko](https://github.com/nix-community/disko)
-* use a Bash script
+- use [disko](https://github.com/nix-community/disko)
+- use a Bash script
 
 Depending on the chosen path, a `disks.nix` or a `disks.sh` file must be created under `hosts/new-host`.
 
@@ -266,8 +266,8 @@ Failing to provide a valid `username` or `desktop` will not prevent the installa
 
 There are two installation method provided on the desktop ISO:
 
-* Run `install-system` from a terminal (recommended, only install option for the console ISO)
-* Use the graphical Calamares installer (basic NixOS installation, not using this flake)
+- Run `install-system` from a terminal (recommended, only install option for the console ISO)
+- Use the graphical Calamares installer (basic NixOS installation, not using this flake)
 
 The `install-system` command is a binary wrapping the [install Bash script](./hosts/common/users/nixos/install.nix) defined in a Nix file. Learn how to use it by reading its help message:
 
@@ -277,11 +277,11 @@ install-system -h
 
 In a nutshell, the script will:
 
-* use [disko](https://github.com/nix-community/disko) (or a Bash script) to automatically partition and format the disks
-* prepare the host age identity
-* install NixOS from this flake
-* copy this flake to the target user’s home directory in `~/nixstrap`
-* apply home-manager configuration if it exists
+- use [disko](https://github.com/nix-community/disko) (or a Bash script) to automatically partition and format the disks
+- prepare the host age identity
+- install NixOS from this flake
+- copy this flake to the target user’s home directory in `~/nixstrap`
+- apply home-manager configuration if it exists
 
 > [!IMPORTANT]
 > In order to proceed with the installation, at least one GPG private key known to the [sops config](./.sops.yaml) is required to be in the local keyring.
@@ -327,11 +327,11 @@ To handle secrets management, this flake uses [sops-nix](https://github.com/Mic9
 
 #### Opinionated approach
 
-* this flake uses a mix of GPG and [age](https://github.com/FiloSottile/age) keys to handle secrets
-* each physical user should own and define a GPG key in [sops config file](./.sops.yaml)
-* all hosts use an age key derived from their Ed25519 public SSH key
-* all secrets files are encrypted with the users GPG public keys and hosts age public keys
-* to decrypt the secrets, at least one valid GPG private key is required to be in the host keyring
+- this flake uses a mix of GPG and [age](https://github.com/FiloSottile/age) keys to handle secrets
+- each physical user should own and define a GPG key in [sops config file](./.sops.yaml)
+- all hosts use an age key derived from their Ed25519 public SSH key
+- all secrets files are encrypted with the users GPG public keys and hosts age public keys
+- to decrypt the secrets, at least one valid GPG private key is required to be in the host keyring
 
 #### Handling new hosts
 
@@ -339,7 +339,7 @@ When installing NixOS on a new host, the `install-system` script handles the cre
 
 If a new host were to be added without the `install-system` script, the following operations should be done manually:
 
-* derive new host age public key from its Ed25519 public private SSH key
+- derive new host age public key from its Ed25519 public private SSH key
 
   ```shell
   sudo nix run 'nixpkgs#ssh-to-age' -- -i /etc/ssh/ssh_host_ed25519_key.pub
@@ -348,7 +348,7 @@ If a new host were to be added without the `install-system` script, the followin
 > [!NOTE]
 > The output of this command is a public age key which is referred below as `<public-age>`.
 
-* add the public age key to [`.sops.yaml`](./.sops.yaml)
+- add the public age key to [`.sops.yaml`](./.sops.yaml)
 
   ```yaml
   keys:
@@ -360,53 +360,53 @@ If a new host were to be added without the `install-system` script, the followin
             - *new-host
   ```
 
-* import all users public keys to local keyring
+- import all users public keys to local keyring
 
   ```shell
   gpg --import .keys/*.pub
   ```
 
-* re-encrypt all secrets
+- re-encrypt all secrets
 
   ```shell
   find . -type f -name 'secrets.y*ml' -exec sops updatekeys -y {} \;
   ```
 
-* commit and push changes to repository
+- commit and push changes to repository
 
 ## 📝 TODO
 
-* Work configuration
-* ❓ Impermanence on `/home`
-* Configure nixvim ➡️ [typecraft course](https://www.youtube.com/playlist?list=PLsz00TDipIffreIaUNk64KxTIkQaGguqn) | [understanding neovim](https://www.youtube.com/playlist?list=PLx2ksyallYzW4WNYHD9xOFrPRYGlntAft)
-* Hosts
-  * Write a `disks.sh` script to format g-xps disk while keeping Windows dual boot
-* Home
-  * Finish adding and configuring programs
-    * ❓ [aria2](https://github.com/aria2/aria2) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.aria2.enable)</sup></sub>
-    * ❓ [atuin](https://github.com/atuinsh/atuin) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.atuin.enable)</sup></sub>
-    * [awscli](https://github.com/aws/aws-cli) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.awscli.enable)</sup></sub>
-    * [borgmatic](https://torsion.org/borgmatic/) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.borgmatic.enable)</sup></sub>
-    * [broot](https://github.com/Canop/broot) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.broot.enable)</sup></sub> / [fd](https://github.com/sharkdp/fd) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.fd.enable)</sup></sub> / [fzf](https://github.com/junegunn/fzf) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.fzf.enable)</sup></sub> / [yazi](https://github.com/sxyazi/yazi) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.yazi.enable)</sup></sub>
-    * chromium <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.chromium.enable)</sup></sub>
-    * git <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.git.enable)</sup></sub>
-      * work-specific configuration
-    * ❓ gpg <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gpg.enable)</sup></sub>
-    * [k9s](https://github.com/derailed/k9s) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.k9s.enable)</sup></sub>
-    * [lazygit](https://github.com/jesseduffield/lazygit) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lazygit.enable)</sup></sub>
-    * [mpv](https://github.com/mpv-player/mpv) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.mpv.enable)</sup></sub>
-    * [mr](https://myrepos.branchable.com/) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.mr.enable)</sup></sub>
-    * ❓ [ncspot](https://github.com/hrkfdn/ncspot) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ncspot.enable)</sup></sub>
-    * [nix-index](https://github.com/nix-community/nix-index) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.nix-index.enable)</sup></sub>
-    * [rbw](https://github.com/doy/rbw) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.rbw.enable)</sup></sub>
-    * [ripgrep](https://github.com/BurntSushi/ripgrep) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ripgrep.enable)</sup></sub>
-    * ❓ ssh <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ssh.enable)</sup></sub>
-    * [tealdeer](https://github.com/dbrgn/tealdeer) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.tealdeer.enable)</sup></sub> - <sub><sup>replaces tldr</sup></sub>
-    * [thefuck](https://github.com/nvbn/thefuck) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.thefuck.enable)</sup></sub>
-    * ❓ thunderbird <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.thunderbird.enable)</sup></sub>
-    * [tmux](https://github.com/tmux/tmux) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.tmux.enable)</sup></sub> / [zellij](https://github.com/zellij-org/zellij) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zellij.enable)</sup></sub>
-    * ❓ [vscode](https://github.com/microsoft/vscode) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.vscode.enable)</sup></sub>
-    * ❓ [yt-dlp](https://github.com/yt-dlp/yt-dlp) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.yt-dlp.enable)</sup></sub>
-    * [zoxide](https://github.com/ajeetdsouza/zoxide) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zoxide.enable)</sup></sub>
-    * zsh <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable)</sup></sub>
-      * user `dirHashes`
+- Work configuration
+- ❓ Impermanence on `/home`
+- Configure nixvim ➡️ [typecraft course](https://www.youtube.com/playlist?list=PLsz00TDipIffreIaUNk64KxTIkQaGguqn) | [understanding neovim](https://www.youtube.com/playlist?list=PLx2ksyallYzW4WNYHD9xOFrPRYGlntAft)
+- Hosts
+  - Write a `disks.sh` script to format g-xps disk while keeping Windows dual boot
+- Home
+  - Finish adding and configuring programs
+    - ❓ [aria2](https://github.com/aria2/aria2) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.aria2.enable)</sup></sub>
+    - ❓ [atuin](https://github.com/atuinsh/atuin) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.atuin.enable)</sup></sub>
+    - [awscli](https://github.com/aws/aws-cli) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.awscli.enable)</sup></sub>
+    - [borgmatic](https://torsion.org/borgmatic/) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.borgmatic.enable)</sup></sub>
+    - [broot](https://github.com/Canop/broot) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.broot.enable)</sup></sub> / [fd](https://github.com/sharkdp/fd) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.fd.enable)</sup></sub> / [fzf](https://github.com/junegunn/fzf) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.fzf.enable)</sup></sub> / [yazi](https://github.com/sxyazi/yazi) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.yazi.enable)</sup></sub>
+    - chromium <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.chromium.enable)</sup></sub>
+    - git <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.git.enable)</sup></sub>
+      - work-specific configuration
+    - ❓ gpg <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gpg.enable)</sup></sub>
+    - [k9s](https://github.com/derailed/k9s) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.k9s.enable)</sup></sub>
+    - [lazygit](https://github.com/jesseduffield/lazygit) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lazygit.enable)</sup></sub>
+    - [mpv](https://github.com/mpv-player/mpv) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.mpv.enable)</sup></sub>
+    - [mr](https://myrepos.branchable.com/) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.mr.enable)</sup></sub>
+    - ❓ [ncspot](https://github.com/hrkfdn/ncspot) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ncspot.enable)</sup></sub>
+    - [nix-index](https://github.com/nix-community/nix-index) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.nix-index.enable)</sup></sub>
+    - [rbw](https://github.com/doy/rbw) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.rbw.enable)</sup></sub>
+    - [ripgrep](https://github.com/BurntSushi/ripgrep) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ripgrep.enable)</sup></sub>
+    - ❓ ssh <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ssh.enable)</sup></sub>
+    - [tealdeer](https://github.com/dbrgn/tealdeer) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.tealdeer.enable)</sup></sub> - <sub><sup>replaces tldr</sup></sub>
+    - [thefuck](https://github.com/nvbn/thefuck) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.thefuck.enable)</sup></sub>
+    - ❓ thunderbird <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.thunderbird.enable)</sup></sub>
+    - [tmux](https://github.com/tmux/tmux) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.tmux.enable)</sup></sub> / [zellij](https://github.com/zellij-org/zellij) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zellij.enable)</sup></sub>
+    - ❓ [vscode](https://github.com/microsoft/vscode) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.vscode.enable)</sup></sub>
+    - ❓ [yt-dlp](https://github.com/yt-dlp/yt-dlp) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.yt-dlp.enable)</sup></sub>
+    - [zoxide](https://github.com/ajeetdsouza/zoxide) <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zoxide.enable)</sup></sub>
+    - zsh <sub><sup>[HM](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable)</sup></sub>
+      - user `dirHashes`

@@ -19,27 +19,26 @@ let
   p10kPath = ".config/zsh/.p10k.zsh";
 in
 {
-  imports =
-    [
-      # Modules
-      inputs.catppuccin.homeModules.catppuccin
-      inputs.impermanence.homeManagerModules.impermanence
-      inputs.nix-index-database.hmModules.nix-index
-      inputs.sops.homeManagerModules.sops
-      inputs.stylix.homeManagerModules.stylix
+  imports = [
+    # Modules
+    inputs.catppuccin.homeModules.catppuccin
+    inputs.impermanence.homeManagerModules.impermanence
+    inputs.nix-index-database.hmModules.nix-index
+    inputs.sops.homeManagerModules.sops
+    inputs.stylix.homeManagerModules.stylix
 
-      # Configure user
-      ./${username}
+    # Configure user
+    ./${username}
 
-      # Add scripts
-      ./common/scripts
-    ]
-    # Configure host-specific settings for user if it exists
-    ++ lib.optional (builtins.pathExists (
-      ./. + "/${username}/${hostname}.nix"
-    )) ./${username}/${hostname}.nix
-    # Configure desktop if workstation
-    ++ lib.optional isWorkstation ./common/desktop;
+    # Add scripts
+    ./common/scripts
+  ]
+  # Configure host-specific settings for user if it exists
+  ++ lib.optional (builtins.pathExists (
+    ./. + "/${username}/${hostname}.nix"
+  )) ./${username}/${hostname}.nix
+  # Configure desktop if workstation
+  ++ lib.optional isWorkstation ./common/desktop;
 
   # Configure editorconfig (https://editorconfig.org/)
   editorconfig = {
@@ -490,27 +489,26 @@ in
 
         # Enable OMZ plugins
         # https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
-        plugins =
-          [
-            "aliases" # Aliases cheatsheet https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/aliases
-            # Common aliases (OVERRIDDEN!!!)
-            "common-aliases"
-            "direnv" # Create direnv hook
-            "git" # Git aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
-            "sudo" # Prefix command with sudo by pressing ESC twice
-          ]
-          # Docker aliases
-          ++ lib.optionals isInstall [
-            "docker" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker
-            "docker-compose" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker-compose
-          ]
-          # Kubernetes aliases
-          ++ lib.optionals (lib.elem pkgs.kubectl config.home.packages) [
-            "kubectl" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl
-            "kubectx" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectx
-          ]
-          # Helm aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/helm
-          ++ lib.optional (lib.elem pkgs.helm config.home.packages) "helm";
+        plugins = [
+          "aliases" # Aliases cheatsheet https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/aliases
+          # Common aliases (OVERRIDDEN!!!)
+          "common-aliases"
+          "direnv" # Create direnv hook
+          "git" # Git aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
+          "sudo" # Prefix command with sudo by pressing ESC twice
+        ]
+        # Docker aliases
+        ++ lib.optionals isInstall [
+          "docker" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker
+          "docker-compose" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker-compose
+        ]
+        # Kubernetes aliases
+        ++ lib.optionals (lib.elem pkgs.kubectl config.home.packages) [
+          "kubectl" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl
+          "kubectx" # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectx
+        ]
+        # Helm aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/helm
+        ++ lib.optional (lib.elem pkgs.helm config.home.packages) "helm";
       };
 
       shellAliases = {

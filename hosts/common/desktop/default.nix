@@ -32,23 +32,22 @@ in
     consoleLogLevel = 0;
     initrd.verbose = false;
 
-    kernelParams =
-      [
-        # Disable blinking cursor in virtual terminal
-        "vt.global_cursor_default=0"
-        # Improve system performance, load balancing, and interrupt handling efficiency
-        # on multi-core systems by allowing interrupt handling to be threaded and
-        # distributed across multiple CPU cores
-        "threadirqs"
-      ]
-      # Silent boot on installs
-      # https://wiki.archlinux.org/title/silent_boot
-      ++ lib.optionals isInstall [
-        "quiet"
-        "rd.systemd.show_status=auto"
-        "udev.log_level=3"
-        "rd.udev.log_level=3"
-      ];
+    kernelParams = [
+      # Disable blinking cursor in virtual terminal
+      "vt.global_cursor_default=0"
+      # Improve system performance, load balancing, and interrupt handling efficiency
+      # on multi-core systems by allowing interrupt handling to be threaded and
+      # distributed across multiple CPU cores
+      "threadirqs"
+    ]
+    # Silent boot on installs
+    # https://wiki.archlinux.org/title/silent_boot
+    ++ lib.optionals isInstall [
+      "quiet"
+      "rd.systemd.show_status=auto"
+      "udev.log_level=3"
+      "rd.udev.log_level=3"
+    ];
 
     # Boot splashscreen
     # https://wiki.archlinux.org/title/plymouth

@@ -184,7 +184,6 @@ in
         marketing = false;
       };
 
-
       tools.terminal = {
         package = pkgs.unstable.ghostty;
         extraOptions = "%d";
