@@ -296,15 +296,6 @@ in
       # Avoid unwanted garbage collection when using nix-direnv
       keep-outputs = true;
       keep-derivations = true;
-
-      # Nixkraken Cachix configuration
-      substituters = [
-        "https://cache.garnix.io"
-      ];
-
-      trusted-public-keys = [
-        "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-      ];
     };
   };
 
