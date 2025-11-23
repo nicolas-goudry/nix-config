@@ -170,6 +170,8 @@ in
       git.package = pkgs.unstable.git;
       ssh.useLocalAgent = true;
       defaultProfile.name = "OSS";
+      package = pkgs.gitkraken;
+      version = null;
 
       graph = {
         maxCommits = 500;
