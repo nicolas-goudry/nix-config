@@ -80,6 +80,7 @@ in
       catppuccin-delta # catppuccin theme for delta
       fastfetch # system info
       glow # markdown renderer
+      lazygit # git TUI
       magic-wormhole-rs # secure file transfer
       meslo-lgs-nf # Meslo Nerd Font patched for Powerlevel10k
       nixpkgs-review # Nix code review
