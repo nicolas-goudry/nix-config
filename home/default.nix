@@ -510,12 +510,12 @@ in
       };
 
       shellAliases = {
-        cat = "${pkgs.unstable.bat}/bin/bat";
-        diff = "${pkgs.unstable.delta}/bin/delta";
-        # Not using package since eza.extraOptions creates an eza alias
+        cat = lib.getExe pkgs.unstable.bat;
+        diff = lib.getExe pkgs.unstable.delta;
+        # Not using lib.getExe since eza.extraOptions creates an eza alias
         ls = "eza";
-        uncolor = "${pkgs.gnused}/bin/sed 's,\x1B\[[0-9;]*[a-zA-Z],,g'";
-        top = "${pkgs.unstable.bottom}/bin/btm --basic";
+        uncolor = "${lib.getExe pkgs.gnused} 's,\x1B\[[0-9;]*[a-zA-Z],,g'";
+        top = "${lib.getExe pkgs.unstable.bottom} --basic";
       };
     };
   };
