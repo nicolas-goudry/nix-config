@@ -103,15 +103,7 @@ in
 
     # Install additional fonts
     packages = with pkgs; [
-      # Only grab some fonts from nerdfonts
-      # https://wiki.nixos.org/wiki/Fonts#Installing_specific_nerdfonts
-      (nerdfonts.override {
-        # Available fonts: https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/data/fonts/nerd-fonts/manifests/fonts.json
-        # (look for "folderName" value)
-        fonts = [
-          "Hermit"
-        ];
-      })
+      nerd-fonts.hurmit
       (noto-fonts.override {
         variants = [
           "NotoSerif"

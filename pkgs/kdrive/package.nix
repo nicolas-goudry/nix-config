@@ -13,7 +13,7 @@
   libsecret,
   libxkbcommon,
   log4cplus,
-  openssl_3_3,
+  openssl,
   pkg-config,
   poco,
   qt6,
@@ -55,7 +55,7 @@ stdenv.mkDerivation rec {
       # See this issue for why the patch is needed: https://github.com/NixOS/nixpkgs/issues/144170
       patches = [ ./log4cplus-CMakeLists.txt.patch ];
     }))
-    openssl_3_3
+    openssl
     pkg-config
     poco
     qt6.qt5compat
