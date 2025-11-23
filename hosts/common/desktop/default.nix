@@ -58,13 +58,14 @@ in
     };
   };
 
-  # Add WPA GUI if wireless networks are enabled
+  # Default system programs
   environment.systemPackages =
     with pkgs;
     [
       ghostty
       brave
     ]
+    # Add WPA GUI if wireless networks are enabled
     ++ lib.optional config.networking.wireless.enable wpa_supplicant_gui;
 
   fonts = {
@@ -75,6 +76,8 @@ in
       enable = true;
       antialias = true;
 
+      # Select default fonts
+      # NOTE: fonts must be installed (see fonts.packages)
       defaultFonts = {
         emoji = [ "Noto Color Emoji" ];
         monospace = [ "Hurmit Nerd Font Mono" ];
@@ -88,7 +91,7 @@ in
         autohint = true;
 
         # Amount of font reshaping
-        # slight will make the font more fuzzy to line up to the grid but will be better in retaining font shape
+        # "slight" will make the font more fuzzy to line up to the grid but will be better in retaining font shape
         style = "slight";
       };
 
@@ -103,7 +106,8 @@ in
       # Only grab some fonts from nerdfonts
       # https://wiki.nixos.org/wiki/Fonts#Installing_specific_nerdfonts
       (nerdfonts.override {
-        # Available fonts: https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/data/fonts/nerdfonts/shas.nix
+        # Available fonts: https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/data/fonts/nerd-fonts/manifests/fonts.json
+        # (look for "folderName" value)
         fonts = [
           "Hermit"
         ];
@@ -114,7 +118,7 @@ in
           "NotoSans"
         ];
       })
-      # Emoji
+      # Emojis font
       noto-fonts-color-emoji
     ];
   };
